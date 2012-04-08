@@ -1,0 +1,13 @@
+.span6.offset3
+
+  %h2 Sign in
+
+  = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'well form-horizontal'}) do |f|
+    .inputs
+      = f.input :login, :required => false, :autofocus => true
+      = f.input :password, :required => false,
+        :hint => link_to("Forgot your password?", new_password_path(resource_name))
+      = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
+
+    .controls
+      = f.button :submit, "Sign in", :class => 'btn-primary'

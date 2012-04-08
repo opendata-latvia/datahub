@@ -9,6 +9,7 @@ gem 'mysql2'
 
 gem 'haml'
 gem 'simple_form'
+gem 'gravatar_image_tag'
 
 gem 'paperclip'
 
