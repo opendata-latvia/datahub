@@ -45,6 +45,7 @@ end
 
 group :development do
   gem 'guard'
+  gem 'growl'
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'guard-livereload'

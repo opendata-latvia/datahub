@@ -19,3 +19,7 @@ Get repository and get Ruby gem dependencies
 Create MySQL database schema
 * `rake db:create`
 * `rake db:migrate`
+
+Running tests
+* Run all tests with `rake spec`
+* Run tests after each file change with `bundle exec guard`
