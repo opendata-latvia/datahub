@@ -27,3 +27,17 @@ body { padding-top: 60px; }
 //
 // Example:
 // @linkColor: #ff0000;
+
+@linkColor: #5490BB;
+
+@navbarBackground: @linkColor;
+@navbarBackgroundHighlight: @navbarBackground;
+@navbarText: #D9EDF7;
+@navbarLinkColor: @navbarText;
+
+@btnPrimaryBackground:              spin(@linkColor, -15%);
+@btnPrimaryBackgroundHighlight:     @linkColor;
+
+.brand {
+  font-family: "Courier New", Courier, monospace;
+}
