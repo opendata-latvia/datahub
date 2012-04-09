@@ -7,6 +7,7 @@ class CreateAccounts < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :accounts, :user_id
     add_index :accounts, :login, :unique => true
   end
 end

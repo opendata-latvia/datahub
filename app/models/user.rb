@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   validates_presence_of :login
   validates_uniqueness_of :login
 
+  validates_length_of :login, :within => 4..40
+  VALID_URL_COMPONENT_REGEXP = /\A[a-z][a-z0-9\-]+[a-z0-9]\Z/
+  validates_format_of :login, :with => VALID_URL_COMPONENT_REGEXP
+
   after_create :create_user_account
   after_update :update_user_account
 

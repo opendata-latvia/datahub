@@ -1,0 +1,14 @@
+= simple_form_for([@account, @project], :html => {:class => 'project-form well form-horizontal'}) do |f|
+  .inputs
+    = f.input :name, :required => true, :autofocus => true, :input_html => {:class => "span4"}
+    = f.input :shortname, :required => true, :input_html => {:class => "span4"}
+    = f.input :description, :input_html => {:rows => 5, :class => "span4"}
+    = f.input :homepage, :input_html => {:class => "span4"}
+
+  .controls
+    = f.button :submit, :class => 'btn-primary'
+    &nbsp;&nbsp;or&nbsp;&nbsp;
+    = link_to "back", :back
+
+:javascript
+  new DataHub.ProjectFormView();

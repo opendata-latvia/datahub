@@ -4,7 +4,12 @@ Datahub::Application.routes.draw do
 
   devise_for :users
 
+  resources :accounts do
+    resources :projects
+  end
+
   match ':login' => 'accounts#show', :as => :account_profile
+  match ':account_id/:id' => 'projects#show', :as => :project
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

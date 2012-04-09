@@ -38,6 +38,21 @@ describe User do
       user2.should have_at_least(1).error_on(:email)
     end
 
+    it "should not be valid with too long login" do
+      user = User.new(@valid_attributes.merge(:login => "x"*41))
+      user.should have_at_least(1).error_on(:login)
+    end
+
+    it "should not be valid with too short login" do
+      user = User.new(@valid_attributes.merge(:login => "xxx"))
+      user.should have_at_least(1).error_on(:login)
+    end
+
+    it "should not be valid with invalid characters in login" do
+      user = User.new(@valid_attributes.merge(:login => "user 1"))
+      user.should have_at_least(1).error_on(:login)
+    end
+
   end
 
   describe "account" do
