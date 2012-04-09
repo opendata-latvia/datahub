@@ -10,7 +10,7 @@
   %h2
     Projects
     %small= "(#{@account.projects.size})"
-    = link_to "New project", new_account_project_path(@account), :class => "btn btn-primary pull-right"
+    = link_to "New project", new_account_project_path(@account), :class => "btn btn-success pull-right"
 
   - @account.projects.each do |project|
     .well

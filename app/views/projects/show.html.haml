@@ -1,6 +1,7 @@
 .span8
   .well
     %h2
+      = link_to gravatar_image_tag(@account.email, :gravatar => {:size => 32}), account_profile_path(@account)
       = link_to @account.login, account_profile_path(@account)
       = "/"
       = @project.name
@@ -12,6 +13,28 @@
       %p= simple_format @project.description
     - if @project.homepage.present?
       %p= link_to @project.homepage, @project.homepage, :target => "_blank"
+
+  %h3
+    Datasets
+    %small= "(#{@project.datasets.size})"
+    = link_to "New dataset", new_account_project_dataset_path(@account, @project), :class => "btn btn-success btn-mini pull-right"
+
+  - @project.datasets.each do |dataset|
+    .well
+      %h3
+        %i.icon-list-alt
+        = link_to dataset.name, dataset_path(@account, @project, dataset)
+        .pull-right
+          = link_to "Edit", edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
+          = link_to "Delete", account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini",
+            :confirm => "Are you sure to delete this dataset with all uploaded data?"
+      - if dataset.description.present?
+        %p= simple_format dataset.description
+      - if dataset.source_url.present?
+        %p
+          %i.icon-share
+          %strong Source URL:
+          = link_to dataset.source_url, dataset.source_url, :target => "_blank"
 
 .span4
   %h2 Recent Activity

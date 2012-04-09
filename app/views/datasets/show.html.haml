@@ -1,0 +1,32 @@
+.span8
+  .well
+    %h3
+      = link_to gravatar_image_tag(@account.email, :gravatar => {:size => 32}), account_profile_path(@account)
+      = link_to @account.login, account_profile_path(@account)
+      = "/"
+      = link_to @project.name, project_path(@account, @project)
+      = "/"
+      %i.icon-list-alt
+      = @dataset.name
+      %small.pull-right
+        = link_to "Edit", edit_account_project_dataset_path(@account, @project, @dataset), :class => "btn btn-small"
+        = link_to "Delete", account_project_dataset_path(@account, @project, @dataset), :method => :delete, :class => "btn btn-small btn-danger",
+          :confirm => "Are you sure to delete this dataset with all uploaded data?"
+    - if @dataset.description.present?
+      %p= simple_format @dataset.description
+    - if @dataset.source_url.present?
+      %p
+        %i.icon-share
+        %strong Source URL:
+        = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
+
+  %ul.nav.nav-tabs
+    %li.active
+      %a{href: "#"} Data preview
+    %li
+      %a{href: "#"} Upload files
+    %li
+      %a{href: "#"} Download
+
+.span4
+  %h2 Recent Activity

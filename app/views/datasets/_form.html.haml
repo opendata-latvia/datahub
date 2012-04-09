@@ -1,9 +1,9 @@
-= simple_form_for([@account, @project], :html => {:class => 'project-form well form-horizontal'}) do |f|
+= simple_form_for([@account, @project, @dataset], :html => {:class => 'dataset-form well form-horizontal'}) do |f|
   .inputs
     = f.input :name, :required => true, :autofocus => true, :input_html => {:class => "span4"}
-    = f.input :shortname, :required => true, :input_html => {:class => "span4", :"data-auto-sluggify" => "#project_name"}
+    = f.input :shortname, :required => true, :input_html => {:class => "span4", :"data-auto-sluggify" => "#dataset_name"}
     = f.input :description, :input_html => {:rows => 5, :class => "span4"}
-    = f.input :homepage, :input_html => {:class => "span4"}
+    = f.input :source_url, :input_html => {:class => "span4"}
 
   .controls
     = f.button :submit, :class => 'btn-primary'
