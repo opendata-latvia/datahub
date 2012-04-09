@@ -4,7 +4,7 @@
       = link_to gravatar_image_tag(@account.email, :gravatar => {:size => 32}), account_profile_path(@account)
       = link_to @account.login, account_profile_path(@account)
       = "/"
-      = link_to @project.name, project_path(@account, @project)
+      = link_to @project.name, project_path(@project)
       = "/"
       %i.icon-list-alt
       = @dataset.name

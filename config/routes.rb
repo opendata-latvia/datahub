@@ -11,8 +11,8 @@ Datahub::Application.routes.draw do
   end
 
   match ':login' => 'accounts#show', :as => :account_profile
-  match ':account_id/:id' => 'projects#show', :as => :project
-  match ':account_id/:project_id/:id' => 'datasets#show', :as => :dataset
+  match ':account_id/:shortname' => 'projects#show', :as => :project_profile
+  match ':account_id/:project_shortname/:shortname' => 'datasets#show', :as => :dataset_profile
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

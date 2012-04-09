@@ -9,8 +9,4 @@ class Project < ActiveRecord::Base
 
   attr_accessible :shortname, :name, :description, :homepage
 
-  def to_param
-    shortname
-  end
-
 end

@@ -8,7 +8,4 @@ class Dataset < ActiveRecord::Base
 
   attr_accessible :shortname, :name, :description, :source_url
 
-  def to_param
-    shortname
-  end
 end

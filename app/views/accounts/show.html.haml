@@ -15,7 +15,7 @@
   - @account.projects.each do |project|
     .well
       %h3
-        = link_to project.name, project_path(@account, project)
+        = link_to project.name, project_path(project)
         .pull-right
           = link_to "Edit", edit_account_project_path(@account, project), :class => "btn btn-small"
           = link_to "Delete", account_project_path(@account, project), :method => :delete, :class => "btn btn-small btn-danger",
@@ -24,6 +24,12 @@
         %p= simple_format project.description
       - if project.homepage.present?
         %p= link_to project.homepage, project.homepage, :target => "_blank"
+      - if project.datasets.present?
+        %h4
+          Datasets:
+          - project.datasets.each do |dataset|
+            %i.icon-list-alt
+            = link_to dataset.name, dataset_path(dataset)
 
 .span6
   %h2 Recent Activity

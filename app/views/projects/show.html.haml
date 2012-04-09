@@ -23,7 +23,7 @@
     .well
       %h3
         %i.icon-list-alt
-        = link_to dataset.name, dataset_path(@account, @project, dataset)
+        = link_to dataset.name, dataset_path(dataset)
         .pull-right
           = link_to "Edit", edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
           = link_to "Delete", account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini",
