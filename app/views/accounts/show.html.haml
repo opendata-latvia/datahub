@@ -1,0 +1,8 @@
+.span12.page-header
+  %h1
+    = gravatar_image_tag(@account.email, :gravatar => {:size => 48})
+    = @account.login
+    - if @account.name
+      %small= "(#{@account.name})"
+    - if current_user == @account.user
+      = link_to "Edit profile", edit_user_registration_path, :class => "btn pull-right"

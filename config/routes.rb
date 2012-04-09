@@ -4,6 +4,8 @@ Datahub::Application.routes.draw do
 
   devise_for :users
 
+  match ':login' => 'accounts#show', :as => :account_profile
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

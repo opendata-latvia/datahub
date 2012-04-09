@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120408154057) do
+ActiveRecord::Schema.define(:version => 20120409102104) do
+
+  create_table "accounts", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "login",      :limit => 40,                 :null => false
+    t.string   "name",                     :default => ""
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  add_index "accounts", ["login"], :name => "index_accounts_on_login", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "login",                  :limit => 40,                 :null => false
