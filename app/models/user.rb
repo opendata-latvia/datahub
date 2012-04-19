@@ -1,11 +1,37 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer(4)      not null, primary key
+#  login                  :string(40)      not null
+#  name                   :string(255)     default("")
+#  super_admin            :boolean(1)
+#  email                  :string(255)     default(""), not null
+#  encrypted_password     :string(255)     default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer(4)      default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  failed_attempts        :integer(4)      default(0)
+#  unlock_token           :string(255)
+#  locked_at              :datetime
+#  created_at             :datetime        not null
+#  updated_at             :datetime        not null
+#
+
 class User < ActiveRecord::Base
   has_one :account, :dependent => :destroy
+  has_many :user_tokens, :dependent => :destroy
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :lockable, :timeoutable
+         :lockable, :timeoutable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
@@ -25,6 +51,25 @@ class User < ActiveRecord::Base
     "#{login}#{ name.present? ? " (#{name})" : nil}"
   end
 
+  def apply_omniauth(omniauth)
+    data = omniauth["info"]
+    if data
+      self.name = data["name"] if name.blank?
+      self.login = data["nickname"] if login.blank?
+      self.email = data["email"] if email.blank?
+    end
+    
+    user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
+  end
+  
+  def password_required?
+    (user_tokens.empty? && new_record?) || (!password.blank? && super)
+  end
+  
+  def has_provider?(provider)
+    user_tokens.where(:provider => provider).count > 0
+  end
+  
   private
 
   def create_user_account
@@ -36,5 +81,5 @@ class User < ActiveRecord::Base
       account.update_attributes(:login => login, :name => name)
     end
   end
-
+  
 end

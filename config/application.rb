@@ -61,7 +61,20 @@ module Datahub
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    config.generators do |g|
+      g.test_framework :rspec, fixture: true, views: false
+      g.integration_tool :rspec
+      g.template_engine :haml
+      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+    end
 
     config.cache_store = :redis_store, {:namespace => "datahub:#{Rails.env}"}
   end
+end
+
+# TODO not the best place to put this. Not even close :)
+class Settings < Settingslogic
+  source "#{Rails.root}/config/application.yml"
+  namespace Rails.env
 end

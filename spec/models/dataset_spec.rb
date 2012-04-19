@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: datasets
+#
+#  id             :integer(4)      not null, primary key
+#  project_id     :integer(4)      not null
+#  shortname      :string(40)      not null
+#  name           :string(255)     not null
+#  description    :text
+#  source_url     :string(255)
+#  columns        :text
+#  last_import_at :datetime
+#  created_at     :datetime        not null
+#  updated_at     :datetime        not null
+#
+
 require 'spec_helper'
 
 describe Dataset do

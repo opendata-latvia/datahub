@@ -1,3 +1,28 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer(4)      not null, primary key
+#  login                  :string(40)      not null
+#  name                   :string(255)     default("")
+#  super_admin            :boolean(1)
+#  email                  :string(255)     default(""), not null
+#  encrypted_password     :string(255)     default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer(4)      default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  failed_attempts        :integer(4)      default(0)
+#  unlock_token           :string(255)
+#  locked_at              :datetime
+#  created_at             :datetime        not null
+#  updated_at             :datetime        not null
+#
+
 require 'spec_helper'
 
 describe User do
@@ -78,4 +103,39 @@ describe User do
     end
   end
 
+  describe "OAuth" do
+    before(:each) do
+      @user = build(:user)
+    end
+    
+    it "should apply omniauth authentication" do
+      @user.apply_omniauth({'info' => {
+        "name" => "Sample user",
+        "email" => "sample@sample.com",
+        "nickname" => "sample"
+      }})
+      @user.name.should eq("Sample user")
+    end
+    
+    it "password should not be required for oauth" do
+      @user.apply_omniauth({'info' => {
+        "name" => "Sample user",
+        "email" => "sample@sample.com",
+        "nickname" => "sample"
+      }})
+      @user.password = @user.password_confirmation = nil
+      @user.password_required?.should be_false
+    end
+
+    it "password should be required if not presented and no authentications" do
+      @user.password = @user.password_confirmation = nil
+      @user.password_required?.should be_true
+    end
+    
+    it "password should be required if not presented and no authentications" do
+      @user.password = @user.password_confirmation = nil
+      @user.user_tokens.build
+      @user.password_required?.should be_false
+    end
+  end
 end

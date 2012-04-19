@@ -1,0 +1,20 @@
+defaults: &defaults
+  oauth:
+    twitter: 
+      client_id: "key"
+      secret: "secret"
+    facebook: 
+      client_id: "key"
+      secret: "secret"
+    google_oauth2: 
+      client_id: "key"
+      secret: "secret"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

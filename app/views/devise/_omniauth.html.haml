@@ -1,0 +1,11 @@
+%h3
+  -if user_signed_in?
+    You can also use
+  -else
+    Sign in or Sign up with
+.btn-group
+  - User.omniauth_providers.each do |provider|
+    -next if user_signed_in? && current_user.has_provider?(provider)
+    %a.btn.auth-provider{:href => user_omniauth_authorize_path( provider)}
+      = image_tag "#{provider.to_s}_32.png", :alt => provider
+      =UserToken.provider_name(provider)

@@ -8,10 +8,11 @@
     .inputs
       = f.input :login, :autofocus => true
       = f.input :email, :required => true
-      = f.input :password, :required => true
-      = f.input :password_confirmation, :required => true
+      -if resource.password_required?
+        = f.input :password, :required => true
+        = f.input :password_confirmation, :required => true
 
     .controls
       = f.button :submit, "Sign up", :class => 'btn-primary'
-
+  =render "devise/omniauth"
   = render "links"

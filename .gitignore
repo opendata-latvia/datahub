@@ -15,4 +15,7 @@
 /tmp
 
 /.rvmrc
-
+*.tmproj
+dump.rdb
+config/database.yml
+config/application.yml

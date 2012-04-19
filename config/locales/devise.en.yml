@@ -48,6 +48,7 @@ en:
     omniauth_callbacks:
       success: 'Successfully authorized from %{kind} account.'
       failure: 'Could not authorize you from %{kind} because "%{reason}".'
+      destroyed: 'Successfully removed %{kind} service.'
     mailer:
       confirmation_instructions:
         subject: 'Confirmation instructions'

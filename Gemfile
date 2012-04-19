@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.3'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql2'
 
 gem 'haml'
@@ -17,9 +14,14 @@ gem 'redis'
 gem 'redis-rails'
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 gem 'cancan'
 
 gem 'redcarpet'
+gem 'settingslogic'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -42,6 +44,7 @@ group :development, :test do
   gem 'awesome_print', :require => 'ap'
   gem 'jasmine'
   gem 'jasminerice'
+  gem 'annotate', "2.4.1.beta1"
 end
 
 group :development do

@@ -1,0 +1,13 @@
+.btn-group {
+  text-align: center;
+  .auth-provider {
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 10px;
+    width: 60px;
+    img {
+      display: block;
+      margin: auto;
+    }
+  }
+}
