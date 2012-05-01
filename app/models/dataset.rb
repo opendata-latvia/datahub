@@ -16,6 +16,7 @@
 
 class Dataset < ActiveRecord::Base
   belongs_to :project
+  has_many :source_files, :dependent => :destroy
 
   validates_presence_of :name, :shortname
   validates_length_of :shortname, :within => 4..40

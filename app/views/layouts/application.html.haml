@@ -38,9 +38,10 @@
                 %li= link_to "Sign in", new_user_session_path
 
     .container
-      - flash.each do |name, msg|
-        .alert{class: "alert-#{name == :notice ? "success" : "error"}"}
-          %a.close{data: {dismiss: "alert"}} &times;
-          = msg
+      - [:notice, :alert].each do |name|
+        - if (message = flash[name])
+          .alert{class: "alert-#{name == :notice ? "success" : "error"}"}
+            %a.close{data: {dismiss: "alert"}} &times;
+            = simple_format message
       .row
         = yield

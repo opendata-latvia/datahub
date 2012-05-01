@@ -7,4 +7,9 @@ module ProjectPathHelper
     dataset_profile_path(dataset.project.account, dataset.project.shortname, dataset.shortname)
   end
 
+  def source_file_download_path(source_file)
+    dataset = source_file.dataset
+    dataset_source_file_download_path(dataset.project.account, dataset.project.shortname, dataset.shortname, source_file.source_file_name)
+  end
+
 end

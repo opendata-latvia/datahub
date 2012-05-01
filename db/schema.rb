@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120418082539) do
+ActiveRecord::Schema.define(:version => 20120501101951) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -47,6 +47,24 @@ ActiveRecord::Schema.define(:version => 20120418082539) do
   end
 
   add_index "projects", ["account_id", "shortname"], :name => "index_projects_on_account_id_and_shortname", :unique => true
+
+  create_table "source_files", :force => true do |t|
+    t.integer  "dataset_id"
+    t.string   "source_file_name"
+    t.string   "source_content_type", :limit => 50
+    t.integer  "source_file_size"
+    t.datetime "source_updated_at"
+    t.string   "status",              :limit => 20
+    t.integer  "header_rows_count"
+    t.integer  "data_rows_count"
+    t.datetime "imported_at"
+    t.string   "error_message"
+    t.datetime "error_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_index "source_files", ["dataset_id"], :name => "index_source_files_on_dataset_id"
 
   create_table "user_tokens", :force => true do |t|
     t.integer  "user_id"

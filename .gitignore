@@ -17,5 +17,6 @@
 /.rvmrc
 *.tmproj
 dump.rdb
-config/database.yml
-config/application.yml
+/config/database.yml
+/config/application.yml
+/public/system/source_files

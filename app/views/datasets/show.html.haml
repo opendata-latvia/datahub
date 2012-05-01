@@ -21,12 +21,49 @@
         = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
 
   %ul.nav.nav-tabs
-    %li.active
-      %a{href: "#"} Data preview
     %li
-      %a{href: "#"} Upload files
+      %a{href: "#preview", data: {toggle: "tab"}} Data preview
     %li
-      %a{href: "#"} Download
+      %a{href: "#upload", data: {toggle: "tab"}} Uploaded files
+
+  .tab-content
+    #preview.tab-pane
+      No data imported.
+
+    #upload.tab-pane
+      - if @dataset.source_files.size > 0
+        %table.table
+          %thead
+            %tr
+              %th File name
+              %th Size
+              %th Uploaded
+              %th Status
+              %th
+          %tbody
+            - @dataset.source_files.recent.each do |source_file|
+              %tr
+                %td= link_to source_file.source_file_name, source_file_download_path(source_file)
+                %td= number_to_human_size source_file.source_file_size
+                %td
+                  = time_ago_in_words source_file.created_at
+                  ago
+                %td= source_file.status.titleize
+                %td= link_to "Delete", account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
+                  :method => :delete, :class => "btn btn-mini btn-danger pull-right",
+                  :confirm => "Are you sure to delete this uploaded file?"
+
+      %h4 Upload new file
+      = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
+        %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
+        = f.input :source, :as => :file, :label => false
+        = f.submit "Upload", :class => "btn btn-success"
 
 .span4
   %h2 Recent Activity
+
+:javascript
+  $(function() {
+    var tab = "#{j flash[:tab] || 'preview'}";
+    $("ul.nav-tabs a[href=#" + tab + "]").tab("show");
+  });

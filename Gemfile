@@ -20,6 +20,8 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'cancan'
 
+gem 'state_machine'
+
 gem 'redcarpet'
 gem 'settingslogic'
 
