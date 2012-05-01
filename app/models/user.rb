@@ -58,18 +58,18 @@ class User < ActiveRecord::Base
       self.login = data["nickname"] if login.blank?
       self.email = data["email"] if email.blank?
     end
-    
+
     user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
   end
-  
+
   def password_required?
     (user_tokens.empty? && new_record?) || (!password.blank? && super)
   end
-  
+
   def has_provider?(provider)
     user_tokens.where(:provider => provider).count > 0
   end
-  
+
   private
 
   def create_user_account
@@ -81,5 +81,5 @@ class User < ActiveRecord::Base
       account.update_attributes(:login => login, :name => name)
     end
   end
-  
+
 end

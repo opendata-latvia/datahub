@@ -12,15 +12,15 @@
 
 class UserToken < ActiveRecord::Base
   attr_accessible :provider, :uid, :user_id
-  
+
   belongs_to :user
   validates :provider, :presence => true
   validates :uid, :presence => true
-  
+
   def provider_name
     UserToken.provider_name(provider)
   end
-  
+
   def self.provider_name(name)
     if name.to_sym == :draugiem
       "Draugiem.lv"

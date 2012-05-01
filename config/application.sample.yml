@@ -1,12 +1,12 @@
 defaults: &defaults
   oauth:
-    twitter: 
+    twitter:
       client_id: "key"
       secret: "secret"
-    facebook: 
+    facebook:
       client_id: "key"
       secret: "secret"
-    google_oauth2: 
+    google_oauth2:
       client_id: "key"
       secret: "secret"
 

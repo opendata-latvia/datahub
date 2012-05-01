@@ -107,7 +107,7 @@ describe User do
     before(:each) do
       @user = build(:user)
     end
-    
+
     it "should apply omniauth authentication" do
       @user.apply_omniauth({'info' => {
         "name" => "Sample user",
@@ -116,7 +116,7 @@ describe User do
       }})
       @user.name.should eq("Sample user")
     end
-    
+
     it "password should not be required for oauth" do
       @user.apply_omniauth({'info' => {
         "name" => "Sample user",
@@ -131,7 +131,7 @@ describe User do
       @user.password = @user.password_confirmation = nil
       @user.password_required?.should be_true
     end
-    
+
     it "password should be required if not presented and no authentications" do
       @user.password = @user.password_confirmation = nil
       @user.user_tokens.build

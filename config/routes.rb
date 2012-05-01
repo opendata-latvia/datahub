@@ -5,12 +5,12 @@ Datahub::Application.routes.draw do
   as :user do
     delete "/unregister_omniauth/:id", :to => "users/omniauth_callbacks#destroy", :as => "unregister_omniauth"
   end
-  
-  devise_for :users, :controllers => { 
+
+  devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
     :registrations => 'users/registrations'
   }
-  
+
   resources :accounts do
     resources :projects do
       resources :datasets

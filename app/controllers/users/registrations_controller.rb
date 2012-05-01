@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  
+
   def build_resource(*args)
     super
     if session[:omniauth]
@@ -7,5 +7,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user.valid?
     end
   end
-  
+
 end

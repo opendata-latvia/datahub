@@ -211,8 +211,8 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
 
-  config.omniauth :twitter, Settings.oauth.twitter.client_id, Settings.oauth.twitter.secret 
-  config.omniauth :facebook, Settings.oauth.facebook.client_id, Settings.oauth.facebook.secret 
+  config.omniauth :twitter, Settings.oauth.twitter.client_id, Settings.oauth.twitter.secret
+  config.omniauth :facebook, Settings.oauth.facebook.client_id, Settings.oauth.facebook.secret
   config.omniauth :google_oauth2, Settings.oauth.google_oauth2.client_id, Settings.oauth.google_oauth2.secret , {access_type: 'online', approval_prompt: ''}
 
   # ==> Warden configuration

@@ -3,11 +3,11 @@ require 'spec_helper'
 PROVIDERS = %w(twitter facebook google_oauth2)
 
 describe Users::OmniauthCallbacksController do
-  
+
   before(:each) do
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
-  
+
   describe "Authentication" do
     before(:all) {
       OmniAuth.config.test_mode = true
@@ -15,17 +15,17 @@ describe Users::OmniauthCallbacksController do
         OmniAuth.config.mock_auth[provider.to_sym] = omniauth_credentials(provider)
       end
     }
-    
+
     PROVIDERS.each do |provider|
 
       it "should add #{provider} service for logged in user" do
         request.env["omniauth.auth"] = OmniAuth.config.mock_auth[provider.to_sym]
         sign_in :user, user = FactoryGirl.create(:user)
-        
+
         expect {
           get provider
         }.to change(UserToken, :count).by(1)
-        
+
         response.should redirect_to(edit_user_registration_path)
         flash[:notice].should eq("Successfully authorized from #{UserToken.provider_name(provider)} account.")
       end
@@ -53,9 +53,9 @@ describe Users::OmniauthCallbacksController do
 
     end
   end
-  
+
   describe "Remove service" do
-    
+
     it "should remove service for user" do
       token = FactoryGirl.create(:user_token, :provider => "twitter", :uid =>omniauth_credentials("twitter")["uid"] )
       sign_in :user, token.user
@@ -64,46 +64,46 @@ describe Users::OmniauthCallbacksController do
       }.to change(UserToken, :count).by(-1)
       response.should redirect_to(edit_user_registration_path)
     end
-    
+
   end
-  
+
   def omniauth_credentials(provider)
     {
       "twitter" => {
-        "provider"=>"twitter", 
-        "uid"=>"123321", 
+        "provider"=>"twitter",
+        "uid"=>"123321",
         "credentials"=>{
-          "token"=>"123123123123", 
+          "token"=>"123123123123",
           "secret"=>"321123321123"
-        }, 
+        },
         "info"=>{
-          "nickname"=>"johndoe", 
-          "name"=>"John Doe", 
-          "location"=>"Riga", 
-          "image"=>"http://twitter.com/John.Doe.jpg", 
-          "description"=>"", 
+          "nickname"=>"johndoe",
+          "name"=>"John Doe",
+          "location"=>"Riga",
+          "image"=>"http://twitter.com/John.Doe.jpg",
+          "description"=>"",
           "urls"=>{"Website"=>"http://johndoe.lv", "Twitter"=>"http://twitter.com/johndoe"}
         }
       },
       "facebook" => {
-        "provider"=>"facebook", 
-        "uid"=>"34235234",  
+        "provider"=>"facebook",
+        "uid"=>"34235234",
         "credentials"=>{
           "token"=>"456456456456"
-        }, 
+        },
         "info"=>{
-          "nickname"=>"johndoe", 
-          "email"=>"john.doe@gmail.com", 
-          "name"=>"John Doe", 
-          "image"=>"http://facebook.com/John.Doe.jpg", 
+          "nickname"=>"johndoe",
+          "email"=>"john.doe@gmail.com",
+          "name"=>"John Doe",
+          "image"=>"http://facebook.com/John.Doe.jpg",
           "urls"=>{"Facebook"=>"http://www.facebook.com/John.Doe", "Website"=>nil}
         }
       },
       "google_oauth2" => {
-        "provider"=>"google_oauth2", 
-        "uid"=>"9897987987987", 
+        "provider"=>"google_oauth2",
+        "uid"=>"9897987987987",
         "info"=>{
-          "email"=>"john.doe@gmail.com", 
+          "email"=>"john.doe@gmail.com",
           "name"=>"John Doe"
         }
       }
