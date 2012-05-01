@@ -7,5 +7,7 @@ class CreateUserTokens < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :user_tokens, :user_id
+    add_index :user_tokens, [:provider, :uid]
   end
 end

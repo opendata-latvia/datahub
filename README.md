@@ -16,6 +16,7 @@ Get repository and get Ruby gem dependencies
 
 * `git clone git@github.com:opendata-latvia/datahub.git`
 * `cd datahub`
+* `gem install bundler`
 * `bundle`
 
 Create MySQL database schema

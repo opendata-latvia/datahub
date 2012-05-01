@@ -11,5 +11,6 @@ class CreateDatasets < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :datasets, [:project_id, :shortname], :unique => true
   end
 end
