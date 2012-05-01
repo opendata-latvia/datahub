@@ -18,10 +18,22 @@ class SourceFilesController < ApplicationController
   end
 
   def download
-    file_name = params[:file_name]
-    file_name += ".#{params[:format]}" if params[:format]
-    source_file = @dataset.source_files.find_by_source_file_name!(file_name)
-    send_file source_file.source.path, :type => source_file.source_content_type, :disposition => 'attachment'
+    find_source_file_by_name
+    send_file @source_file.source.path, :type => @source_file.source_content_type, :disposition => 'attachment'
+  end
+
+  def preview
+    find_source_file_by_name
+    @columns = @source_file.preview[:columns]
+    @rows = @source_file.preview[:rows]
+    render 'preview.html'
+  end
+
+  def start_import
+    source_file = @dataset.source_files.find(params[:id])
+    source_file.start_import!
+    flash[:tab] = 'upload'
+    redirect_to dataset_path(@dataset)
   end
 
   private
@@ -38,6 +50,12 @@ class SourceFilesController < ApplicationController
     elsif params[:dataset_shortname]
       @project.datasets.find_by_shortname!(params[:dataset_shortname])
     end
+  end
+
+  def find_source_file_by_name
+    file_name = params[:file_name]
+    file_name += ".#{params[:format]}" if params[:format]
+    @source_file = @dataset.source_files.find_by_source_file_name!(file_name)
   end
 
 end

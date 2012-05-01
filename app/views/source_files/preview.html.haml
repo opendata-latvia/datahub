@@ -1,0 +1,47 @@
+.span12
+  .well
+    %h3
+      = link_to gravatar_image_tag(@account.email, :gravatar => {:size => 32}), account_profile_path(@account)
+      = link_to @account.login, account_profile_path(@account)
+      = "/"
+      = link_to @project.name, project_path(@project)
+      = "/"
+      %i.icon-list-alt
+      = link_to @dataset.name, dataset_path(@dataset)
+    - if @dataset.description.present?
+      %p= simple_format @dataset.description
+    - if @dataset.source_url.present?
+      %p
+        %i.icon-share
+        %strong Source URL:
+        = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
+
+  = form_for @source_file, :url => start_import_account_project_dataset_source_file_path(@account, @project, @dataset, @source_file),
+    :method => :put do |f|
+    %h3
+      = @source_file.source_file_name
+      %small= "file preview (first #{@rows.size} rows)"
+      .pull-right
+        = f.submit "Import", :class => "btn btn-large btn-success"
+
+    %p
+      Review source file detected column data types and change them if necessary.
+      After that click <strong>Import</strong> button to start import of file data.
+
+    .source-file-preview
+      %table.table
+        %thead
+          %tr
+            - @columns.each do |column|
+              %th= column[:name]
+          %tr
+            - @columns.each_with_index do |column, i|
+              %th
+                = select_tag "columns[#{i}][data_type]", options_for_select(SourceFile.available_data_types, column[:data_type]),
+                  :class => "span2"
+        %tbody
+          - @rows.each do |row|
+            %tr
+              - row.each do |value|
+                %td= value
+    
