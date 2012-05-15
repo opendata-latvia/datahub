@@ -58,6 +58,8 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'guard-livereload'
+
+  gem 'thin' # to avoid webrick warnings about missing content-length
 end
 
 # To use ActiveModel has_secure_password
