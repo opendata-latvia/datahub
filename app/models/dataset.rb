@@ -42,8 +42,9 @@ class Dataset < ActiveRecord::Base
         return false
       end
       unless columns.any?{|c| c[:name] == new_column[:name]}
+        new_column[:column_name] = Dwh.generate_column_name(new_column[:name])
         new_column[:data_type] = new_column[:data_type].to_sym
-        columns << new_column.slice(:name, :data_type, :limit, :precision, :scale)
+        columns << new_column.slice(:name, :column_name, :data_type, :limit, :precision, :scale)
       end
     end
     save

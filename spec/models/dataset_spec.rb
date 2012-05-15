@@ -1,3 +1,4 @@
+# encoding: utf-8
 # == Schema Information
 #
 # Table name: datasets
@@ -23,12 +24,15 @@ describe Dataset do
     @project = create(:project, :account => @account)
 
     @columns = [
-      {:name => 'name', :data_type => :string},
-      {:name => 'units', :data_type => :integer},
-      {:name => 'price', :data_type => :decimal, :scale => 4},
-      {:name => 'exipres_on', :data_type => :date},
-      {:name => 'created_at', :data_type => :datetime}
+      {:name => 'Name', :data_type => :string},
+      {:name => 'Units', :data_type => :integer},
+      {:name => 'Price', :data_type => :decimal, :scale => 4},
+      {:name => 'Exipres on', :data_type => :date},
+      {:name => 'Created at', :data_type => :datetime}
     ]
+    @expected_columns = @columns.map do |column|
+      column.merge(:column_name => column[:name].downcase.gsub(' ', '_'))
+    end
   end
 
   after(:all) do
@@ -78,24 +82,25 @@ describe Dataset do
 
     it "should update columns" do
       @dataset.update_columns(@columns).should be_true
-      @dataset.columns.should == @columns
+      @dataset.columns.should == @expected_columns
     end
 
     it "should update existing column" do
       @dataset.update_columns(@columns)
       @dataset.update_columns([@columns.first]).should be_true
-      @dataset.columns.should == @columns
+      @dataset.columns.should == @expected_columns
     end
 
     it "should add new column" do
       @dataset.update_columns(@columns)
       new_column = {
-        'name' => 'dummy',
+        'name' => 'Dummy, āčē',
         'data_type' => 'string'
       }
       @dataset.update_columns([new_column]).should be_true
-      @dataset.columns.should == @columns + [{
-        :name => 'dummy',
+      @dataset.columns.should == @expected_columns + [{
+        :name => 'Dummy, āčē',
+        :column_name => 'dummy__ace',
         :data_type => :string
       }]
     end
@@ -103,7 +108,8 @@ describe Dataset do
 
   describe "table" do
     before(:each) do
-      @dataset = create(:dataset, :project => @project, :columns => @columns)
+      @dataset = create(:dataset, :project => @project)
+      @dataset.update_columns @columns
       @dataset.create_or_alter_table!
     end
 
@@ -118,7 +124,7 @@ describe Dataset do
     end
 
     it "should create table with dataset columns" do
-      Dwh.table_columns(@dataset.table_name).should == @columns.inject({}){|h, c| h[c[:name]] = c.except(:name); h}
+      Dwh.table_columns(@dataset.table_name).should == @expected_columns.inject({}){|h, c| h[c[:column_name]] = c.except(:name, :column_name); h}
     end
 
     it "should drop dataset table when dataset is destroyed" do

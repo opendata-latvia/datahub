@@ -40,6 +40,17 @@ class SourceFile < ActiveRecord::Base
     event :start_import do
       transition [:new, :replaced] => :importing, :if => :file_type_valid?
     end
+    before_transition :on => :start_import, :do => :setup_dataset_table
+
+    event :finish_import do
+      transition :importing => :imported
+    end
+    before_transition :on => :finish_import, :do => :set_imported_at
+
+    event :finish_with_error do
+      transition :importing => :error
+    end
+    before_transition :on => :finish_with_error, :do => :set_error_at
   end
 
   scope :recent, order('created_at DESC')
@@ -75,7 +86,16 @@ class SourceFile < ActiveRecord::Base
   end
 
   def import!
-    dataset.create_or_alter_table!
+    start_import!
+    perform_import
+  end
+
+  def perform_import
+    if import_all_rows
+      finish_import!
+    else
+      finish_with_error!
+    end
   end
 
   private
@@ -132,9 +152,12 @@ class SourceFile < ActiveRecord::Base
     end
   end
 
+  # TODO: support different number of header rows in future
+  def header_rows_count
+    1
+  end
+
   def load_preview_header_and_rows
-    # TODO: support different number of header rows in future
-    header_rows_count = 1
     @rows = read_rows :offset => header_rows_count, :limit => PREVIEW_ROWS
     @header_rows = read_rows :limit => header_rows_count
   end
@@ -187,4 +210,87 @@ class SourceFile < ActiveRecord::Base
     separator
   end
 
+  IMPORT_BATCH_SIZE = 100
+
+  def import_all_rows
+    self.data_rows_count ||= 0
+    save!
+    read_rows :offset => header_rows_count, :batch_size => IMPORT_BATCH_SIZE do |rows|
+      import_rows(rows)
+      self.data_rows_count += rows.size
+      save!
+    end
+    logger.info "[source_file.import_all_rows] Imported #{data_rows_count} rows from #{source_file_name}"
+    true
+  rescue => e
+    logger.error "[source_file.import_all_rows] #{e.class.name}: #{e.message}"
+    self.error_message = e.message
+    false
+  end
+
+  def import_rows(rows)
+    rows.each do |row|
+      Dwh.insert import_insert_sql, import_bind_values(row)
+    end
+  end
+
+  def import_columns
+    @import_columns ||= begin
+      preview[:columns].map do |column|
+        dataset.columns.detect{|c| c[:name] == column[:name]}
+      end
+    end
+  end
+
+  def import_insert_sql
+    @import_insert_sql ||= begin
+      columns = import_columns.compact
+      "INSERT INTO #{dataset.table_name} (" <<
+      columns.map{|c| c[:name]}.join(',') <<
+      ") VALUES (" <<
+      columns.map{|c| '?'}.join(',') <<
+      ")"
+    end
+  end
+
+  def import_bind_values(row)
+    bind_values = []
+    import_columns.each_with_index do |column, i|
+      if column
+        bind_values << bind_value(column, row[i])
+      end
+    end
+    bind_values
+  end
+
+  def bind_value(column, raw_value)
+    case column[:data_type]
+    when :string
+      raw_value
+    when :integer
+      raw_value.to_i
+    when :decimal
+      BigDecimal(raw_value)
+    when :date
+      Date.parse raw_value
+    when :datetime
+      Time.parse raw_value
+    end
+  end
+
+  def setup_dataset_table
+    dataset.create_or_alter_table!
+  end
+
+  def set_imported_at
+    self.imported_at = Time.now
+    dataset.last_import_at = imported_at
+    dataset.save!
+  end
+
+  def set_error_at
+    self.error_at = Time.now
+    dataset.last_import_at = error_at
+    dataset.save!
+  end
 end

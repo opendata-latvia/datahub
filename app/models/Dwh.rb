@@ -8,6 +8,10 @@ class Dwh < ActiveRecord::Base
     end
   end
 
+  def self.generate_column_name(name)
+    name && ActiveSupport::Inflector.transliterate(name).downcase.gsub(/[^a-z0-9_]/, '_')
+  end
+
   DEFAULT_DATA_TYPE_OPTIONS = {
     :string => {:limit => 255},
     :integer => {:limit => 4},
@@ -45,7 +49,7 @@ class Dwh < ActiveRecord::Base
     unless table_exists?(table_name)
       connection.create_table table_name, table_options do |t|
         columns.each do |column, options|
-          column, options = column[:name], column if options.nil? && column.is_a?(Hash)
+          column, options = column[:column_name], column if options.nil? && column.is_a?(Hash)
           next if options[:remove]
           options = default_data_type_options(options[:data_type].to_sym).merge(options)
           t.column column, options.delete(:data_type).to_sym, options
@@ -57,7 +61,7 @@ class Dwh < ActiveRecord::Base
       altered = false
       connection.change_table table_name do |t|
         columns.each do |column, options|
-          column, options = column[:name], column if options.nil? && column.is_a?(Hash)
+          column, options = column[:column_name], column if options.nil? && column.is_a?(Hash)
           if existing_columns[column] && options[:remove]
             t.remove column
             altered = true
@@ -78,4 +82,64 @@ class Dwh < ActiveRecord::Base
     end
   end
 
+  def self.select_all(sql, binds = nil)
+    connection.select_all(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.select_rows(sql, binds = nil)
+    connection.select_rows(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.select_one(sql, binds = nil)
+    connection.select_one(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.select_value(sql, binds = nil)
+    connection.select_value(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.select_values(sql, binds = nil)
+    connection.select_values(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.insert(sql, binds = nil)
+    connection.insert(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.update(sql, binds = nil)
+    connection.update(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.delete(sql, binds = nil)
+    connection.delete(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.execute(sql, binds = nil)
+    connection.execute(binds ? substitute_binds(sql, Array(binds)) : sql)
+  end
+
+  def self.quote_table_name(name)
+    connection.quote_table_name name
+  end
+
+  def self.quote_column_name(name)
+    connection.quote_column_name name
+  end
+
+  def self.quote(value)
+    if value.is_a?(Array)
+      value.map { |v| quote(v) }.join(',')
+    else
+      connection.quote value
+    end
+  end
+
+  private
+
+  def self.substitute_binds(sql, binds)
+    binds = binds.dup
+    sql.gsub('?') do
+      quote(binds.shift)
+    end
+  end
 end
