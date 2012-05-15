@@ -36,6 +36,8 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails'
+
+  gem 'quiet_assets', :group => :development
 end
 
 gem 'jquery-rails'
@@ -51,6 +53,7 @@ end
 
 group :development do
   gem 'guard'
+  gem 'rb-fsevent'
   gem 'growl'
   gem 'guard-rspec'
   gem 'guard-jasmine'
