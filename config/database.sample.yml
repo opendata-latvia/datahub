@@ -1,29 +1,32 @@
-development:
+common: &common
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: datahub_development
   pool: 5
   username: root
   password:
   socket: /tmp/mysql.sock
+
+development:
+  <<: *common
+  database: datahub_development
+
+development_dwh:
+  <<: *common
+  database: datahub_development_dwh
 
 test:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  <<: *common
   database: datahub_test
-  pool: 5
-  username: root
-  password:
-  socket: /tmp/mysql.sock
+
+test_dwh:
+  <<: *common
+  database: datahub_test_dwh
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  <<: *common
   database: datahub_production
-  pool: 5
-  username: root
-  password:
-  socket: /tmp/mysql.sock
+
+production_dwh:
+  <<: *common
+  database: datahub_production_dwh

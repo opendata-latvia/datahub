@@ -24,6 +24,11 @@ Create MySQL database schema
 * `rake db:create`
 * `rake db:migrate`
 
+Create MySQL data warehouse schema (where dataset tables will be created)
+
+* `rake db:create RAILS_ENV=development_dwh`
+* `rake db:create RAILS_ENV=test_dwh`
+
 Running tests
 
 * Run all tests with `rake spec`
