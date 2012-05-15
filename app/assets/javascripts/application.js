@@ -15,5 +15,5 @@
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone
-//= require main_application
+//= require datahub
 //= require_tree .
