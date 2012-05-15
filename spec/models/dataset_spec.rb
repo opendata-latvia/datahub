@@ -17,12 +17,27 @@
 require 'spec_helper'
 
 describe Dataset do
-  describe "validations" do
-    before(:each) do
-      @user = create(:user)
-      @account = @user.account
-      @project = create(:project, :account => @account)
+  before(:all) do
+    @user = create(:user)
+    @account = @user.account
+    @project = create(:project, :account => @account)
 
+    @columns = [
+      {:name => 'name', :data_type => :string},
+      {:name => 'units', :data_type => :integer},
+      {:name => 'price', :data_type => :decimal, :scale => 4},
+      {:name => 'exipres_on', :data_type => :date},
+      {:name => 'created_at', :data_type => :datetime}
+    ]
+  end
+
+  after(:all) do
+    @project.destroy
+    @user.destroy
+  end
+
+  describe "validations" do
+    before(:all) do
       @valid_attributes = {
         :name => "Test dataset",
         :shortname => "test-dataset"
@@ -54,6 +69,62 @@ describe Dataset do
       dataset2.should have_at_least(1).error_on(:shortname)
     end
 
+  end
+
+  describe "columns" do
+    before(:each) do
+      @dataset = create(:dataset, :project => @project)
+    end
+
+    it "should update columns" do
+      @dataset.update_columns(@columns).should be_true
+      @dataset.columns.should == @columns
+    end
+
+    it "should update existing column" do
+      @dataset.update_columns(@columns)
+      @dataset.update_columns([@columns.first]).should be_true
+      @dataset.columns.should == @columns
+    end
+
+    it "should add new column" do
+      @dataset.update_columns(@columns)
+      new_column = {
+        'name' => 'dummy',
+        'data_type' => 'string'
+      }
+      @dataset.update_columns([new_column]).should be_true
+      @dataset.columns.should == @columns + [{
+        :name => 'dummy',
+        :data_type => :string
+      }]
+    end
+  end
+
+  describe "table" do
+    before(:each) do
+      @dataset = create(:dataset, :project => @project, :columns => @columns)
+      @dataset.create_or_alter_table!
+    end
+
+    after(:each) do
+      # to ensure droping of table
+      @dataset.destroy
+    end
+
+    it "should create new dataset table" do
+      @dataset.table_name.should == "dataset_#{@dataset.id}"
+      @dataset.table_exists?.should be_true
+    end
+
+    it "should create table with dataset columns" do
+      Dwh.table_columns(@dataset.table_name).should == @columns.inject({}){|h, c| h[c[:name]] = c.except(:name); h}
+    end
+
+    it "should drop dataset table when dataset is destroyed" do
+      @dataset.destroy
+      Dwh.table_exists?(@dataset.table_name).should be_false
+    end
   end
 
 end

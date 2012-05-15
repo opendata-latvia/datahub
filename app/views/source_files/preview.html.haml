@@ -37,7 +37,7 @@
           %tr
             - @columns.each_with_index do |column, i|
               %th
-                = select_tag "columns[#{i}][data_type]", options_for_select(SourceFile.available_data_types, column[:data_type]),
+                = select_tag "columns[][data_type]", options_for_select(SourceFile.available_data_types, column[:data_type]),
                   :class => "span2"
         %tbody
           - @rows.each do |row|

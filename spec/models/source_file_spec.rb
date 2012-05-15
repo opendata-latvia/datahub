@@ -212,4 +212,40 @@ XML
     end
   end
 
+  describe "import" do
+    before(:all) do
+      @source_file = @dataset.source_files.create!(:source => attachment("test.csv", @csv_content))
+      @column_data_types = [
+        {'data_type' => 'string'},
+        {'data_type' => 'string'},
+        {'data_type' => 'integer'}
+      ]
+      @source_file.update_dataset_columns(@column_data_types).should be_true
+      @source_file.import!
+      @dataset.reload
+
+      @expected_columns = [
+        {:name => 'first_name', :data_type => :string},
+        {:name => 'last_name', :data_type => :string},
+        {:name => 'value', :data_type => :integer}
+      ]
+    end
+
+    after(:all) do
+      @source_file.destroy
+      @dataset.update_attribute :columns, nil
+      @dataset.drop_table
+    end
+
+    it "should update dataset columns" do
+      @dataset.columns.should == @expected_columns
+    end
+
+    it "should create dataset table with source file columns" do
+      Dwh.table_columns(@dataset.table_name).should ==
+        @expected_columns.inject({}){|h, c| h[c[:name]] = c.except(:name); h}
+    end
+
+  end
+
 end

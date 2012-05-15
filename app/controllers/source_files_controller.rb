@@ -26,14 +26,20 @@ class SourceFilesController < ApplicationController
     find_source_file_by_name
     @columns = @source_file.preview[:columns]
     @rows = @source_file.preview[:rows]
-    render 'preview.html'
+    # pass format to override file extension format (e.g. .csv)
+    render 'preview', :formats => [:html]
   end
 
   def start_import
     source_file = @dataset.source_files.find(params[:id])
-    source_file.start_import!
-    flash[:tab] = 'upload'
-    redirect_to dataset_path(@dataset)
+    if source_file.update_dataset_columns params[:columns]
+      source_file.import!
+      flash[:tab] = 'upload'
+      redirect_to dataset_path(@dataset)
+    else
+      flash[:alert] = "Could not start file import due to errors:\n" << source_file.dataset.errors.full_messages.join("\n")
+      redirect_to source_file_preview_path(source_file)
+    end
   end
 
   private

@@ -54,12 +54,28 @@ class SourceFile < ActiveRecord::Base
     end
   end
 
-  AVAILABLE_DATA_TYPES = ["string", "integer", "decimal", "date", "datetime"]
+  AVAILABLE_DATA_TYPES = %w(string integer decimal date datetime)
 
   def self.available_data_types
     AVAILABLE_DATA_TYPES.map do |data_type|
       [data_type, data_type]
     end
+  end
+
+  def update_dataset_columns(column_overrides)
+    load_preview_header_and_rows
+    columns = preview_columns.map.with_index do |preview_column, i|
+      if column_override = column_overrides[i]
+        preview_column.merge column_override.symbolize_keys
+      else
+        preview_column
+      end
+    end
+    dataset.update_columns columns
+  end
+
+  def import!
+    dataset.create_or_alter_table!
   end
 
   private
