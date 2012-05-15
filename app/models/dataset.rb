@@ -60,11 +60,21 @@ class Dataset < ActiveRecord::Base
 
   def create_or_alter_table!
     raise ArgumentError, "Cannot create dataset table without columns" if columns.blank?
-    Dwh.create_or_alter_table table_name, columns, :id => false
+    Dwh.create_or_alter_table table_name, columns_with_source_columns, :id => false
   end
 
   def drop_table
     Dwh.drop_table table_name
+  end
+
+  private
+
+  def columns_with_source_columns
+    columns + [
+      {:column_name => '_source_type', :data_type => :string, :limit => 20},
+      {:column_name => '_source_name', :data_type => :string, :limit => 100},
+      {:column_name => '_source_id', :data_type => :integer}
+    ]
   end
 
 end

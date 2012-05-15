@@ -124,7 +124,12 @@ describe Dataset do
     end
 
     it "should create table with dataset columns" do
-      Dwh.table_columns(@dataset.table_name).should == @expected_columns.inject({}){|h, c| h[c[:column_name]] = c.except(:name, :column_name); h}
+      Dwh.table_columns(@dataset.table_name).should ==
+        @expected_columns.inject({}){|h, c| h[c[:column_name]] = c.except(:name, :column_name); h}.merge(
+          '_source_type' => {:data_type => :string, :limit => 20},
+          '_source_name' => {:data_type => :string, :limit => 100},
+          '_source_id' => {:data_type => :integer}
+        )
     end
 
     it "should drop dataset table when dataset is destroyed" do

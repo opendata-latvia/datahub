@@ -244,13 +244,14 @@ XML
     end
 
     it "should create dataset table with source file columns" do
-      Dwh.table_columns(@dataset.table_name).should ==
+      Dwh.table_columns(@dataset.table_name).except('_source_type', '_source_name', '_source_id').should ==
         @expected_columns.inject({}){|h, c| h[c[:name]] = c.except(:name, :column_name); h}
     end
 
     it "should import all file rows" do
-      Dwh.select_rows("SELECT first_name, last_name, value FROM #{@dataset.table_name}").should == @data_rows.map do |row|
-        [row[0], row[1], row[2].to_i]
+      Dwh.select_rows("SELECT _source_type, _source_name, _source_id, first_name, last_name, value " +
+                      "FROM #{@dataset.table_name}").should == @data_rows.map do |row|
+        ['file', nil, @source_file.id, row[0], row[1], row[2].to_i]
       end
     end
   end
