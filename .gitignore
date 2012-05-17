@@ -20,3 +20,4 @@ dump.rdb
 /config/database.yml
 /config/application.yml
 /public/system/source_files
+.DS_Store
