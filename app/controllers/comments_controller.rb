@@ -1,11 +1,13 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
-  
+
   def new
+    authorize! :create, Comment
     @comment = Comment.new(params[:comment])
   end
-  
+
   def create
+    authorize! :create, Comment
     @comment = Comment.new(params[:comment])
     @comment.user_id = current_user.id
     if @comment.save
@@ -19,7 +21,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    authorize! :manage, @comment
+    authorize! :destroy, @comment
     @comment.destroy
     @comment.commentable.touch
   end

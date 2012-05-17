@@ -24,7 +24,7 @@ module CommentsHelper
   end
   
   def comment_delete_action(comment)
-    if can?(:manage, comment) && comment.created_at > (Time.zone.now - 5.minutes) || can?(:manage, "Administration")
+    if can?(:destroy, comment)
       link_to "Delete", comment_path(comment), :method => :delete, :remote => true, :class => "btn btn-mini btn-danger", :confirm => "Are You sure to delete"
     end
   end

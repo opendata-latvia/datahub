@@ -1,10 +1,11 @@
 class ForumsController < ApplicationController
   before_filter :find_record, :except => [:index, :new, :create]
-  before_filter :must_be_super_admin, :except => [:index, :show]
-  
+
   def index
+    authorize! :read, Forum
     @forums = Forum.all
-    @forum = @forums.first unless @forum
+    # do not expand first forum
+    # @forum = @forums.first unless @forum
   end
   
   def show
@@ -13,10 +14,12 @@ class ForumsController < ApplicationController
   end
   
   def new
+    authorize! :create, Forum
     @forum = Forum.new
   end
   
   def create
+    authorize! :create, Forum
     @forum = Forum.new(params[:forum])
     if @forum.save
       redirect_to forum_path(@forum.slug), :notice => "Forum #{@forum.title} successfully created"
@@ -26,9 +29,11 @@ class ForumsController < ApplicationController
   end
   
   def edit
+    authorize! :update, @forum
   end
   
   def update
+    authorize! :update, @forum
     if @forum.update_attributes(params[:forum])
       redirect_to forum_path(@forum.slug), :notice => "Forum #{@forum.title} successfully updated"
     else
@@ -37,6 +42,7 @@ class ForumsController < ApplicationController
   end
   
   def destroy
+    authorize! :destroy, @forum
     @forum.destroy
     redirect_to forums_path, :notice => "Forum #{@forum.title} successfully deleted"
   end

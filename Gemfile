@@ -52,6 +52,7 @@ group :development, :test do
   gem 'jasmine'
   gem 'jasminerice'
   gem 'annotate', "2.4.1.beta1"
+  gem 'timecop'
 end
 
 group :development do

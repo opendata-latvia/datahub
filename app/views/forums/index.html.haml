@@ -1,16 +1,16 @@
 .span12
   %h1
     Forums
-    - if can? :manage, "Administration"
+    - if can? :create, Forum
       =link_to "New forum", new_forum_path, :class => "btn btn-mini btn-success pull-right"
       
 .span12.forums
   - for forum in @forums
     .forum
       .action-group
-        - if user_signed_in?
+        - if can? :create, Topic
           = link_to "Start new topic", new_forum_topic_path(forum.slug), :class => "btn btn-mini btn-success"
-        - if can? :manage, "Administration"
+        - if can? :manage, Forum
           = link_to "Edit", edit_forum_path(forum.slug), :class => "btn btn-mini"
           = link_to "Delete", forum_path(forum.slug), :method => :delete, :confirm => "Are You sure to delete #{forum.title}?", :class => "btn btn-mini btn-danger"
 
@@ -30,9 +30,9 @@
         - for topic in @forum.topics
           .span12.topic
             .action-group
-              - if can? :manage, topic
+              - if can? :update, topic
                 = link_to "Edit", edit_forum_topic_path(forum.slug,topic.slug), :class => "btn btn-mini"
-              - if can? :manage, "Administration"
+              - if can? :destroy, topic
                 = link_to "Delete", forum_topic_path(forum.slug,topic.slug), :method => :delete, :confirm => "Are You sure to delete #{topic.title}?", :class => "btn btn-mini btn-danger"
             %h4
               = link_to "#{topic.title} ( #{topic.comments.count} comments )", forum_topic_path(forum.slug, topic.slug)
