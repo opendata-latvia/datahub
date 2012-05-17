@@ -102,6 +102,15 @@ class SourceFile < ActiveRecord::Base
     end
   end
 
+  def destroy_and_delete_data
+    deleted_rows = 0
+    if !new?
+      deleted_rows = dataset.delete_source_data(:type => 'file', :id => id)
+    end
+    destroy
+    deleted_rows
+  end
+
   private
 
   def file_type_valid?
@@ -285,6 +294,7 @@ class SourceFile < ActiveRecord::Base
 
   def setup_dataset_table
     dataset.create_or_alter_table!
+    true
   end
 
   def set_imported_at
@@ -298,4 +308,5 @@ class SourceFile < ActiveRecord::Base
     dataset.last_import_at = error_at
     dataset.save!
   end
+
 end

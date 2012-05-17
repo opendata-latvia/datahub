@@ -276,6 +276,11 @@ XML
       @dataset.delete_columns.should be_true
       @source_file.reload.status.should == 'new'
     end
+
+    it "should delete imported data when deleting file" do
+      @source_file.destroy_and_delete_data
+      Dwh.select_value("SELECT COUNT(*) FROM #{@dataset.table_name}").should == 0
+    end
   end
 
 end

@@ -163,6 +163,23 @@ class Dataset < ActiveRecord::Base
     @table_column_names ||= columns.map{|c| c[:column_name]}
   end
 
+  def delete_source_data(options = {})
+    source_type, source_name, source_id = options[:type], options[:name], options[:id]
+    if source_type.present? && (source_name.present? || source_id.present?)
+      sql = "DELETE FROM #{table_name} WHERE _source_type = ?"
+      binds = [source_type]
+      if source_name.present?
+        sql << " AND _source_name = ?"
+        binds << source_name
+      end
+      if source_id.present?
+        sql << "AND _source_id = ?"
+        binds << source_id
+      end
+      Dwh.delete sql, binds
+    end
+  end
+
   private
 
   def columns_with_source_columns

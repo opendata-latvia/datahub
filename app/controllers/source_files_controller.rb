@@ -12,7 +12,7 @@ class SourceFilesController < ApplicationController
 
   def destroy
     source_file = @dataset.source_files.find(params[:id])
-    source_file.destroy
+    source_file.destroy_and_delete_data
     flash[:tab] = 'upload'
     redirect_to dataset_path(@dataset)
   end

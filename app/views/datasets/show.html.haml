@@ -68,7 +68,7 @@
                       = link_to "Import", source_file_preview_path(source_file), :class => "btn btn-mini btn-primary"
                     = link_to "Delete", account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
                       :method => :delete, :class => "btn btn-mini btn-danger",
-                      :confirm => "Are you sure to delete this uploaded file?"
+                      :confirm => "Are you sure to delete this uploaded file with all data imported from this file?"
 
       %h4 Upload new file
       = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
