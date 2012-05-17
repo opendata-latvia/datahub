@@ -136,6 +136,12 @@ describe Dataset do
       @dataset.destroy
       Dwh.table_exists?(@dataset.table_name).should be_false
     end
+
+    it "should drop dataset table when all columns are deleted" do
+      @dataset.delete_columns.should be_true
+      @dataset.columns.should be_nil
+      Dwh.table_exists?(@dataset.table_name).should be_false
+    end
   end
 
   describe "query" do

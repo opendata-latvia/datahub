@@ -48,6 +48,11 @@ EOS
   </person>
 </persons>
 XML
+    @column_data_types = [
+      {'data_type' => 'string'},
+      {'data_type' => 'string'},
+      {'data_type' => 'integer'}
+    ]
   end
 
   after(:all) do
@@ -215,11 +220,6 @@ XML
   describe "import" do
     before(:all) do
       @source_file = @dataset.source_files.create!(:source => attachment("test.csv", @csv_content))
-      @column_data_types = [
-        {'data_type' => 'string'},
-        {'data_type' => 'string'},
-        {'data_type' => 'integer'}
-      ]
       @source_file.update_dataset_columns(@column_data_types).should be_true
       @source_file.import!
       @dataset.reload
@@ -235,12 +235,15 @@ XML
 
     after(:all) do
       @source_file.destroy
-      @dataset.update_attribute :columns, nil
-      @dataset.drop_table
+      @dataset.delete_columns
     end
 
     it "should update dataset columns" do
       @dataset.columns.should == @expected_columns
+    end
+
+    it "should change status to imported" do
+      @source_file.status.should == 'imported'
     end
 
     it "should create dataset table with source file columns" do
@@ -253,6 +256,25 @@ XML
                       "FROM #{@dataset.table_name}").should == @data_rows.map do |row|
         ['file', nil, @source_file.id, row[0], row[1], row[2].to_i]
       end
+    end
+  end
+
+  describe "data deletion" do
+    before(:each) do
+      @source_file = @dataset.source_files.create!(:source => attachment("test.csv", @csv_content))
+      @source_file.update_dataset_columns(@column_data_types)
+      @source_file.import!
+      @dataset.reload
+    end
+
+    after(:each) do
+      @source_file.destroy
+      @dataset.delete_columns
+    end
+
+    it "should change source file status to new when all columns are deleted" do
+      @dataset.delete_columns.should be_true
+      @source_file.reload.status.should == 'new'
     end
   end
 

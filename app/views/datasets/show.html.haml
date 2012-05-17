@@ -25,6 +25,8 @@
       %a{href: "#preview", data: {toggle: "tab"}} Data preview
     %li
       %a{href: "#upload", data: {toggle: "tab"}} Uploaded files
+    %li
+      %a{href: "#columns", data: {toggle: "tab"}} Column information
 
   .tab-content
     #preview.tab-pane
@@ -73,6 +75,31 @@
         %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
         = f.input :source, :as => :file, :label => false
         = f.submit "Upload", :class => "btn btn-success"
+
+    #columns.tab-pane
+      - if @dataset.columns.present?
+        %table.table
+          %thead
+            %tr
+              %th Column name
+              %th Internal name
+              %th Data type
+              %th Limit
+              %th.span4 Description
+          %tbody
+            - @dataset.columns.each do |column|
+              %tr
+                %td= column[:name]
+                %td= column[:column_name]
+                %td= column[:data_type]
+                %td= dataset_column_display_limit(column)
+                %td
+        = link_to "Delete all columns", delete_columns_account_project_dataset_path(@account, @project, @dataset), :method => :put, :class => "btn btn-danger",
+          :confirm => "Are you sure to delete all columns with all uploaded data?"
+      - else
+        No dataset columns have been created. Upload CSV source file at first.
+
+
 
 .span4
   %h2 Recent Activity

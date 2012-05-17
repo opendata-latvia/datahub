@@ -51,6 +51,10 @@ class SourceFile < ActiveRecord::Base
       transition :importing => :error
     end
     before_transition :on => :finish_with_error, :do => :set_error_at
+
+    event :reset_new do
+      transition any => :new
+    end
   end
 
   scope :recent, order('created_at DESC')

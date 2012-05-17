@@ -40,6 +40,15 @@ class DatasetsController < ApplicationController
     end
   end
 
+  def delete_columns
+    @dataset = @project.datasets.find(params[:id])
+    unless @dataset.delete_columns
+      flash[:alert] = 'Could not delete all columns'
+    end
+    flash[:tab] = 'columns'
+    redirect_to dataset_path(@dataset)
+  end
+
   def destroy
     @dataset = @project.datasets.find(params[:id])
     @dataset.destroy

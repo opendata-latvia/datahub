@@ -14,6 +14,9 @@ Datahub::Application.routes.draw do
   resources :accounts do
     resources :projects do
       resources :datasets do
+        member do
+          put 'delete_columns'
+        end
         resources :source_files do
           member do
             put 'start_import'

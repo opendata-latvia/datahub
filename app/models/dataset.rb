@@ -50,6 +50,14 @@ class Dataset < ActiveRecord::Base
     save
   end
 
+  def delete_columns
+    self.columns = nil
+    drop_table
+    reset_source_files_status
+    self.last_import_at = nil
+    save
+  end
+
   def table_name
     @table_name ||= "dataset_#{id}"
   end
@@ -209,4 +217,9 @@ class Dataset < ActiveRecord::Base
     nil
   end
 
+  def reset_source_files_status
+    source_files.each do |source_file|
+      source_file.reset_new!
+    end
+  end
 end
