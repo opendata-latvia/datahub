@@ -1,0 +1,55 @@
+.comment {
+  margin: 8px 0;
+  padding: 8px 8px 8px 63px;
+  border: solid 1px #999;
+  border-radius: 12px;
+  .face {
+    float: left;
+    margin: 0px auto auto -57px;
+    width: 50px;
+    text-align: center;
+    img {
+      
+    }
+  }
+  
+  .created_at {
+    color: #999;
+    margin: -4px auto 5px auto;
+    font-style: italic;
+  }
+  .content {
+    
+  }
+  .unread-comment {
+    font-weight: bold;
+  }
+  .actions {
+    text-align: left;
+    margin-top: 5px;
+  }
+
+  .actions a {
+    span {
+      padding: .4em 1em;
+    }
+  }
+
+}
+.comment-replies {
+  margin-left: 30px;
+   .comment-replies .comment-replies .comment-replies .comment-replies .comment-replies .comment-replies {
+    margin-left: 0;
+  }
+}
+.comments {
+  .markdown {
+    .controls {
+      margin-left: 0px;
+    }
+    textarea {
+      width: 99%;
+      height: 100px;
+    }
+  }
+}

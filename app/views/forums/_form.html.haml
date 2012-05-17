@@ -1,0 +1,11 @@
+.inputs
+  = f.input :title, :autofocus => true, :input_html => {:class => "span4"}
+  = f.input :slug, :input_html => {:class => "span4", :"data-auto-sluggify" => "#forum_title"}
+  = f.input :position, :input_html => {:class => "span4"}
+.inputs
+  = f.input :description, :as => :markdown, :input_html => {:rows => 5, :class => "span10"}
+  
+.controls
+  = f.button :submit, :class => 'btn-primary'
+  &nbsp;&nbsp;or&nbsp;&nbsp;
+  = link_to "back", :back

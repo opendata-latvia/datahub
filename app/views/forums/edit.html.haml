@@ -1,0 +1,5 @@
+.span12
+  %h2
+    Edit Forum
+  = simple_form_for(@forum, :url => forum_path(@forum.slug.blank? ? @forum.slug_was : @forum.slug), :html => {:class => 'project-form well form-horizontal'}) do |f|
+    = render 'form', :f => f
