@@ -65,7 +65,7 @@ class DatasetDatatable
   end
 
   def quote_term(value)
-    if value && value.include?('"')
+    if value =~ /["'\s]/
       "\"#{value.gsub('"', '""')}\""
     else
       value

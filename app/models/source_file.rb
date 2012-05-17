@@ -259,7 +259,7 @@ class SourceFile < ActiveRecord::Base
     @import_insert_sql ||= begin
       columns = import_columns.compact
       "INSERT INTO #{dataset.table_name} (_source_type,_source_id," <<
-      columns.map{|c| c[:name]}.join(',') <<
+      columns.map{|c| c[:column_name]}.join(',') <<
       ") VALUES ('file',#{Dwh.quote(id)}," <<
       columns.map{|c| '?'}.join(',') <<
       ")"
