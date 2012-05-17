@@ -23,6 +23,7 @@
             %ul.nav
               %li= link_to "Projects", root_path
               %li= link_to "Data Sets", root_path
+              %li{:class => top_menu_class(ForumsController)}= link_to "Forums", forums_path
             %ul.nav.pull-right
               - if user_signed_in?
                 %li.dropdown
@@ -43,5 +44,5 @@
           .alert{class: "alert-#{name == :notice ? "success" : "error"}"}
             %a.close{data: {dismiss: "alert"}} &times;
             = simple_format message
-      .row
+      .row-fluid
         = yield

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120501101951) do
+ActiveRecord::Schema.define(:version => 20120516105732) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(:version => 20120501101951) do
 
   add_index "accounts", ["login"], :name => "index_accounts_on_login", :unique => true
   add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
+
+  create_table "comments", :force => true do |t|
+    t.string   "commentable_type", :null => false
+    t.integer  "commentable_id",   :null => false
+    t.integer  "user_id",          :null => false
+    t.text     "content",          :null => false
+    t.string   "ancestry"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "comments", ["commentable_type", "commentable_id"], :name => "index_comments_on_commentable_type_and_commentable_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "datasets", :force => true do |t|
     t.integer  "project_id",                   :null => false
@@ -36,7 +49,16 @@ ActiveRecord::Schema.define(:version => 20120501101951) do
     t.datetime "updated_at",                   :null => false
   end
 
-  add_index "datasets", ["project_id", "shortname"], :name => "index_datasets_on_project_id_and_shortname", :unique => true
+  create_table "forums", :force => true do |t|
+    t.string   "title",       :null => false
+    t.string   "slug",        :null => false
+    t.text     "description", :null => false
+    t.integer  "position",    :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "forums", ["slug"], :name => "index_forums_on_slug"
 
   create_table "projects", :force => true do |t|
     t.integer  "account_id",                :null => false
@@ -68,6 +90,21 @@ ActiveRecord::Schema.define(:version => 20120501101951) do
 
   add_index "source_files", ["dataset_id"], :name => "index_source_files_on_dataset_id"
 
+  create_table "topics", :force => true do |t|
+    t.integer  "forum_id",                       :null => false
+    t.integer  "user_id",                        :null => false
+    t.string   "title",                          :null => false
+    t.string   "slug",                           :null => false
+    t.text     "description",                    :null => false
+    t.boolean  "commentable", :default => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
+
+  add_index "topics", ["forum_id", "slug"], :name => "index_topics_on_forum_id_and_slug"
+  add_index "topics", ["forum_id", "updated_at"], :name => "index_topics_on_forum_id_and_updated_at"
+  add_index "topics", ["forum_id"], :name => "index_topics_on_forum_id"
+
   create_table "user_tokens", :force => true do |t|
     t.integer  "user_id"
     t.string   "provider"
@@ -75,9 +112,6 @@ ActiveRecord::Schema.define(:version => 20120501101951) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  add_index "user_tokens", ["provider", "uid"], :name => "index_user_tokens_on_provider_and_uid"
-  add_index "user_tokens", ["user_id"], :name => "index_user_tokens_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",                  :limit => 40,                 :null => false

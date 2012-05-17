@@ -1,0 +1,16 @@
+.comment{id: "comment#{comment.id}"}
+  .face
+    =gravatar_image_tag(comment.user.email, :gravatar => {:size => 50})
+  .created_at{:class => "#{'unread-comment' if current_user && comment.unread?(current_user.last_sign_in_at)}"}
+    =comment.user.display_name
+    =distance_of_time_in_words_to_now(comment.created_at)
+    ago
+  .content.markdown
+    =markdown(comment.content)
+    
+  .actions
+    -if user_signed_in?
+      =link_to "Reply", new_comment_path(:comment => {:parent_id => comment.id, :commentable_type => comment.commentable_type, :commentable_id => comment.commentable_id}), :class => "btn btn-success", :remote => true
+      =comment_delete_action(comment)
+  .reply{:style => "display:none"}
+  

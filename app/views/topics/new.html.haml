@@ -1,0 +1,5 @@
+.span12
+  %h2
+    New Topic in Forum "#{@forum.title}"
+  = simple_form_for(@topic, :url => forum_topics_path(@forum.slug), :html => {:class => 'project-form well form-horizontal'}) do |f|
+    = render 'form', :f => f

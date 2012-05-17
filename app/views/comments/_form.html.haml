@@ -1,0 +1,11 @@
+= simple_form_for comment, :remote => true, :html => {:class => 'form-horizontal'} do |f|
+  %div{:class => "comment-errors#{comment.parent_id}", :style => "display:none"}
+    .alert.alert-error
+      %a.close{:data => {:dismiss => "alert"}} &times;
+      .msg
+  = f.hidden_field :commentable_type, :as => :hidden
+  = f.hidden_field :commentable_id, :as => :hidden
+  = f.hidden_field :parent_id, :as => :hidden
+  =f.input :content, :as => :markdown, :postfix => comment.parent_id, :label => false
+  .controls
+    = f.button :submit, :class => 'btn-primary'
