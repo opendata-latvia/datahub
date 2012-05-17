@@ -11,5 +11,6 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require dataTables/jquery.dataTables.bootstrap
+ *= require markdown
  *= require_tree .
 */

@@ -12,3 +12,6 @@ $.fn.autoSluggify = ->
 
     $target.on "change", ->
       doSluggify = shouldSluggify()
+
+jQuery ->
+  $("input[data-auto-sluggify]").autoSluggify()

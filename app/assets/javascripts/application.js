@@ -17,5 +17,8 @@
 //= require backbone
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
+//= require markdown/Markdown.Converter
+//= require markdown/Markdown.Editor
+//= require markdown/Markdown.Sanitizer
 //= require datahub
 //= require_tree .
