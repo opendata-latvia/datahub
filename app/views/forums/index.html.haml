@@ -2,7 +2,7 @@
   .span12
     %h1
       Forum
-      =link_to "New forum", new_forum_path, :class => "btn btn-success pull-right"
+      =link_to "New forum", new_forum_path, :class => "btn btn-mini btn-success pull-right"
       
 .forums
   -for forum in @forums
@@ -10,11 +10,11 @@
       .span12.forum
         .action-group
           -if user_signed_in?
-            =link_to "Start new topic", new_forum_topic_path(forum.slug), :class => "btn btn-success"
+            =link_to "Start new topic", new_forum_topic_path(forum.slug), :class => "btn btn-mini btn-success"
             
           -if can? :manage, "Administration"
-            =link_to "Edit", edit_forum_path(forum.slug), :class => "btn btn-success"
-            =link_to "Delete", forum_path(forum.slug), :method => :delete, :confirm => "Are You sure to delete #{forum.title}?", :class => "btn btn-danger"
+            =link_to "Edit", edit_forum_path(forum.slug), :class => "btn btn-mini btn-success"
+            =link_to "Delete", forum_path(forum.slug), :method => :delete, :confirm => "Are You sure to delete #{forum.title}?", :class => "btn btn-mini btn-danger"
 
         %h3
           =link_to "#{forum.title} ( #{forum.topics.count} topics )", forum_path(forum.slug)
@@ -28,9 +28,9 @@
             .span12.topic
               .action-group
                 -if can? :manage, topic
-                  =link_to "Edit", edit_forum_topic_path(forum.slug,topic.slug), :class => "btn btn-success"
+                  =link_to "Edit", edit_forum_topic_path(forum.slug,topic.slug), :class => "btn btn-mini btn-success"
                 -if can? :manage, "Administration"
-                  =link_to "Delete", forum_topic_path(forum.slug,topic.slug), :method => :delete, :confirm => "Are You sure to delete #{topic.title}?", :class => "btn btn-danger"
+                  =link_to "Delete", forum_topic_path(forum.slug,topic.slug), :method => :delete, :confirm => "Are You sure to delete #{topic.title}?", :class => "btn btn-mini btn-danger"
               %h4
                 =link_to "#{topic.title} ( #{topic.comments.count} comments )", forum_topic_path(forum.slug, topic.slug)
               %small="Started by #{topic.user.display_name} #{distance_of_time_in_words_to_now(topic.created_at)} ago."
