@@ -1,34 +1,32 @@
-.row
+.span12
   %ul.breadcrumb
     %li
-      =link_to "Forum", forums_path
-      %span.divider
-        \/
+      = link_to "Forums", forums_path
+      %span.divider /
     %li
-      =link_to @forum.title, forum_path(@forum.slug)
-      %span.divider
-        \/
+      = link_to @forum.title, forum_path(@forum.slug)
+      %span.divider /
     %li.active
-      =@topic.title
-.row
-  .span12
-    .topic.comment{:id => "topic#{@topic.id}"}
-      .actions
-        -if user_signed_in?
-          -if can? :manage, @topic
-            =link_to "Edit", edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini btn-success"
-          -if can? :manage, "Administration"
-            =link_to "Delete", forum_topic_path(@forum.slug,@topic.slug), :method => :delete, :confirm => "Are You sure to delete #{@topic.title}?", :class => "btn btn-mini btn-danger"
-            
-      .face
-        =gravatar_image_tag(@topic.user.email, :gravatar => {:size => 50})
-      .created_at
-        =@topic.user.display_name
-        =distance_of_time_in_words_to_now(@topic.created_at)
-        ago started topic
-        =@topic.title
+      = @topic.title
+.span12
+  .topic.comment{:id => "topic#{@topic.id}"}
+    .actions
+      - if user_signed_in?
+        - if can? :manage, @topic
+          = link_to "Edit", edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini btn-success"
+        - if can? :manage, "Administration"
+          = link_to "Delete", forum_topic_path(@forum.slug,@topic.slug), :method => :delete, :confirm => "Are You sure to delete #{@topic.title}?", :class => "btn btn-mini btn-danger"
+    .face
+      = gravatar_image_tag(@topic.user.email, :gravatar => {:size => 50})
+    .created_at
+      = link_to @topic.user.display_name, account_profile_path(@topic.user.login)
+      started topic
+      %strong= @topic.title
+      = distance_of_time_in_words_to_now(@topic.created_at)
+      ago
 
-      .content.markdown
-        =markdown(@topic.description)
-        
+    .content.markdown
+      =markdown(@topic.description)
+
+.span12
   =comments_for(@topic, :disable_new_comments => !@topic.commentable)

@@ -44,5 +44,5 @@
           .alert{class: "alert-#{name == :notice ? "success" : "error"}"}
             %a.close{data: {dismiss: "alert"}} &times;
             = simple_format message
-      .row-fluid
+      .row
         = yield

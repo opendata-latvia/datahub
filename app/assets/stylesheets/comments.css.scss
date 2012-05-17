@@ -27,9 +27,12 @@
     font-weight: bold;
   }
   .actions {
+    display: none;
     float: right;
   }
-
+  &:hover .actions {
+    display: block;
+  }
 }
 .comment-replies {
   margin-left: 30px;

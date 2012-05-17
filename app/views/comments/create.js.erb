@@ -1,2 +1,2 @@
-$("#<%=commentable_comments_id(@commentable)%>").html("<%= j(comments_for(@commentable))%>");
+$("#<%=commentable_comments_id(@commentable)%>").replaceWith("<%= j(comments_for(@commentable))%>");
 new Markdown.Editor(new Markdown.Converter(), "content").run();
