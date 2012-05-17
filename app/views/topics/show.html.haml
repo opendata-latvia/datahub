@@ -13,7 +13,7 @@
     .actions
       - if user_signed_in?
         - if can? :manage, @topic
-          = link_to "Edit", edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini btn-success"
+          = link_to "Edit", edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini"
         - if can? :manage, "Administration"
           = link_to "Delete", forum_topic_path(@forum.slug,@topic.slug), :method => :delete, :confirm => "Are You sure to delete #{@topic.title}?", :class => "btn btn-mini btn-danger"
     .face

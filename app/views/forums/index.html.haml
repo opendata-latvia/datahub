@@ -2,7 +2,7 @@
   %h1
     Forums
     - if can? :manage, "Administration"
-      =link_to "New forum", new_forum_path, :class => "btn btn-small btn-success pull-right"
+      =link_to "New forum", new_forum_path, :class => "btn btn-mini btn-success pull-right"
       
 .span12.forums
   - for forum in @forums
@@ -11,7 +11,7 @@
         - if user_signed_in?
           = link_to "Start new topic", new_forum_topic_path(forum.slug), :class => "btn btn-mini btn-success"
         - if can? :manage, "Administration"
-          = link_to "Edit", edit_forum_path(forum.slug), :class => "btn btn-mini btn-success"
+          = link_to "Edit", edit_forum_path(forum.slug), :class => "btn btn-mini"
           = link_to "Delete", forum_path(forum.slug), :method => :delete, :confirm => "Are You sure to delete #{forum.title}?", :class => "btn btn-mini btn-danger"
 
       %h3
@@ -31,7 +31,7 @@
           .span12.topic
             .action-group
               - if can? :manage, topic
-                = link_to "Edit", edit_forum_topic_path(forum.slug,topic.slug), :class => "btn btn-mini btn-success"
+                = link_to "Edit", edit_forum_topic_path(forum.slug,topic.slug), :class => "btn btn-mini"
               - if can? :manage, "Administration"
                 = link_to "Delete", forum_topic_path(forum.slug,topic.slug), :method => :delete, :confirm => "Are You sure to delete #{topic.title}?", :class => "btn btn-mini btn-danger"
             %h4

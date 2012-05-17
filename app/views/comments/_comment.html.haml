@@ -1,7 +1,7 @@
 .comment{id: "comment#{comment.id}"}
   .actions
     - if user_signed_in?
-      =link_to "Reply", new_comment_path(:comment => {:parent_id => comment.id, :commentable_type => comment.commentable_type, :commentable_id => comment.commentable_id}), :class => "btn btn-mini btn-success", :remote => true
+      =link_to "Reply", new_comment_path(:comment => {:parent_id => comment.id, :commentable_type => comment.commentable_type, :commentable_id => comment.commentable_id}), :class => "btn btn-mini btn-primary", :remote => true
       =comment_delete_action(comment)
   .face
     = gravatar_image_tag(comment.user.email, :gravatar => {:size => 30})
