@@ -1,4 +1,4 @@
-.span8
+#dataset_show.span8
   .well
     %h3
       = link_to gravatar_image_tag(@account.email, :gravatar => {:size => 32}), account_profile_path(@account)
@@ -28,7 +28,18 @@
 
   .tab-content
     #preview.tab-pane
-      No data imported.
+      - if @dataset.columns.present?
+        %table#preview_table.table.table-condensed{data: {source: dataset_datatable_path(@dataset)}}
+          %thead
+            %tr
+              - @dataset.column_names.each do |name|
+                %th
+                  = name
+                  %br/
+                  %input.input-small{placeholder: "search in column"}
+          %tbody
+      - else
+        No data imported.
 
     #upload.tab-pane
       - if @dataset.source_files.size > 0
@@ -68,6 +79,7 @@
 
 :javascript
   $(function() {
-    var tab = "#{j flash[:tab] || 'preview'}";
-    $("ul.nav-tabs a[href=#" + tab + "]").tab("show");
+    new Datahub.DatasetShowView({
+      tab: "#{j flash[:tab]}"
+    });
   });

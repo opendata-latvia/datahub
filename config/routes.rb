@@ -26,6 +26,7 @@ Datahub::Application.routes.draw do
   match ':login' => 'accounts#show', :as => :account_profile
   match ':account_id/:shortname' => 'projects#show', :as => :project_profile
   match ':account_id/:project_shortname/:shortname' => 'datasets#show', :as => :dataset_profile
+  match ':account_id/:project_shortname/:shortname/_datatable' => 'datasets#datatable', :as => :dataset_profile_datatable
   match ':account_id/:project_shortname/:dataset_shortname/_files/:file_name' => 'source_files#download', :as => :dataset_source_file_download
   match ':account_id/:project_shortname/:dataset_shortname/_preview/:file_name' => 'source_files#preview', :as => :dataset_source_file_preview
 

@@ -264,6 +264,7 @@ class SourceFile < ActiveRecord::Base
   end
 
   def bind_value(column, raw_value)
+    return nil if raw_value.nil?
     case column[:data_type]
     when :string
       raw_value

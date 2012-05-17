@@ -15,5 +15,7 @@
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap
 //= require datahub
 //= require_tree .

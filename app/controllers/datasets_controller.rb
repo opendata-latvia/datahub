@@ -5,6 +5,15 @@ class DatasetsController < ApplicationController
     @dataset = @project.datasets.find_by_shortname!(params[:shortname])
   end
 
+  def datatable
+    @dataset = @project.datasets.find_by_shortname!(params[:shortname])
+    respond_to do |format|
+      format.json do
+        render :json => DatasetDatatable.new(@dataset, view_context)
+      end
+    end
+  end
+
   def new
     @dataset = @project.datasets.build
   end

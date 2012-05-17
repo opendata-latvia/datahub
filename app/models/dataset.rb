@@ -67,6 +67,94 @@ class Dataset < ActiveRecord::Base
     Dwh.drop_table table_name
   end
 
+  def data_rows_count
+    Dwh.select_value "SELECT COUNT(*) FROM #{table_name}"
+  end
+
+  class Query
+    attr_reader :query, :parts
+
+    def initialize(query)
+      @query = query
+      @parts = []
+      parse_query
+    end
+
+    private
+
+    PART_REGEXP = /
+      (                 # attribute or value if no attribute is present
+        [^\s"':]+       # attribute without spaces or quotes
+      |
+        "(?:[^"]|"")+"  # attribute in double quotes, inside it all quotes should be doubled
+      |
+        '[^']+'         # attribute in single quotes
+      )
+      (?:
+        (:)             # allowed operators between attribute and quote
+      (
+        [^\s"']+        # value without spaces or quotes
+      |
+        "(?:[^"]|"")+"  # value in double quotes, inside it all quotes should be doubled
+      |
+        '[^']+'         # value in single quotes
+      )
+      )?
+    /x
+    QUOTED_VALUE_REGEXP = /\A(["'])(.*)\1\Z/
+
+    def parse_query
+      @query.scan(PART_REGEXP).map do |attribute, operator, value|
+        attribute = $2.gsub($1+$1, $1) if attribute =~ QUOTED_VALUE_REGEXP
+        value = $2.gsub($1+$1, $1) if value =~ QUOTED_VALUE_REGEXP
+        @parts << case operator
+        when ':'
+          [:contains, attribute, value]
+        when nil
+          [:contains, :any, attribute]
+        end
+      end
+    end
+  end
+
+  def data_search(query_string, params = {})
+    results_relation = Dwh.arel_table.from(table_name)
+
+    if query_string.present?
+      query = Query.new query_string
+      query.parts.each do |operator, attribute, value|
+        add_relation_condition(results_relation, operator, attribute, value)
+      end
+    end
+
+    count_relation = results_relation.clone.project('COUNT(*)')
+    results_relation.project(*table_column_names)
+
+    if column = columns.detect{|c| c[:name] == params[:sort]}
+      results_relation.order "#{column[:column_name]} #{params[:sort_direction] || 'asc'}"
+    end
+
+    page = (params[:page] || 1).to_i
+    per_page = (params[:per_page] || 10).to_i
+    offset = per_page * (page - 1)
+    results_relation.skip(offset).take(per_page)
+
+    results_sql = results_relation.to_sql
+    logger.debug "[data_search] SQL: #{results_sql}"
+    {
+      :rows => Dwh.select_rows(results_sql),
+      :total_results => Dwh.select_value(count_relation.to_sql)
+    }
+  end
+
+  def column_names
+    @column_names ||= columns.map{|c| c[:name]}
+  end
+
+  def table_column_names
+    @table_column_names ||= columns.map{|c| c[:column_name]}
+  end
+
   private
 
   def columns_with_source_columns
@@ -75,6 +163,50 @@ class Dataset < ActiveRecord::Base
       {:column_name => '_source_name', :data_type => :string, :limit => 100},
       {:column_name => '_source_id', :data_type => :integer}
     ]
+  end
+
+  def string_table_column_names
+    @string_table_column_names ||= columns.map{|c| c[:column_name] if c[:data_type] == :string}.compact
+  end
+
+  def add_relation_condition(results_relation, operator, attribute, value)
+    condition_string = if attribute == :any
+      conditions = columns.map do |column|
+        if column[:data_type] == :string
+          column_condition(operator, column, value)
+        end
+      end.compact
+      "(#{conditions.join(' OR ')})" if conditions.present?
+    elsif column = columns.detect{|c| c[:name] == attribute}
+      column_condition(operator, column, value)
+    end
+    results_relation.where(Arel::Nodes::SqlLiteral.new condition_string) if condition_string.present?
+  end
+
+  def column_condition(operator, column, value)
+    return nil unless value = bind_value(column, value)
+    case operator
+    when :contains
+      "#{column[:column_name]} LIKE #{Dwh.quote "%#{value}%"}"
+    end
+  end
+
+  def bind_value(column, raw_value)
+    return nil if raw_value.nil?
+    case column[:data_type]
+    when :string
+      raw_value
+    when :integer
+      raw_value.to_i
+    when :decimal
+      BigDecimal(raw_value)
+    when :date
+      Date.parse raw_value
+    when :datetime
+      Time.parse raw_value
+    end
+  rescue ArgumentError
+    nil
   end
 
 end

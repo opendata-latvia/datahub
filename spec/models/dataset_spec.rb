@@ -138,4 +138,68 @@ describe Dataset do
     end
   end
 
+  describe "query" do
+    it "should parse one term query" do
+      query = Dataset::Query.new('foo')
+      query.parts.should == [[:contains, :any, 'foo']]
+    end
+
+    it "should parse one term with national characters" do
+      query = Dataset::Query.new('aābcč')
+      query.parts.should == [[:contains, :any, 'aābcč']]
+    end
+
+    it "should parse two terms" do
+      query = Dataset::Query.new('foo bar')
+      query.parts.should == [
+        [:contains, :any, 'foo'],
+        [:contains, :any, 'bar']
+      ]
+    end
+
+    it "should parse attribute with term" do
+      query = Dataset::Query.new('name:foo')
+      query.parts.should == [[:contains, 'name', 'foo']]
+    end
+
+    it "should parse attribute with term and simple term" do
+      query = Dataset::Query.new('name:foo bar')
+      query.parts.should == [
+        [:contains, 'name', 'foo'],
+        [:contains, :any, 'bar']
+      ]
+    end
+
+    it "should parse quoted term" do
+      query = Dataset::Query.new('"foo bar"')
+      query.parts.should == [[:contains, :any, 'foo bar']]
+    end
+
+    it "should parse term in single quotes" do
+      query = Dataset::Query.new("'foo \"bar\"'")
+      query.parts.should == [[:contains, :any, 'foo "bar"']]
+    end
+
+    it "should parse quoted term containing doubled quotes" do
+      query = Dataset::Query.new('"foo ""bar"""')
+      query.parts.should == [[:contains, :any, 'foo "bar"']]
+    end
+
+    it "should parse quoted attribute and quoted term" do
+      query = Dataset::Query.new('"first name":"foo bar"')
+      query.parts.should == [[:contains, 'first name', 'foo bar']]
+    end
+
+    it "should parse attribute and term in single quotes" do
+      query = Dataset::Query.new("'\"first\" name':'foo \"bar\"'")
+      query.parts.should == [[:contains, '"first" name', 'foo "bar"']]
+    end
+
+    it "should parse quoted attribute and quoted term containing doubled quotes" do
+      query = Dataset::Query.new('"""first"" name":"foo ""bar"""')
+      query.parts.should == [[:contains, '"first" name', 'foo "bar"']]
+    end
+
+  end
+
 end

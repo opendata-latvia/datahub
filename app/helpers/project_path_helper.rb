@@ -7,6 +7,10 @@ module ProjectPathHelper
     dataset_profile_path(dataset.project.account, dataset.project.shortname, dataset.shortname)
   end
 
+  def dataset_datatable_path(dataset)
+    dataset_profile_datatable_path(dataset.project.account, dataset.project.shortname, dataset.shortname, :format => :json)
+  end
+
   def source_file_download_path(source_file)
     dataset = source_file.dataset
     dataset_source_file_download_path(dataset.project.account, dataset.project.shortname, dataset.shortname, source_file.source_file_name)
