@@ -7,5 +7,5 @@
   = f.hidden_field :commentable_id, :as => :hidden
   = f.hidden_field :parent_id, :as => :hidden
   =f.input :content, :as => :markdown, :postfix => comment.parent_id, :label => false
-  .controls
+  .controls.buttons
     = f.button :submit, :class => 'btn-primary'

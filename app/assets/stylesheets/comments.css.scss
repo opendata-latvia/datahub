@@ -1,12 +1,11 @@
 .comment {
   margin: 8px 0;
-  padding: 8px 8px 8px 63px;
-  border: solid 1px #999;
-  border-radius: 12px;
+  padding: 8px 8px 4px 43px;
+  border-bottom: solid 1px #999;
   .face {
     float: left;
-    margin: 0px auto auto -57px;
-    width: 50px;
+    margin: 0px auto auto -37px;
+    width: 30px;
     text-align: center;
     img {
       
@@ -15,24 +14,20 @@
   
   .created_at {
     color: #999;
-    margin: -4px auto 5px auto;
+    margin: -4px auto 0px auto;
     font-style: italic;
+    font-size: 85%;
   }
   .content {
-    
+    p {
+      margin-bottom: 2px;
+    }
   }
   .unread-comment {
     font-weight: bold;
   }
   .actions {
-    text-align: left;
-    margin-top: 5px;
-  }
-
-  .actions a {
-    span {
-      padding: .4em 1em;
-    }
+    float: right;
   }
 
 }
@@ -43,6 +38,10 @@
   }
 }
 .comments {
+  margin-left: 65px;
+  .controls.buttons {
+    margin-left: 0px;
+  }
   .markdown {
     .controls {
       margin-left: 0px;
