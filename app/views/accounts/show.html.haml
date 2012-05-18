@@ -4,22 +4,24 @@
     = @account.login
     - if @account.name.present?
       %small= "(#{@account.name})"
-    - if current_user == @account.user
+    - if can? :update, @account
       = link_to "Edit profile", edit_user_registration_path, :class => "btn pull-right"
 .span6
   %h2
     Projects
     %small= "(#{@account.projects.size})"
-    = link_to "New project", new_account_project_path(@account), :class => "btn btn-success pull-right"
+    - if can? :create_project, @account
+      = link_to "New project", new_account_project_path(@account), :class => "btn btn-success pull-right"
 
   - @account.projects.each do |project|
     .well
       %h3
         = link_to project.name, project_path(project)
         .pull-right
-          = link_to "Edit", edit_account_project_path(@account, project), :class => "btn btn-small"
-          = link_to "Delete", account_project_path(@account, project), :method => :delete, :class => "btn btn-small btn-danger",
-            :confirm => "Are you sure to delete this project with all datasets?"
+          - if can? :manage, project
+            = link_to "Edit", edit_account_project_path(@account, project), :class => "btn btn-small"
+            = link_to "Delete", account_project_path(@account, project), :method => :delete, :class => "btn btn-small btn-danger",
+              :confirm => "Are you sure to delete this project with all datasets?"
       - if project.description.present?
         %p= simple_format project.description
       - if project.homepage.present?

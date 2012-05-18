@@ -8,10 +8,11 @@
       = "/"
       %i.icon-list-alt
       = @dataset.name
-      %small.pull-right
-        = link_to "Edit", edit_account_project_dataset_path(@account, @project, @dataset), :class => "btn btn-small"
-        = link_to "Delete", account_project_dataset_path(@account, @project, @dataset), :method => :delete, :class => "btn btn-small btn-danger",
-          :confirm => "Are you sure to delete this dataset with all uploaded data?"
+      - if can? :manage, @dataset
+        %small.pull-right
+          = link_to "Edit", edit_account_project_dataset_path(@account, @project, @dataset), :class => "btn btn-small"
+          = link_to "Delete", account_project_dataset_path(@account, @project, @dataset), :method => :delete, :class => "btn btn-small btn-danger",
+            :confirm => "Are you sure to delete this dataset with all uploaded data?"
     - if @dataset.description.present?
       %p= simple_format @dataset.description
     - if @dataset.source_url.present?
@@ -63,18 +64,20 @@
                   ago
                 %td= source_file.status.titleize
                 %td
-                  .pull-right
-                    - if source_file.can_start_import?
-                      = link_to "Import", source_file_preview_path(source_file), :class => "btn btn-mini btn-primary"
-                    = link_to "Delete", account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
-                      :method => :delete, :class => "btn btn-mini btn-danger",
-                      :confirm => "Are you sure to delete this uploaded file with all data imported from this file?"
+                  - if can? :manage, @dataset
+                    .pull-right
+                      - if source_file.can_start_import?
+                        = link_to "Import", source_file_preview_path(source_file), :class => "btn btn-mini btn-success"
+                      = link_to "Delete", account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
+                        :method => :delete, :class => "btn btn-mini btn-danger",
+                        :confirm => "Are you sure to delete this uploaded file with all data imported from this file?"
 
-      %h4 Upload new file
-      = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
-        %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
-        = f.input :source, :as => :file, :label => false
-        = f.submit "Upload", :class => "btn btn-success"
+      - if can? :manage, @dataset
+        %h4 Upload new file
+        = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
+          %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
+          = f.input :source, :as => :file, :label => false
+          = f.submit "Upload", :class => "btn btn-primary"
 
     #columns.tab-pane
       - if @dataset.columns.present?
@@ -94,8 +97,9 @@
                 %td= column[:data_type]
                 %td= dataset_column_display_limit(column)
                 %td
-        = link_to "Delete all columns", delete_columns_account_project_dataset_path(@account, @project, @dataset), :method => :put, :class => "btn btn-danger",
-          :confirm => "Are you sure to delete all columns with all uploaded data?"
+        - if can? :manage, @dataset
+          = link_to "Delete all columns", delete_columns_account_project_dataset_path(@account, @project, @dataset), :method => :put, :class => "btn btn-danger",
+            :confirm => "Are you sure to delete all columns with all uploaded data?"
       - else
         No dataset columns have been created. Upload CSV source file at first.
 

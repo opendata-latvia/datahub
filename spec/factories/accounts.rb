@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :account do
+    sequence(:login) {|n| "login#{n}" }
   end
 end

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :comment do
-    commentable_type "Forum"
+    commentable_type "Topic"
     commentable_id 1
     association :user
     content "Mu comments"

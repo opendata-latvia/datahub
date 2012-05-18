@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protected
   
   rescue_from CanCan::AccessDenied do |exception|
+    logger.error "[cancan] Access denied, message: #{exception.message}"
     redirect_to root_url, :alert => exception.message
   end
   

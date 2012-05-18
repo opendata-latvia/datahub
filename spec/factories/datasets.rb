@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :dataset do
+    association :project
     sequence(:shortname) {|n| "dataset#{n}" }
     sequence(:name) {|n| "Dataset #{n}" }
   end

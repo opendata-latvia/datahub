@@ -3,10 +3,12 @@ class DatasetsController < ApplicationController
 
   def show
     @dataset = @project.datasets.find_by_shortname!(params[:shortname])
+    authorize! :read, @dataset
   end
 
   def datatable
     @dataset = @project.datasets.find_by_shortname!(params[:shortname])
+    authorize! :read, @dataset
     respond_to do |format|
       format.json do
         render :json => DatasetDatatable.new(@dataset, view_context)
@@ -15,10 +17,12 @@ class DatasetsController < ApplicationController
   end
 
   def new
+    authorize! :create_dataset, @project
     @dataset = @project.datasets.build
   end
 
   def create
+    authorize! :create_dataset, @project
     @dataset = @project.datasets.build dataset_attributes
     if @dataset.save
       redirect_to dataset_path(@dataset)
@@ -29,10 +33,12 @@ class DatasetsController < ApplicationController
 
   def edit
     @dataset = @project.datasets.find(params[:id])
+    authorize! :update, @dataset
   end
 
   def update
     @dataset = @project.datasets.find(params[:id])
+    authorize! :update, @dataset
     if @dataset.update_attributes dataset_attributes
       redirect_to dataset_path(@dataset)
     else
@@ -42,6 +48,7 @@ class DatasetsController < ApplicationController
 
   def delete_columns
     @dataset = @project.datasets.find(params[:id])
+    authorize! :update, @dataset
     unless @dataset.delete_columns
       flash[:alert] = 'Could not delete all columns'
     end
@@ -51,6 +58,7 @@ class DatasetsController < ApplicationController
 
   def destroy
     @dataset = @project.datasets.find(params[:id])
+    authorize! :destroy, @dataset
     @dataset.destroy
     redirect_to project_path(@project)
   end

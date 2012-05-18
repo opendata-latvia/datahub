@@ -45,7 +45,7 @@ describe Ability do
     end
 
     it "can update topic when creator" do
-      ability.can?(:update, create(:topic, :user_id => @user.id)).should be_true
+      ability.can?(:update, create(:topic, :user => @user)).should be_true
     end
     
     it "cannot update topic when other user" do
@@ -53,7 +53,7 @@ describe Ability do
     end
 
     it "cannot destroy topic when creator" do
-      ability.can?(:destroy, create(:topic, :user_id => @user.id)).should be_false
+      ability.can?(:destroy, create(:topic, :user => @user)).should be_false
     end
 
     it "can read topic when other user" do
@@ -61,7 +61,7 @@ describe Ability do
     end
 
     it "can read topic when anonymous user" do
-      ability.can?(:read, create(:topic)).should be_true
+      @anonymous_ability.can?(:read, create(:topic)).should be_true
     end
   end
 
@@ -80,11 +80,11 @@ describe Ability do
     end
 
     it "can destroy comment when creator" do
-      ability.can?(:destroy, create(:comment, :user_id => @user.id)).should be_true
+      ability.can?(:destroy, create(:comment, :user => @user)).should be_true
     end
-    
+
     it "cannot destroy comment after 5 minutes when creator" do
-      comment = create(:comment, :user_id => @user.id)
+      comment = create(:comment, :user => @user)
       Timecop.freeze(Time.now + 4.minutes) do
         ability.can?(:destroy, comment).should be_true
       end
@@ -99,5 +99,67 @@ describe Ability do
 
   end
 
+  describe "account" do
+    it "can manage account when account owner" do
+      ability.can?(:manage, @user.account).should be_true
+    end
+
+  end
+
+  describe "projects" do
+    it "can create project when account owner" do
+      ability.can?(:create_project, @user.account).should be_true
+    end
+
+    it "cannot create project when other user" do
+      account = create(:account)
+      ability.can?(:create_project, account).should be_false
+    end
+
+    it "can manage project when account owner" do
+      project = create(:project, :account => @user.account)
+      ability.can?(:manage, project).should be_true
+    end
+
+    it "cannot manage project when other user" do
+      project = create(:project)
+      ability.can?(:manage, project).should be_false
+    end
+
+    it "can read project when other or anonymous user" do
+      project = create(:project)
+      ability.can?(:read, project).should be_true
+      @anonymous_ability.can?(:read, project).should be_true
+    end
+  end
+
+  describe "datasets" do
+    it "can create dataset when project owner" do
+      project = create(:project, :account => @user.account)
+      ability.can?(:create_dataset, project).should be_true
+    end
+
+    it "cannot create dataset when other user" do
+      project = create(:project)
+      ability.can?(:create_dataset, project).should be_false
+    end
+
+    it "can manage dataset when project owner" do
+      project = create(:project, :account => @user.account)
+      dataset = create(:dataset, :project => project)
+      ability.can?(:manage, dataset).should be_true
+    end
+
+    it "cannot manage dataset when other user" do
+      dataset = create(:dataset)
+      ability.can?(:manage, dataset).should be_false
+    end
+
+    it "can read dataset when other or anonymous user" do
+      dataset = create(:dataset)
+      ability.can?(:read, dataset).should be_true
+      @anonymous_ability.can?(:read, dataset).should be_true
+    end
+  end
 
 end

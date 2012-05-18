@@ -5,21 +5,53 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     # === Forums ===
-    can :manage, Forum if user.super_admin?
-    can :read, Forum
+    if user.super_admin?
+      can :manage, Forum
+    else
+      can :read, Forum
+    end
 
     # # === Topics ===
-    can :manage, Topic if user.super_admin?
-    can :create, Topic if user.persisted?
-    can :update, Topic, :user_id => user.id
+    if user.super_admin?
+      can :manage, Topic
+    elsif user.persisted?
+      can :create, Topic
+      can :update, Topic, :user => user
+    end
     can :read, Topic
 
     # === Comments ===
-    can :manage, Comment if user.super_admin?
-    can :create, Comment if user.persisted?
-    can :destroy, Comment do |comment|
-      comment.user_id == user.id && comment.created_at > (Time.zone.now - 5.minutes)
+    if user.super_admin?
+      can :manage, Comment
+    elsif user.persisted?
+      can :create, Comment
+      can :destroy, Comment do |comment|
+        comment.user == user && comment.created_at > (Time.zone.now - 5.minutes)
+      end
     end
+
+    # === Accounts ===
+    if user.persisted?
+      can :manage, Account do |account|
+        account == user.account
+      end
+    end
+
+    # === Projects ===
+    if user.persisted?
+      can :manage, Project do |project|
+        project.account == user.account
+      end
+    end
+    can :read, Project
+
+    # === Datasets ===
+    if user.persisted?
+      can :manage, Dataset do |dataset|
+        dataset.project.account == user.account
+      end
+    end
+    can :read, Dataset
 
   end
 end

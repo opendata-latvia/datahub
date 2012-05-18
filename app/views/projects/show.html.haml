@@ -5,10 +5,11 @@
       = link_to @account.login, account_profile_path(@account)
       = "/"
       = @project.name
-      %small.pull-right
-        = link_to "Edit", edit_account_project_path(@account, @project), :class => "btn btn-small"
-        = link_to "Delete", account_project_path(@account, @project), :method => :delete, :class => "btn btn-small btn-danger",
-          :confirm => "Are you sure to delete this project with all datasets?"
+      - if can? :manage, @project
+        %small.pull-right
+          = link_to "Edit", edit_account_project_path(@account, @project), :class => "btn btn-small"
+          = link_to "Delete", account_project_path(@account, @project), :method => :delete, :class => "btn btn-small btn-danger",
+            :confirm => "Are you sure to delete this project with all datasets?"
     - if @project.description.present?
       %p= simple_format @project.description
     - if @project.homepage.present?
@@ -17,17 +18,19 @@
   %h3
     Datasets
     %small= "(#{@project.datasets.size})"
-    = link_to "New dataset", new_account_project_dataset_path(@account, @project), :class => "btn btn-success btn-mini pull-right"
+    - if can? :create_dataset, @project
+      = link_to "New dataset", new_account_project_dataset_path(@account, @project), :class => "btn btn-success btn-mini pull-right"
 
   - @project.datasets.each do |dataset|
     .well
       %h3
         %i.icon-list-alt
         = link_to dataset.name, dataset_path(dataset)
-        .pull-right
-          = link_to "Edit", edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
-          = link_to "Delete", account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini",
-            :confirm => "Are you sure to delete this dataset with all uploaded data?"
+        - if can? :manage, dataset
+          .pull-right
+            = link_to "Edit", edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
+            = link_to "Delete", account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini btn-danger",
+              :confirm => "Are you sure to delete this dataset with all uploaded data?"
       - if dataset.description.present?
         %p= simple_format dataset.description
       - if dataset.source_url.present?
@@ -35,6 +38,8 @@
           %i.icon-share
           %strong Source URL:
           = link_to dataset.source_url, dataset.source_url, :target => "_blank"
+      - if (source_files_size = dataset.source_files.size) > 0
+        = pluralize(source_files_size, "source files") + " uploaded"
 
 .span4
   %h2 Recent Activity

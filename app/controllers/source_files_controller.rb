@@ -2,6 +2,7 @@ class SourceFilesController < ApplicationController
   before_filter :set_dataset
 
   def create
+    authorize! :update, @dataset
     source_file = @dataset.source_files.build(params[:source_file])
     unless source_file.save
       flash[:alert] = source_file.errors.full_messages.join("\n")
@@ -11,6 +12,7 @@ class SourceFilesController < ApplicationController
   end
 
   def destroy
+    authorize! :update, @dataset
     source_file = @dataset.source_files.find(params[:id])
     source_file.destroy_and_delete_data
     flash[:tab] = 'upload'
@@ -18,11 +20,13 @@ class SourceFilesController < ApplicationController
   end
 
   def download
+    authorize! :read, @dataset
     find_source_file_by_name
     send_file @source_file.source.path, :type => @source_file.source_content_type, :disposition => 'attachment'
   end
 
   def preview
+    authorize! :update, @dataset
     find_source_file_by_name
     @columns = @source_file.preview[:columns]
     @rows = @source_file.preview[:rows]
@@ -31,6 +35,7 @@ class SourceFilesController < ApplicationController
   end
 
   def start_import
+    authorize! :update, @dataset
     source_file = @dataset.source_files.find(params[:id])
     if source_file.update_dataset_columns params[:columns]
       source_file.import!

@@ -3,13 +3,16 @@ class ProjectsController < ApplicationController
 
   def show
     @project = @account.projects.find_by_shortname!(params[:shortname])
+    authorize! :read, @project
   end
 
   def new
+    authorize! :create_project, @account
     @project = @account.projects.build
   end
 
   def create
+    authorize! :create_project, @account
     @project = @account.projects.build project_attributes
     if @project.save
       redirect_to project_path(@project)
@@ -20,10 +23,12 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = @account.projects.find(params[:id])
+    authorize! :update, @project
   end
 
   def update
     @project = @account.projects.find(params[:id])
+    authorize! :update, @project
     if @project.update_attributes project_attributes
       redirect_to project_path(@project)
     else
@@ -33,6 +38,7 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = @account.projects.find(params[:id])
+    authorize! :destroy, @project
     @project.destroy
     redirect_to account_profile_path(@account)
   end

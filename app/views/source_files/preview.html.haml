@@ -22,7 +22,7 @@
       = @source_file.source_file_name
       %small= "file preview (first #{@rows.size} rows)"
       .pull-right
-        = f.submit "Import", :class => "btn btn-large btn-success"
+        = f.submit "Start import", :class => "btn btn-large btn-success", :data => {:"disable-with" => "Starting import..."}
 
     %p
       Review source file detected column data types and change them if necessary.
