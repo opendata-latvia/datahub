@@ -2,6 +2,11 @@
 
   %h2 Sign in
 
+  %p
+    If you do not have login name then
+    = link_to "at first sign up", new_user_registration_path
+    for this site.
+
   = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'well form-horizontal'}) do |f|
     .inputs
       = f.input :login, :required => false, :autofocus => true
@@ -12,4 +17,5 @@
     .controls
       = f.button :submit, "Sign in", :class => 'btn-primary'
 
+  %h3 You can also sign in with
   =render "devise/omniauth"

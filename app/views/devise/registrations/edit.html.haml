@@ -8,7 +8,8 @@
     .inputs
       = f.input :login, :disabled => true, :hint => "you cannot change your username if you have published projects"
       = f.input :name, :autofocus => true, :hint => "enter your first and last name"
-      = f.input :email, :required => true
+      = f.input :email, :required => true,
+        :hint => 'sign up with the same e-mail for <a href="http://gravatar.com" target="_blank">Gravatar</a> if you want to have avatar image'.html_safe
       = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false
       = f.input :password_confirmation, :required => false
       = f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true
@@ -26,8 +27,7 @@
 
 .span4.offset1
   -unless resource.user_tokens.empty?
-    %h2
-      You are using
+    %h2 You can sign in with
     .well
       .help-inline
         Click on service to remove
@@ -37,4 +37,5 @@
             = image_tag "#{authentication.provider}_32.png"
             =authentication.provider_name
       %br
+  %h2 Additional available sign in options
   = render "devise/omniauth"
