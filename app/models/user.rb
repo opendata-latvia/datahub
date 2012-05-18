@@ -70,6 +70,10 @@ class User < ActiveRecord::Base
     user_tokens.where(:provider => provider).count > 0
   end
 
+  def my_projects
+    account.projects
+  end
+
   private
 
   def create_user_account

@@ -1,0 +1,16 @@
+.well
+  %h3
+    = link_to gravatar_image_tag(project.account.email, :gravatar => {:size => 32}), account_profile_path(project.account)
+    = link_to project.account.login, account_profile_path(project.account)
+    = "/"
+    = link_to project.name, project_path(project)
+  - if project.description.present?
+    %p= simple_format project.description
+  - if project.homepage.present?
+    %p= link_to project.homepage, project.homepage, :target => "_blank"
+  - if project.datasets.present?
+    %h4
+      Datasets:
+      - project.datasets.each do |dataset|
+        %i.icon-list-alt
+        = link_to dataset.name, dataset_path(dataset)

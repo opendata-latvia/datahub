@@ -1,0 +1,35 @@
+#home {
+  #sign_up {
+    p {
+      font-size: 16px;
+    }
+    .btn-large {
+      font-size: 24px;
+    }
+  }
+
+  h2 {
+    margin-top: 20px;
+  }
+
+  .well {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    margin-bottom: 10px;
+  }
+
+  #about {
+    h2 {
+      margin-top: 0px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .comment {
+    .created_at {
+      font-size: 100%;
+    }
+  }
+}

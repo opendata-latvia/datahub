@@ -1,0 +1,11 @@
+.comment
+  .face
+    = gravatar_image_tag(topic.user.email, :gravatar => {:size => 32})
+  .created_at
+    = link_to topic.user.display_name, account_profile_path(topic.user.login)
+    started topic
+    %strong= link_to topic.title, forum_topic_path(topic.forum.slug, topic.slug)
+    = distance_of_time_in_words_to_now(topic.created_at)
+    ago
+  .content.markdown
+    = markdown(truncate topic.description, :length => 200, :separator => ' ')

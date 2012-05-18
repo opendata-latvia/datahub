@@ -1,13 +1,37 @@
-.span8
-  %h1 Welcome
-  %p
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-.span4
-  %h2 About Us
-  %p
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+#home
+  .span8
+    %h1 Latvian Open Data portal
+    %p.lead
+      In this site data owners and enthusiasts can upload and share Latvian open data sets.
+      Uploaded data can be easily searched and filtered as well as can be used via API as data source for other applications.
+    - if user_signed_in?
+      %h2
+        My projects
+        = link_to "New project", new_account_project_path(current_user.account), :class => "btn btn-success pull-right"
+      - if current_user.my_projects.present?
+        = render current_user.my_projects
+      - else
+        %h4 You have not created any projects yet.
+    - else
+      #sign_up.row-fluid
+        %p.span8.lead
+          Sign up with username and password or sign up using Twitter, Facebook or Google and create open data projects, datasets and upload source files
+          as well as participate in forum discussions.
+        .span4
+          = link_to "Sign up", new_user_registration_path, :class => "btn btn-large btn-primary span12"
 
-  - unless user_signed_in?
-    = link_to "Sign up", new_user_registration_path, :class => "btn btn-large btn-primary"
+    %h2 Recently updated data sets
+    = render Dataset.recent
 
-    =render "devise/omniauth"
+
+  .span4
+    #about
+      %h2 About Us
+      %p.lead
+        This site is maintained by <a href="http://opendata.lv" target="_blank">Latvian Open Data enthusiasts</a> and sponsored by some supporters.
+
+    %h2 Recent forum topics
+    = render :partial => 'topic', :collection => Topic.recent
+
+    %h2 Recent forum comments
+    = render :partial => 'topic_comment', :collection => Comment.topic_recent

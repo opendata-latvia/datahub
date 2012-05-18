@@ -28,4 +28,8 @@ class Comment < ActiveRecord::Base
     time < created_at
   end
   
+  def self.topic_recent(count = 5)
+    where(:commentable_type => 'Topic').order("created_at DESC").limit(count).includes(:commentable).includes(:user)
+  end
+
 end

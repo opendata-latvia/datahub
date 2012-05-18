@@ -29,6 +29,10 @@ class Dataset < ActiveRecord::Base
 
   after_destroy :drop_table
 
+  def self.recent(count = 5)
+    order("updated_at DESC").limit(count).includes(:project => {:account => :user})
+  end
+
   def update_columns(new_columns)
     columns_will_change!
     self.columns ||= []

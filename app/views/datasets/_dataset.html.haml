@@ -1,0 +1,19 @@
+.well
+  %h3
+    - project = dataset.project
+    = link_to gravatar_image_tag(project.account.email, :gravatar => {:size => 32}), account_profile_path(project.account)
+    = link_to project.account.login, account_profile_path(project.account)
+    = "/"
+    = link_to project.name, project_path(project)
+    = "/"
+    %i.icon-list-alt
+    = link_to dataset.name, dataset_path(dataset)
+  - if dataset.description.present?
+    %p= simple_format dataset.description
+  - if dataset.source_url.present?
+    %p
+      %i.icon-share
+      %strong Source URL:
+      = link_to dataset.source_url, dataset.source_url, :target => "_blank"
+  - if (source_files_size = dataset.source_files.size) > 0
+    = pluralize(source_files_size, "source files") + " uploaded"
