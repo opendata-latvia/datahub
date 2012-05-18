@@ -1,0 +1,15 @@
+# Phusion Passenger
+LoadModule passenger_module <%= RUBY19_PATH %>/lib/ruby/gems/1.9.1/gems/passenger-<%= PASSENGER_VERSION %>/ext/apache2/mod_passenger.so
+PassengerRoot <%= RUBY19_PATH %>/lib/ruby/gems/1.9.1/gems/passenger-<%= PASSENGER_VERSION %>
+PassengerRuby <%= RUBY19_PATH %>/bin/ruby
+
+PassengerUseGlobalQueue on
+PassengerMaxPoolSize 32
+PassengerMaxInstancesPerApp 16
+PassengerPoolIdleTime 3600
+
+RailsAutoDetect off
+# RailsFrameworkSpawnerIdleTime 3600
+# RailsAppSpawnerIdleTime 3600
+# RailsSpawnMethod conservative
+RailsSpawnMethod smart-lv2
