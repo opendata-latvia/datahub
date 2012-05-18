@@ -22,6 +22,9 @@
 
     %h2 Recently updated data sets
     = render Dataset.recent
+    = link_to "Search more projects", projects_path, :class => "btn btn-large"
+    &nbsp;&nbsp;or&nbsp;&nbsp;
+    = link_to "Search more datasets", datasets_path, :class => "btn btn-large"
 
 
   .span4

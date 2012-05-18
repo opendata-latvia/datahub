@@ -1,0 +1,5 @@
+= render @projects
+- if @projects.size == Project.search_per_page
+  #more
+    = link_to "More", projects_path(:q => params[:q], :page => (params[:page]||0).to_i + 1), :class => "btn btn-large",
+      :remote => true, :disable_with => 'Loading...'

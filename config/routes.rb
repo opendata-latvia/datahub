@@ -25,13 +25,16 @@ Datahub::Application.routes.draw do
       end
     end
   end
-  
+
+  get '/projects' => 'projects#index', :as => :projects
+  get '/datasets' => 'datasets#index', :as => :datasets
+
   resources :forums do
     resources :topics
   end
-  
+
   resources :comments, :only => [:new, :create, :destroy]
-  
+
   match ':login' => 'accounts#show', :as => :account_profile
   match ':account_id/:shortname' => 'projects#show', :as => :project_profile
   match ':account_id/:project_shortname/:shortname' => 'datasets#show', :as => :dataset_profile

@@ -1,5 +1,9 @@
 class ProjectsController < ApplicationController
-  before_filter :set_account
+  before_filter :set_account, :except => :index
+
+  def index
+    @projects = Project.search(params)
+  end
 
   def show
     @project = @account.projects.find_by_shortname!(params[:shortname])

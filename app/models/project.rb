@@ -23,4 +23,13 @@ class Project < ActiveRecord::Base
 
   attr_accessible :shortname, :name, :description, :homepage
 
+  def self.recent(count = 5)
+    order("updated_at DESC").limit(count).includes(:account => :user).includes(:datasets)
+  end
+
+  extend Searchable
+  self.search_per_page = 10
+  self.search_joins = [:account]
+  self.search_attributes = %w(projects.name projects.description accounts.login accounts.name)
+
 end

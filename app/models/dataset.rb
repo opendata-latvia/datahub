@@ -33,6 +33,11 @@ class Dataset < ActiveRecord::Base
     order("updated_at DESC").limit(count).includes(:project => {:account => :user})
   end
 
+  extend Searchable
+  self.search_per_page = 10
+  self.search_joins = [{:project => :account}]
+  self.search_attributes = %w(datasets.name datasets.description projects.name projects.description accounts.login accounts.name)
+
   def update_columns(new_columns)
     columns_will_change!
     self.columns ||= []

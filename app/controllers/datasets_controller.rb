@@ -1,5 +1,9 @@
 class DatasetsController < ApplicationController
-  before_filter :set_project
+  before_filter :set_project, :except => :index
+
+  def index
+    @datasets = Dataset.search(params)
+  end
 
   def show
     @dataset = @project.datasets.find_by_shortname!(params[:shortname])

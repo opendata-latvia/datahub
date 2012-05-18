@@ -21,8 +21,8 @@
           %a.brand{href: "/"} data.opendata.lv
           .nav-collapse
             %ul.nav
-              %li= link_to "Projects", root_path
-              %li= link_to "Data Sets", root_path
+              %li{:class => top_menu_class(ProjectsController)}= link_to "Projects", projects_path
+              %li{:class => top_menu_class(DatasetsController)}= link_to "Datasets", datasets_path
               %li{:class => top_menu_class(ForumsController)}= link_to "Forums", forums_path
             %ul.nav.pull-right
               - if user_signed_in?
