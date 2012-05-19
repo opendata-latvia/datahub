@@ -206,6 +206,36 @@ describe Dataset do
       query.parts.should == [[:contains, '"first" name', 'foo "bar"']]
     end
 
+    it "should parse attribute equals with term" do
+      query = Dataset::Query.new('name=foo')
+      query.parts.should == [[:"=", 'name', 'foo']]
+    end
+
+    it "should parse attribute greater than term" do
+      query = Dataset::Query.new('name>foo')
+      query.parts.should == [[:>, 'name', 'foo']]
+    end
+
+    it "should parse attribute greater than or equals with term" do
+      query = Dataset::Query.new('name>=foo')
+      query.parts.should == [[:>=, 'name', 'foo']]
+    end
+
+    it "should parse attribute less than term" do
+      query = Dataset::Query.new('name<foo')
+      query.parts.should == [[:<, 'name', 'foo']]
+    end
+
+    it "should parse attribute less than or equals with term" do
+      query = Dataset::Query.new('name<=foo')
+      query.parts.should == [[:<=, 'name', 'foo']]
+    end
+
+    it "should parse attribute not equals with term" do
+      query = Dataset::Query.new('name!=foo')
+      query.parts.should == [[:"!=", 'name', 'foo']]
+    end
+
   end
 
 end

@@ -101,14 +101,14 @@ class Dataset < ActiveRecord::Base
 
     PART_REGEXP = /
       (                 # attribute or value if no attribute is present
-        [^\s"':]+       # attribute without spaces or quotes
+        [^\s"':=><!]+   # attribute without spaces or quotes
       |
         "(?:[^"]|"")+"  # attribute in double quotes, inside it all quotes should be doubled
       |
         '[^']+'         # attribute in single quotes
       )
       (?:
-        (:)             # allowed operators between attribute and quote
+        (:|!?=|[><]=?)  # allowed operators between attribute and quote
       (
         [^\s"']+        # value without spaces or quotes
       |
@@ -129,6 +129,8 @@ class Dataset < ActiveRecord::Base
           [:contains, attribute, value]
         when nil
           [:contains, :any, attribute]
+        else
+          [operator.to_sym, attribute, value]
         end
       end
     end
@@ -218,10 +220,12 @@ class Dataset < ActiveRecord::Base
   end
 
   def column_condition(operator, column, value)
-    return nil unless value = bind_value(column, value)
+    return nil if value.blank?
     case operator
     when :contains
       "#{column[:column_name]} LIKE #{Dwh.quote "%#{value}%"}"
+    when :"=", :"!=", :<, :<=, :>, :>=
+      "#{column[:column_name]} #{operator} #{Dwh.quote bind_value(column, value)}"
     end
   end
 

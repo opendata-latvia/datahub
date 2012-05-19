@@ -41,7 +41,13 @@ class DatasetDatatable
   def query
     query_string = @dataset.column_names.map.with_index do |name, i|
       if (value = params["sSearch_#{i}"]).present?
-        "#{quote_term(name)}:#{quote_term(value)}"
+        if value =~ /^(!?=|[><]=?)(.*)$/
+          operator = $1
+          value = $2
+        else
+          operator = ':'
+        end
+        "#{quote_term(name)}#{operator}#{quote_term(value)}"
       end
     end.compact.join(' ')
     query_string << " " << params[:sSearch] if params[:sSearch].present?
