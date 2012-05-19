@@ -32,6 +32,10 @@ class SourceFilesController < ApplicationController
     @rows = @source_file.preview[:rows]
     # pass format to override file extension format (e.g. .csv)
     render 'preview', :formats => [:html]
+  rescue CSV::MalformedCSVError => e
+    flash[:tab] = 'upload'
+    flash[:alert] = "Cannot import file #{@source_file.source_file_name}:\n#{e.message}"
+    redirect_to dataset_path(@dataset)
   end
 
   def start_import
@@ -39,6 +43,9 @@ class SourceFilesController < ApplicationController
     source_file = @dataset.source_files.find(params[:id])
     if source_file.update_dataset_columns params[:columns]
       source_file.import!
+      if source_file.error?
+        flash[:alert] = "File #{source_file.source_file_name} import failed:\n#{source_file.error_message}"
+      end
       flash[:tab] = 'upload'
       redirect_to dataset_path(@dataset)
     else

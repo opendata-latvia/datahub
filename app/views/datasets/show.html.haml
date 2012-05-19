@@ -77,7 +77,7 @@
         = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
           %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
           = f.input :source, :as => :file, :label => false
-          = f.submit "Upload", :class => "btn btn-primary"
+          = f.submit "Upload", :class => "btn btn-primary", :disable_with => "Uploading..."
 
     #columns.tab-pane
       - if @dataset.columns.present?
