@@ -1,21 +1,20 @@
 package :sysadmin do
-  requires :curl, :vim, :dnsutils, :strace, :lsof, :dupx
-  # :newrelic_sysmond
+  requires :curl, :vim, :dnsutils, :strace, :lsof, :dupx, :newrelic_sysmond
 end
 
-# package :newrelic_sysmond do
-#   requires :curl
-# 
-#   apt 'newrelic-sysmond' do
-#     pre :install, 'curl -L http://download.newrelic.com/debian/newrelic.list -o /etc/apt/sources.list.d/newrelic.list'
-#     pre :install, 'apt-get update'
-#   end
-# 
-#   verify do
-#     has_executable 'nrsysmond'
-#     has_file '/etc/init.d/newrelic-sysmond'
-#   end
-# end
+package :newrelic_sysmond do
+  requires :curl
+
+  apt 'newrelic-sysmond' do
+    pre :install, 'curl -L http://download.newrelic.com/debian/newrelic.list -o /etc/apt/sources.list.d/newrelic.list'
+    pre :install, 'apt-get update'
+  end
+
+  verify do
+    has_executable 'nrsysmond'
+    has_file '/etc/init.d/newrelic-sysmond'
+  end
+end
 
 package :dnsutils do
   apt 'dnsutils'

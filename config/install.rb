@@ -19,7 +19,7 @@ when 'local', 'opendata'
       'datahub' => %w(production)
     },
     # specify ssh public keys which will be included in ~rails/.ssh/authorized_keys
-    :rails_user_authorized_keys => %w()
+    # :rails_user_authorized_keys => %w()
   }
 end
 # common configuration parameters

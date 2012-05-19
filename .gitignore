@@ -19,5 +19,6 @@
 dump.rdb
 /config/database.yml
 /config/application.yml
+/config/newrelic.yml
 /public/system/source_files
 .DS_Store
