@@ -33,3 +33,8 @@ Running tests
 
 * Run all tests with `rake spec`
 * Run tests after each file change with `bundle exec guard`
+
+License
+-------
+
+DataHub is reladed under the MIT license (see file LICENSE).
