@@ -2,6 +2,9 @@
   # ServerName data.opendata.lv
   DocumentRoot <%= RAILS_APPS_PATH %>/<%= application %>/<%= environment %>/current/public
 
+  ErrorLog /var/log/apache2/error.log
+  CustomLog /var/log/apache2/access.log combined
+
   Include "<%= APACHE_SITES_PATH %>/<%= application %>-common"
 
   RailsBaseURI /
