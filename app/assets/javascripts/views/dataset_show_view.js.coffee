@@ -33,7 +33,6 @@ class Datahub.DatasetPreviewView extends Backbone.View
     # bind to click event on individual input elements
     # to prevent default th click behaviour
     $dataTable.find("thead th input").click @clickHeadInput
-    $dataTable.find("thead th").attr "tabindex", "-1"
     columnsCount = $dataTable.find("thead tr:first th").length
 
     @dataTable = $dataTable.dataTable
@@ -64,6 +63,9 @@ class Datahub.DatasetPreviewView extends Backbone.View
         sProcessing: "Processing..."
         sSearch: "Search in all columns:"
         sZeroRecords: "No matching records found"
+
+    # do not focus on table headers when moving with tabs between column filters
+    @$("thead th").attr "tabindex", "-1"
 
   clickHeadInput: (e) =>
     # ignore click to prevent sorting
