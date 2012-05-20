@@ -95,11 +95,22 @@ class SourceFile < ActiveRecord::Base
   end
 
   def perform_import
-    if import_all_rows
+    # turn off Paperclip logging to avoid many
+    #   [paperclip] Saving attachments.
+    # in log file after each SourceFile save call
+    paperclip_log = Paperclip.options[:log]
+    Paperclip.options[:log] = false
+    # do not trace import SQLs with with New Relic
+    import_all_rows_result = ::NewRelic::Agent.disable_all_tracing do
+      import_all_rows
+    end
+    if import_all_rows_result
       finish_import!
     else
       finish_with_error!
     end
+  ensure
+    Paperclip.options[:log] = paperclip_log
   end
 
   def destroy_and_delete_data

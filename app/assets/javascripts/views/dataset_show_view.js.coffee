@@ -2,23 +2,48 @@ class Datahub.DatasetShowView extends Backbone.View
   el: "#dataset_show"
 
   events:
-    "keyup #preview thead th input" : "columnFilterChanged"
+    "shown .nav-tabs a" : "initializeTab"
 
   initialize: (options = {}) ->
-    @showTab options.tab
-    @initializeDataTable()
+    # ensure that tab showing is done after event delegation
+    # which happens after initialize
+    _.defer => @showTab options.tab
 
   showTab: (tab) ->
     tab ||= "preview"
     @$("ul.nav-tabs a[href=##{tab}]").tab("show")
 
+  initializeTab: (e) =>
+    $target = $(e.currentTarget)
+    switch $target.attr("href")
+      when "#preview"
+        @previewView ||= new Datahub.DatasetPreviewView el: @$("#preview")
+
+
+class Datahub.DatasetPreviewView extends Backbone.View
+  events:
+    "keyup thead th input" : "columnFilterChanged"
+
+  initialize: (options = {}) ->
+    @initializeDataTable()
+
   initializeDataTable: ->
     @columnFilterValues = []
-    $dataTable = @$("#preview .table")
+    $dataTable = @$(".table")
+    # bind to click event on individual input elements
+    # to prevent default th click behaviour
+    $dataTable.find("thead th input").click @clickHeadInput
+    $dataTable.find("thead th").attr "tabindex", "-1"
+    columnsCount = $dataTable.find("thead tr:first th").length
+
     @dataTable = $dataTable.dataTable
       sDom: "<'row-fluid'<'span4'l><'span8'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
-      # sScrollX: "100%"
-      # sScrollXInner: "200%"
+      sScrollX: "100%"
+      sScrollXInner:
+        if columnsCount > 6
+          "#{Math.round(columnsCount / 6 * 100)}%"
+        else
+          "100%"
       bProcessing: true
       bServerSide: true
       sAjaxSource: $dataTable.data "source"
@@ -39,11 +64,6 @@ class Datahub.DatasetShowView extends Backbone.View
         sProcessing: "Processing..."
         sSearch: "Search in all columns:"
         sZeroRecords: "No matching records found"
-
-    # bind to click event on individual input elements
-    # to prevent default th click behaviour
-    $dataTable.find("thead th input").click @clickHeadInput
-    $dataTable.find("thead th").attr "tabindex", "-1"
 
   clickHeadInput: (e) =>
     # ignore click to prevent sorting
