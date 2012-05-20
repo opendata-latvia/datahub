@@ -33,16 +33,10 @@ class Datahub.DatasetPreviewView extends Backbone.View
     # bind to click event on individual input elements
     # to prevent default th click behaviour
     $dataTable.find("thead th input").click @clickHeadInput
-    columnsCount = $dataTable.find("thead tr:first th").length
 
     @dataTable = $dataTable.dataTable
       sDom: "<'row-fluid'<'span4'l><'span8'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
       sScrollX: "100%"
-      sScrollXInner:
-        if columnsCount > 6
-          "#{Math.round(columnsCount / 6 * 100)}%"
-        else
-          "100%"
       bProcessing: true
       bServerSide: true
       sAjaxSource: $dataTable.data "source"
