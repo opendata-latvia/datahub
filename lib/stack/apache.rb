@@ -4,8 +4,8 @@ package :apache do
   description 'Apache2 web server.'
   case INSTALL_PLATFORM
   when 'ubuntu'
-    apt 'apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert' do
-      %w(rewrite expires proxy proxy_http ssl).each do |module_name|
+    apt 'apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libapache2-mod-xsendfile' do
+      %w(rewrite expires proxy proxy_http ssl xsendfile).each do |module_name|
         post :install, "a2enmod #{module_name}"
       end
       post :install, 'a2dissite default'

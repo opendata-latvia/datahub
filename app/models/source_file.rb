@@ -122,6 +122,12 @@ class SourceFile < ActiveRecord::Base
     deleted_rows
   end
 
+  def send_file_path
+    file_path = source.path
+    # modify file path for Apache + mod_xsendfile + Passenger
+    file_path.gsub(%r{/releases/\d+/}, "/current/")
+  end
+
   private
 
   def file_type_valid?

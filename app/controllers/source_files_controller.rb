@@ -22,7 +22,7 @@ class SourceFilesController < ApplicationController
   def download
     authorize! :read, @dataset
     find_source_file_by_name
-    send_file @source_file.source.path, :type => @source_file.source_content_type, :disposition => 'attachment'
+    send_file @source_file.send_file_path, :type => @source_file.source_content_type, :disposition => 'attachment'
   end
 
   def preview
