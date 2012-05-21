@@ -1,0 +1,18 @@
+lv:
+  home:
+    index:
+      title: "Latvijas atvērto datu portāls"
+      title_lead:
+        html: |
+          Šajā vietnē datu īpašnieki un entuziasti var publicēt Latvijas atvērto datu kopas.
+          Augšupielādētos datus var viegli meklēt un filtrēt kā arī tos var lietot no citām lietojumprogrammām, izmantojot API interfeisu.
+      sign_up_lead:
+        html: |
+          Reģistrējieties ar lietotājvārdu un paroli, vai arī reģistrējieties, izmantojot Twitter, Facebook vai Google.
+          Izveidojiet savus projektus, publicējiet datu kopas un augšupielādējiet failus, kā arī piedalieties diskusijās.
+      sign_up: "Reģistrēties"
+
+      about_us: "Par mums"
+      about_us_lead:
+        html: |
+          Šo vietni uztur <a href="http://opendata.lv" target="_blank">Latvijas atvērto datu entuziasti</a> un sponsorē atbalstītāji.

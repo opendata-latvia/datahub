@@ -13,7 +13,7 @@
   - if dataset.source_url.present?
     %p
       %i.icon-share
-      %strong Source URL:
+      %strong= Dataset.human_attribute_name("source_url") + ":"
       = link_to dataset.source_url, dataset.source_url, :target => "_blank"
   - if (source_files_size = dataset.source_files.size) > 0
-    = pluralize(source_files_size, "source files") + " uploaded"
+    = t "datasets.source_files_uploaded", :count => source_files_size

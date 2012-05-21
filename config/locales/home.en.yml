@@ -1,0 +1,18 @@
+en:
+  home:
+    index:
+      title: "Latvian Open Data portal"
+      title_lead:
+        html: |
+          In this site data owners and enthusiasts can upload and share Latvian open data sets.
+          Uploaded data can be easily searched and filtered as well as can be used via API as data source for other applications.
+      sign_up_lead:
+        html: |
+          Sign up with username and password or sign up using Twitter, Facebook or Google and create open data projects, datasets and upload source files
+          as well as participate in forum discussions.
+      sign_up: "Sign up"
+
+      about_us: "About Us"
+      about_us_lead:
+        html: |
+          This site is maintained by <a href="http://opendata.lv" target="_blank">Latvian Open Data enthusiasts</a> and sponsored by some supporters.

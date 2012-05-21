@@ -1,40 +1,37 @@
 #home
   .span8
-    %h1 Latvian Open Data portal
-    %p.lead
-      In this site data owners and enthusiasts can upload and share Latvian open data sets.
-      Uploaded data can be easily searched and filtered as well as can be used via API as data source for other applications.
+    %h1= t ".title"
+    %p.lead= t ".title_lead.html"
     - if user_signed_in?
       %h2
-        My projects
-        = link_to "New project", new_account_project_path(current_user.account), :class => "btn btn-success pull-right"
+        = t "projects.my_projects"
+        = link_to t("projects.new_project"), new_account_project_path(current_user.account), :class => "btn btn-success pull-right"
       - if current_user.my_projects.present?
         = render current_user.my_projects
       - else
         %h4 You have not created any projects yet.
     - else
       #sign_up.row-fluid
-        %p.span8.lead
-          Sign up with username and password or sign up using Twitter, Facebook or Google and create open data projects, datasets and upload source files
-          as well as participate in forum discussions.
+        %p.span8.lead= t ".sign_up_lead.html"
         .span4
-          = link_to "Sign up", new_user_registration_path, :class => "btn btn-large btn-primary span12"
+          = link_to t(".sign_up"), new_user_registration_path, :class => "btn btn-large btn-primary span12"
 
-    %h2 Recently updated data sets
+    %h2= t("datasets.recently_updated")
     = render Dataset.recent
-    = link_to "Search more projects", projects_path, :class => "btn btn-large"
-    &nbsp;&nbsp;or&nbsp;&nbsp;
-    = link_to "Search more datasets", datasets_path, :class => "btn btn-large"
+    = link_to t("projects.search_more"), projects_path, :class => "btn btn-large"
+    &nbsp;
+    = t "nav.or"
+    &nbsp;
+    = link_to t("datasets.search_more"), datasets_path, :class => "btn btn-large"
 
 
   .span4
     #about
-      %h2 About Us
-      %p.lead
-        This site is maintained by <a href="http://opendata.lv" target="_blank">Latvian Open Data enthusiasts</a> and sponsored by some supporters.
+      %h2= t ".about_us"
+      %p.lead= t ".about_us_lead.html"
 
-    %h2 Recent forum topics
+    %h2= t "forums.recent_topics"
     = render :partial => 'topic', :collection => Topic.recent
 
-    %h2 Recent forum comments
+    %h2= t "forums.recent_comments"
     = render :partial => 'topic_comment', :collection => Comment.topic_recent

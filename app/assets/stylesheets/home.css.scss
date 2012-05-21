@@ -1,4 +1,8 @@
 #home {
+  .lead {
+    // otherwise Latvian characters were not looking good
+    font-weight: normal;
+  }
   #sign_up {
     p {
       font-size: 16px;

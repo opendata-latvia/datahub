@@ -5,9 +5,8 @@
     = gravatar_image_tag(comment.user.email, :gravatar => {:size => 30})
   .created_at
     = link_to comment.user.display_name, account_profile_path(comment.user.login)
-    commented topic
+    = t "comments.commented_topic"
     %strong= link_to topic.title, forum_topic_path(topic.forum.slug, topic.slug)
-    = distance_of_time_in_words_to_now(comment.created_at)
-    ago
+    = t "datetime.ago", :distance => distance_of_time_in_words_to_now(comment.created_at)
   .content.markdown
     = markdown(truncate comment.content, :length => 200, :separator => ' ')

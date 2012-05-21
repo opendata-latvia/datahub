@@ -1,0 +1,10 @@
+lv:
+  forums:
+    recent_topics: Jaunākās foruma tēmas
+    recent_comments: Jaunākie foruma komentāri
+
+  topics:
+    started_topic: "uzsāka tēmu"
+
+  comments:
+    commented_topic: "komentēja tēmu"

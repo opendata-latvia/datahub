@@ -22,9 +22,9 @@
           %a.brand{href: "/"} data.opendata.lv
           .nav-collapse
             %ul.nav
-              %li{:class => top_menu_class(ProjectsController)}= link_to "Projects", projects_path
-              %li{:class => top_menu_class(DatasetsController)}= link_to "Datasets", datasets_path
-              %li{:class => top_menu_class(ForumsController)}= link_to "Forums", forums_path
+              %li{:class => top_menu_class(ProjectsController)}= link_to t("nav.projects"), projects_path
+              %li{:class => top_menu_class(DatasetsController)}= link_to t("nav.datasets"), datasets_path
+              %li{:class => top_menu_class(ForumsController)}= link_to t("nav.forums"), forums_path
             %ul.nav.pull-right
               - if user_signed_in?
                 %li.dropdown
@@ -32,12 +32,12 @@
                     = current_user_avatar_and_name
                     %b.caret
                   %ul.dropdown-menu
-                    %li= link_to "My profile", account_profile_path(current_user.login)
-                    %li= link_to "Edit profile", edit_user_registration_path
+                    %li= link_to t("nav.my_profile"), account_profile_path(current_user.login)
+                    %li= link_to t("nav.edit_profile"), edit_user_registration_path
                     %li.divider
-                    %li= link_to "Sign out", destroy_user_session_path, :method => :delete
+                    %li= link_to t("nav.sign_out"), destroy_user_session_path, :method => :delete
               - else
-                %li= link_to "Sign in", new_user_session_path
+                %li= link_to t("nav.sign_in"), new_user_session_path
 
     .container
       - [:notice, :alert].each do |name|

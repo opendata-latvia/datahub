@@ -1,0 +1,14 @@
+lv:
+  nav:
+    projects: "Projekti"
+    datasets: "Datu kopas"
+    forums: "Forumi"
+    sign_in: "Pieslēgties"
+    sign_out: "Atslēgties"
+    my_profile: "Mans profils"
+    edit_profile: "Mainīt profilu"
+
+    or: "vai"
+
+  datetime:
+    ago: "pirms %{distance}"

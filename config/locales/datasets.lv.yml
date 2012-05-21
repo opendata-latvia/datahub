@@ -1,0 +1,14 @@
+lv:
+  datasets:
+    recently_updated: "Nesen mainītās datu kopas"
+    source_files_uploaded:
+      one: "Augšupielādēts 1 fails"
+      other: "Augšupielādēti %{count} faili"
+    search_more: "Meklēt citas datu kopas"
+
+  activerecord:
+    models:
+      dataset: "Datu kopa"
+    attributes:
+      dataset:
+        source_url: "Avota URL"

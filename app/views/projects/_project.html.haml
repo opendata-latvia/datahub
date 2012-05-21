@@ -10,7 +10,7 @@
     %p= link_to project.homepage, project.homepage, :target => "_blank"
   - if project.datasets.present?
     %h4
-      Datasets:
+      = t("projects.datasets") + ":"
       - project.datasets.each do |dataset|
         %i.icon-list-alt
         = link_to dataset.name, dataset_path(dataset)
