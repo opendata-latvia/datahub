@@ -38,6 +38,10 @@
                     %li= link_to t("nav.sign_out"), destroy_user_session_path, :method => :delete
               - else
                 %li= link_to t("nav.sign_in"), new_user_session_path
+            %ul.nav.pull-right
+              - %w(lv en).each do |locale|
+                %li{:class => (I18n.locale == locale.to_sym ? "active" : nil)}
+                  = link_to locale, :locale => locale
 
     .container
       - [:notice, :alert].each do |name|
