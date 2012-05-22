@@ -3,10 +3,10 @@ module DatasetsHelper
     case column[:data_type]
     when :string
       limit = column[:limit] || Dwh.default_data_type_options(:string)[:limit]
-      "#{limit} characters"
+      t "datasets.show.columns.display_limit.string", :limit => limit
     when :decimal
       options = column.merge Dwh.default_data_type_options(:decimal)
-      "#{options[:precision]} digits, #{options[:scale]} after decimal point"
+      t "datasets.show.columns.display_limit.decimal", options.slice(:precision, :scale)
     end
   end
 end

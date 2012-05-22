@@ -19,7 +19,11 @@ lv:
     update: "Saglabāt"
     edit: "Mainīt"
     delete: "Dzēst"
+    delete_disable_with: "Dzēš..."
     search: "Meklēt"
+    import: "Importēt"
+    upload: "Augšupielādēt"
+    upload_disable_with: "Augšupielādē..."
 
   datetime:
     ago: "pirms %{distance}"

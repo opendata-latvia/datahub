@@ -7,6 +7,7 @@ class Datahub.DatasetShowView extends Backbone.View
   initialize: (options = {}) ->
     # ensure that tab showing is done after event delegation
     # which happens after initialize
+    @previewTranslations = options.previewTranslations
     _.defer => @showTab options.tab
 
   showTab: (tab) ->
@@ -17,7 +18,7 @@ class Datahub.DatasetShowView extends Backbone.View
     $target = $(e.currentTarget)
     switch $target.attr("href")
       when "#preview"
-        @previewView ||= new Datahub.DatasetPreviewView el: @$("#preview")
+        @previewView ||= new Datahub.DatasetPreviewView el: @$("#preview"), translations: @previewTranslations
 
 
 class Datahub.DatasetPreviewView extends Backbone.View
@@ -25,6 +26,7 @@ class Datahub.DatasetPreviewView extends Backbone.View
     "keyup thead th input" : "columnFilterChanged"
 
   initialize: (options = {}) ->
+    @translations = options.translations
     @initializeDataTable()
 
   initializeDataTable: ->
@@ -35,28 +37,13 @@ class Datahub.DatasetPreviewView extends Backbone.View
     $dataTable.find("thead th input").click @clickHeadInput
 
     @dataTable = $dataTable.dataTable
-      sDom: "<'row-fluid'<'span4'l><'span8'f>r>t<'row-fluid'<'span6'i><'span6'p>>"
+      sDom: "<'row-fluid'<'span4'l><'span8'f>r>t<'row-fluid'<'span5'i><'span7'p>>"
       sScrollX: "100%"
       bProcessing: true
       bServerSide: true
       sAjaxSource: $dataTable.data "source"
       sPaginationType: "bootstrap"
-      # TODO: should be translated
-      oLanguage:
-        oPaginate:
-          sFirst: "First"
-          sLast: "Last"
-          sNext: "Next"
-          sPrevious: "Previous"
-        sEmptyTable: "No data available in table"
-        sInfo: "Showing _START_ to _END_ of _TOTAL_ entries"
-        sInfoEmpty: "Showing 0 to 0 of 0 entries"
-        sInfoFiltered: "(filtered from _MAX_ total entries)"
-        sLengthMenu: "Show _MENU_ entries"
-        sLoadingRecords: "Loading..."
-        sProcessing: "Processing..."
-        sSearch: "Search in all columns:"
-        sZeroRecords: "No matching records found"
+      oLanguage: @translations
 
     # do not focus on table headers when moving with tabs between column filters
     @$("thead th").attr "tabindex", "-1"

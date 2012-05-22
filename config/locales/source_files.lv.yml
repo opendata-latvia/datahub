@@ -1,0 +1,9 @@
+lv:
+  source_files:
+    status:
+      new: "Jauns"
+      importing: "Importējas"
+      error: "Kļūda"
+      imported: "Importēts"
+      replaced: "Aizstāts"
+    delete_confirm: "Vai vēlaties izdzēst šo failu un visus ielādētos datus no šī faila?"

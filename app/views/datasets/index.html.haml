@@ -1,14 +1,14 @@
 .span8
   = form_tag datasets_path, :method => :get, :class => "form-search" do
-    = text_field_tag :q, params[:q], :class => "search-query span3", :placeholder => "Search datasets by name and description"
-    = submit_tag "Search", :name => nil, :class => "btn btn-primary"
+    = text_field_tag :q, params[:q], :class => "search-query span3", :placeholder => t("datasets.search_placeholder")
+    = submit_tag t("actions.search"), :name => nil, :class => "btn btn-primary"
 
   %h2
     - if params[:q]
-      Dataset search results
+      = t "datasets.search_results"
       %small= params[:q]
     - else
-      Recently updated datasets
+      = t "datasets.recently_updated"
   = render :partial => 'datasets'
 
 .span4

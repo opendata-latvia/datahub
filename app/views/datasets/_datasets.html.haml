@@ -1,5 +1,5 @@
 = render @datasets
 - if @datasets.size == Dataset.search_per_page
   #more
-    = link_to "More", datasets_path(:q => params[:q], :page => (params[:page]||0).to_i + 1), :class => "btn btn-large",
-      :remote => true, :disable_with => 'Loading...'
+    = link_to t("nav.more"), datasets_path(:q => params[:q], :page => (params[:page]||0).to_i + 1), :class => "btn btn-large",
+      :remote => true, :disable_with => t("nav.more_disable_with")

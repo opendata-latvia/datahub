@@ -10,24 +10,24 @@
       = @dataset.name
       - if can? :manage, @dataset
         %small.pull-right
-          = link_to "Edit", edit_account_project_dataset_path(@account, @project, @dataset), :class => "btn btn-small"
-          = link_to "Delete", account_project_dataset_path(@account, @project, @dataset), :method => :delete, :class => "btn btn-small btn-danger",
-            :confirm => "Are you sure to delete this dataset with all uploaded data?"
+          = link_to t("actions.edit"), edit_account_project_dataset_path(@account, @project, @dataset), :class => "btn btn-small"
+          = link_to t("actions.delete"), account_project_dataset_path(@account, @project, @dataset), :method => :delete, :class => "btn btn-small btn-danger",
+            :confirm => t("datasets.delete_confirm")
     - if @dataset.description.present?
       %p= simple_format @dataset.description
     - if @dataset.source_url.present?
       %p
         %i.icon-share
-        %strong Source URL:
+        %strong= Dataset.human_attribute_name("source_url") + ':'
         = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
 
   %ul.nav.nav-tabs
     %li
-      %a{href: "#preview", data: {toggle: "tab"}} Data preview
+      %a{href: "#preview", data: {toggle: "tab"}}= t ".data_preview"
     %li
-      %a{href: "#upload", data: {toggle: "tab"}} Uploaded files
+      %a{href: "#upload", data: {toggle: "tab"}}= t ".uploaded_files"
     %li
-      %a{href: "#columns", data: {toggle: "tab"}} Column information
+      %a{href: "#columns", data: {toggle: "tab"}}= t ".column_information"
 
   .tab-content
     #preview.tab-pane
@@ -39,7 +39,7 @@
                 %th
                   = name
                   %br/
-                  %input.input-small{placeholder: "search in column"}
+                  %input.input-small{placeholder: t(".preview.search_in_column")}
           %tbody
       - else
         No data imported.
@@ -49,69 +49,66 @@
         %table.table
           %thead
             %tr
-              %th File name
-              %th Size
-              %th Uploaded
-              %th Status
+              %th= t ".upload.file_name"
+              %th= t ".upload.size"
+              %th= t ".upload.uploaded"
+              %th= t ".upload.status"
               %th
           %tbody
             - @dataset.source_files.recent.each do |source_file|
               %tr
                 %td= link_to source_file.source_file_name, source_file_download_path(source_file)
                 %td= number_to_human_size source_file.source_file_size
-                %td
-                  = time_ago_in_words source_file.created_at
-                  ago
-                %td= source_file.status.titleize
+                %td= t "datetime.ago", :distance => distance_of_time_in_words_to_now(source_file.created_at)
+                %td= t "source_files.status.#{source_file.status}"
                 %td
                   - if can? :manage, @dataset
                     .pull-right
                       - if source_file.can_start_import?
-                        = link_to "Import", source_file_preview_path(source_file), :class => "btn btn-mini btn-success"
-                      = link_to "Delete", account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
+                        = link_to t("actions.import"), source_file_preview_path(source_file), :class => "btn btn-mini btn-success"
+                      = link_to t("actions.delete"), account_project_dataset_source_file_path(@account, @project, @dataset, source_file),
                         :method => :delete, :class => "btn btn-mini btn-danger",
-                        :confirm => "Are you sure to delete this uploaded file with all data imported from this file?",
-                        :disable_with => "Deleting..."
+                        :confirm => t("source_files.delete_confirm"),
+                        :disable_with => t("actions.delete_disable_with")
 
       - if can? :manage, @dataset
-        %h4 Upload new file
+        %h4= t(".upload.new_file")
         = simple_form_for [@account, @project, @dataset, SourceFile.new], :html => {:class => "form-inline", :multipart => true} do |f|
           %input#source_file_replace_file{:type => "hidden", :name => "replace_file"}
           = f.input :source, :as => :file, :label => false
-          = f.submit "Upload", :class => "btn btn-primary", :disable_with => "Uploading..."
+          = f.submit t("actions.upload"), :class => "btn btn-primary", :disable_with => t("actions.upload_disable_with")
 
     #columns.tab-pane
       - if @dataset.columns.present?
         %table.table
           %thead
             %tr
-              %th Column name
-              %th Internal name
-              %th Data type
-              %th Limit
-              %th.span4 Description
+              %th= t ".columns.name"
+              %th= t ".columns.data_type"
+              %th= t ".columns.limit"
+              %th.span4= t ".columns.description"
           %tbody
             - @dataset.columns.each do |column|
               %tr
                 %td= column[:name]
-                %td= column[:column_name]
                 %td= column[:data_type]
                 %td= dataset_column_display_limit(column)
                 %td
         - if can? :manage, @dataset
-          = link_to "Delete all columns", delete_columns_account_project_dataset_path(@account, @project, @dataset), :method => :put, :class => "btn btn-danger",
-            :confirm => "Are you sure to delete all columns with all uploaded data?"
+          = link_to t("datasets.delete_all_columns"), delete_columns_account_project_dataset_path(@account, @project, @dataset), :method => :put, :class => "btn btn-danger",
+            :confirm => t("datasets.delete_all_columns_confirm")
       - else
         No dataset columns have been created. Upload CSV source file at first.
 
 
 
 .span4
-  %h2 Recent Activity
+  %h2= t "nav.recent_activity"
 
 :javascript
   $(function() {
     new Datahub.DatasetShowView({
-      tab: "#{j flash[:tab]}"
+      tab: "#{j flash[:tab]}",
+      previewTranslations: #{js_translations "datasets.datatable"}
     });
   });

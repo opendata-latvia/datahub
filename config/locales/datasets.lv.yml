@@ -6,11 +6,63 @@ lv:
       other: "Augšupielādēti %{count} faili"
     search_more: "Meklēt citas datu kopas"
     new_dataset: "Jauna datu kopa"
+    edit_dataset: "Mainīt datu kopu"
     delete_confirm: "Vai vēlaties izdzēst šo datu kopu un visus datu kopas failus?"
+    search_placeholder: "Meklēt pēc nosaukuma un apraksta"
+    search_results: "Datu kopu meklēšanas rezultāti"
+    delete_all_columns: "Dzēst visas kolonnas"
+    delete_all_columns_confirm: "Vai vēlaties dzēst visas kolonnas un dzēst visus ielādētos datus?"
+
+    show:
+      data_preview: "Datu apskate"
+      uploaded_files: "Augšupielādētie faili"
+      column_information: "Kolonnu informācija"
+      preview:
+        search_in_column: "meklēt kolonnā"
+      upload:
+        file_name: "Faila nosaukums"
+        size: "Izmērs"
+        uploaded: "Augšupielādēts"
+        status: "Statuss"
+        new_file: "Augšupielādēt jaunu failu"
+      columns:
+        name: "Kolonnas nosaukums"
+        data_type: "Datu tips"
+        limit: "Izmēra limits"
+        description: "Apraksts"
+        display_limit:
+          string: "%{limit} simboli"
+          decimal: "%{precision} cipari, %{scale} aiz komata"
+
+    datatable:
+      oPaginate:
+        sFirst: "Pirmais"
+        sLast: "Pēdējais"
+        sNext: "Nākošie"
+        sPrevious: "Iepriekšējie"
+      sEmptyTable: "Nav pieejami dati"
+      sInfo: "Attēloti _START_ - _END_ no _TOTAL_ ierakstiem"
+      sInfoEmpty: "Attēloti 0 - 0 no 0 ierakstiem"
+      sInfoFiltered: "<br/>(atfiltrēti no _MAX_ ierakstiem)"
+      sLengthMenu: "Parādīt _MENU_ ierakstus"
+      sLoadingRecords: "Ielādē..."
+      sProcessing: "Apstrādā..."
+      sSearch: "Meklēt visās kolonnās:"
+      sZeroRecords: "Nav atrasts neviens ieraksts"
+
 
   activerecord:
     models:
       dataset: "Datu kopa"
     attributes:
       dataset:
+        name: "Nosaukums"
+        shortname: "Saites nosaukums"
+        description: "Apraksts"
         source_url: "Avota URL"
+
+  simple_form:
+    hints:
+      dataset:
+        shortname: "tiks izmantots datu kopas URL saitē"
+        source_url: "URL saite uz datu kopas avotu"
