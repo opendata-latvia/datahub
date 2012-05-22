@@ -50,6 +50,8 @@ lv:
       sSearch: "Meklēt visās kolonnās:"
       sZeroRecords: "Nav atrasts neviens ieraksts"
 
+    errors:
+      cannot_delete_all_columns: "Nevar izdzēst visas datu kopas kolonnas"
 
   activerecord:
     models:

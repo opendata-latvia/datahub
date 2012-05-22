@@ -22,6 +22,8 @@ lv:
     delete_disable_with: "Dzēš..."
     search: "Meklēt"
     import: "Importēt"
+    start_import: "Sākt importu"
+    import_disable_with: "Importē..."
     upload: "Augšupielādēt"
     upload_disable_with: "Augšupielādē..."
 

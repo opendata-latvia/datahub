@@ -1,0 +1,14 @@
+lv:
+  source_files:
+    status:
+      new: "New"
+      importing: "Importing"
+      error: "Error"
+      imported: "Imported"
+      replaced: "Replaced"
+    delete_confirm: "Are you sure to delete this file and all imported data from this file?"
+    file_preview: "file preview (first %{count} rows)"
+    file_preview_description:
+      html: |
+        Review source file detected column data types and change them if necessary.
+        After that click <strong>Start import</strong> and wait until end of file import.

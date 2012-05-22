@@ -34,7 +34,7 @@ class SourceFilesController < ApplicationController
     render 'preview', :formats => [:html]
   rescue CSV::MalformedCSVError => e
     flash[:tab] = 'upload'
-    flash[:alert] = "Cannot import file #{@source_file.source_file_name}:\n#{e.message}"
+    flash[:alert] = t "source_files.errors.cannot_import", :file => @source_file.source_file_name, :error => e.message
     redirect_to dataset_path(@dataset)
   end
 
@@ -44,12 +44,13 @@ class SourceFilesController < ApplicationController
     if source_file.update_dataset_columns params[:columns]
       source_file.import!
       if source_file.error?
-        flash[:alert] = "File #{source_file.source_file_name} import failed:\n#{source_file.error_message}"
+        flash[:alert] = t "source_files.errors.import_failed", :file => source_file.source_file_name, :error => source_file.error_message
       end
       flash[:tab] = 'upload'
       redirect_to dataset_path(@dataset)
     else
-      flash[:alert] = "Could not start file import due to errors:\n" << source_file.dataset.errors.full_messages.join("\n")
+      flash[:alert] = t "source_files.errors.could_not_start_import",
+        :file => source_file.source_file_name, :error => source_file.dataset.errors.full_messages.join("\n")
       redirect_to source_file_preview_path(source_file)
     end
   end

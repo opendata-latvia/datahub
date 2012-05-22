@@ -13,20 +13,18 @@
     - if @dataset.source_url.present?
       %p
         %i.icon-share
-        %strong Source URL:
+        %strong= Dataset.human_attribute_name("source_url") + ':'
         = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
 
   = form_for @source_file, :url => start_import_account_project_dataset_source_file_path(@account, @project, @dataset, @source_file),
     :method => :put do |f|
     %h3
       = @source_file.source_file_name
-      %small= "file preview (first #{@rows.size} rows)"
+      %small= t "source_files.file_preview", :count => @rows.size
       .pull-right
-        = f.submit "Start import", :class => "btn btn-large btn-success", :disable_with => "Importing..."
+        = f.submit t("actions.start_import"), :class => "btn btn-large btn-success", :disable_with => t("actions.import_disable_with")
 
-    %p
-      Review source file detected column data types and change them if necessary.
-      After that click <strong>Import</strong> button to start import of file data.
+    %p= t "source_files.file_preview_description.html"
 
     .source-file-preview
       %table.table

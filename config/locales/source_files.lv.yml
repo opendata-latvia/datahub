@@ -7,3 +7,20 @@ lv:
       imported: "Importēts"
       replaced: "Aizstāts"
     delete_confirm: "Vai vēlaties izdzēst šo failu un visus ielādētos datus no šī faila?"
+    file_preview: "faila apskate (pirmās %{count} rindas)"
+    file_preview_description:
+      html: |
+        Apskaties faila atpazītos kolonnu datu tipus un nomainiet tos, ja nepieciešams.
+        Pēc tam klikšķiniet <strong>Sākt importu</strong> un sagaidiet faila importa beigas.
+
+    errors:
+      cannot_import: "Nevar ieimportēt failu %{file}:\n%{error}"
+      could_not_start_import: "Nevar uzsākt faila %{file} importu:\n%{error}"
+      import_failed: "Faila %{file} imports beidzās ar kļūdu:\n%{error}"
+
+  activerecord:
+    models:
+      source_file: Fails
+    attributes:
+      source_file:
+        source: Pievienotais fails

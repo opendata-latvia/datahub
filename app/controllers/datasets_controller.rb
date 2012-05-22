@@ -54,7 +54,7 @@ class DatasetsController < ApplicationController
     @dataset = @project.datasets.find(params[:id])
     authorize! :update, @dataset
     unless @dataset.delete_columns
-      flash[:alert] = 'Could not delete all columns'
+      flash[:alert] = t 'datasets.errors.cannot_delete_all_columns'
     end
     flash[:tab] = 'columns'
     redirect_to dataset_path(@dataset)
