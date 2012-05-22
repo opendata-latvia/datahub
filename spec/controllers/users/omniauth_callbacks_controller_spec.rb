@@ -27,7 +27,7 @@ describe Users::OmniauthCallbacksController do
         }.to change(UserToken, :count).by(1)
 
         response.should redirect_to(edit_user_registration_path)
-        flash[:notice].should eq("Successfully authorized from #{UserToken.provider_name(provider)} account.")
+        flash[:notice].should eq("Veiksmīgi autorizēts ar #{UserToken.provider_name(provider)} lietotāju.")
       end
 
       it "should authenticate existing user with existing service #{provider}" do
@@ -35,7 +35,7 @@ describe Users::OmniauthCallbacksController do
         token = FactoryGirl.create(:user_token, :provider => provider, :uid =>omniauth_credentials(provider)["uid"] )
         get provider
         response.should redirect_to(account_profile_path(token.user.login))
-        flash[:notice].should == "Successfully authorized from #{UserToken.provider_name(provider)} account."
+        flash[:notice].should == "Veiksmīgi autorizēts ar #{UserToken.provider_name(provider)} lietotāju."
       end
 
       it "should send to registration new user for #{provider}" do
@@ -48,7 +48,7 @@ describe Users::OmniauthCallbacksController do
         request.env["omniauth.auth"] = OmniAuth.config.mock_auth[provider.to_sym].merge("info" => {"name"=>"John Doe", "email" => "john.doe@gmail.com", "nickname" => "johndoe"})
         get provider
         response.should redirect_to(account_profile_path("johndoe"))
-        flash[:notice].should == "Successfully authorized from #{UserToken.provider_name(provider)} account."
+        flash[:notice].should == "Veiksmīgi autorizēts ar #{UserToken.provider_name(provider)} lietotāju."
       end
 
     end
