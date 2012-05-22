@@ -1,14 +1,14 @@
 .span8
   = form_tag projects_path, :method => :get, :class => "form-search" do
-    = text_field_tag :q, params[:q], :class => "search-query span3", :placeholder => "Search projects by name and description"
-    = submit_tag "Search", :name => nil, :class => "btn btn-primary"
+    = text_field_tag :q, params[:q], :class => "search-query span3", :placeholder => t("projects.search_placeholder")
+    = submit_tag t("actions.search"), :name => nil, :class => "btn btn-primary"
 
   %h2
     - if params[:q]
-      Project search results
+      = t "projects.search_results"
       %small= params[:q]
     - else
-      Recently updated projects
+      = t "projects.recently_updated"
   = render :partial => 'projects'
 
 .span4

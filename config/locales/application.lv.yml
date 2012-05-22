@@ -10,9 +10,16 @@ lv:
 
     or: "vai"
     back: "atpakaļ"
+    more: "Vairāk"
+    more_disable_with: "Ielādē..."
+
+    recent_activity: "Pēdējās aktivitātes"
 
   actions:
     update: "Saglabāt"
+    edit: "Mainīt"
+    delete: "Dzēst"
+    search: "Meklēt"
 
   datetime:
     ago: "pirms %{distance}"

@@ -1,7 +1,29 @@
 lv:
   projects:
+    projects: "Projekti"
+    recently_updated: "Nesen mainītie projekti"
     my_projects: "Mani projekti"
     new_project: "Jauns projekts"
+    edit_project: "Mainīt projektu"
     no_projects_created: "Jums vēl nav neviena izveidota projekta."
     datasets: "Datu kopas"
     search_more: "Meklēt citus projektus"
+    delete_confirm: "Vai vēlaties izdzēst šo projektu un visas projekta datu kopas?"
+    search_placeholder: "Meklēt pēc nosaukuma un apraksta"
+    search_results: "Projektu meklēšanas rezultāti"
+
+  activerecord:
+    models:
+      project: "Projekts"
+    attributes:
+      project:
+        name: "Nosaukums"
+        shortname: "Saites nosaukums"
+        description: "Apraksts"
+        homepage: "Mājas lapa"
+
+  simple_form:
+    hints:
+      project:
+        shortname: "tiks izmantots projekta URL saitē"
+        homepage: "URL saite uz datu avota mājas lapu"

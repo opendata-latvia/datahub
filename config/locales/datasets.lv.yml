@@ -5,6 +5,8 @@ lv:
       one: "Augšupielādēts 1 fails"
       other: "Augšupielādēti %{count} faili"
     search_more: "Meklēt citas datu kopas"
+    new_dataset: "Jauna datu kopa"
+    delete_confirm: "Vai vēlaties izdzēst šo datu kopu un visus datu kopas failus?"
 
   activerecord:
     models:
