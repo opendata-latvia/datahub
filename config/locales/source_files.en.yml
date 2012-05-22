@@ -1,4 +1,4 @@
-lv:
+en:
   source_files:
     status:
       new: "New"
@@ -12,3 +12,15 @@ lv:
       html: |
         Review source file detected column data types and change them if necessary.
         After that click <strong>Start import</strong> and wait until end of file import.
+
+    errors:
+      cannot_import: "Could not import source file %{file}:\n%{error}"
+      could_not_start_import: "Could not start file %{file} import:\n%{error}"
+      import_failed: "Source file %{file} import failed:\n%{error}"
+
+  activerecord:
+    models:
+      source_file: Source file
+    attributes:
+      source_file:
+        source: Attached file

@@ -2,9 +2,20 @@ en:
   users:
     sign_up: "Sign up"
     also_sign_up_with: "You can also sign up with"
+    edit_user: "Edit profile"
+    cancel_user: "Delete user"
+    cancel_user_question: "Are you sure to completely delete your user and all your projects?"
+    cancel_user_confirm: "Are you sure?"
+    sign_in_with: "You can sign in with"
+    click_service_to_remove: "Click to remove authorization service"
+    available_sign_in_options: "Additional available sign in options"
+    sign_in: "Sign in"
     sign_up_at_first_html: |
       If you do not have login name then <a href="/users/sign_up">at first sign up</a> for this site.
-    
+    also_sign_in_with: "You can sign in also with"
+    forgot_password: "Forgot password?"
+    send_reset_password_instructions: "Send e-mail with password reset instructions"
+    change_password: "Change password"
 
   activerecord:
     models:
@@ -12,9 +23,14 @@ en:
     attributes:
       user:
         login: "Username"
+        name: "Full name"
         email: "Email"
-        password: "Password"
+        password: "Passowrd"
         password_confirmation: "Password confirmation"
+        current_password: "Current password"
+        new_password: "New password"
+        new_password_confirmation: "New password confirmation"
+        remember_me: "Remember me"
 
   simple_form:
     hints:

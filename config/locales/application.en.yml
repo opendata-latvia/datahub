@@ -1,0 +1,32 @@
+en:
+  nav:
+    projects: "Projects"
+    datasets: "Datasets"
+    forums: "Forums"
+    sign_in: "Sign in"
+    sign_out: "Sign out"
+    my_profile: "My profile"
+    edit_profile: "Edit profile"
+
+    or: "or"
+    back: "back"
+    more: "More"
+    more_disable_with: "Loading..."
+
+    recent_activity: "Recent activity"
+
+  actions:
+    update: "Save"
+    edit: "Edit"
+    delete: "Delete"
+    delete_disable_with: "Deleting..."
+    search: "Search"
+    import: "Import"
+    start_import: "Start import"
+    import_disable_with: "Importing..."
+    upload: "Upload"
+    upload_disable_with: "Uploading..."
+    reply: "Reply"
+
+  datetime:
+    ago: "%{distance} ago"

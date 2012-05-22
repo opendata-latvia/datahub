@@ -16,8 +16,8 @@ lv:
     start_new_topic: "Sākt jaunu tēmu"
     new_topic_in_forum: 'Jauna tēma forumā "%{forum}"'
     edit_topic_in_forum: 'Mainīt tēmu forumā "%{forum}"'
-    delete_confirm: "Vai vēlaties izdzēst šo tēmu un visas tēmas komentārus?"
-    comments: Komentāri
+    delete_confirm: "Vai vēlaties izdzēst šo tēmu un visus tēmas komentārus?"
+    comments: "Komentāri"
     comments_count:
       one: "(1 komentārs)"
       other: "(%{count} komentāri)"
@@ -33,9 +33,9 @@ lv:
 
   activerecord:
     models:
-      forum: Forums
-      topic: Tēma
-      comment: Komentārs
+      forum: "Forums"
+      topic: "Tēma"
+      comment: "Komentārs"
     attributes:
       forum:
         title: "Virsraksts"

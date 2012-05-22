@@ -1,5 +1,38 @@
 en:
   datasets:
+    recently_updated: "Recently updated datasets"
+    source_files_uploaded:
+      one: "1 source file uploaded"
+      other: "%{count} source files uploaded"
+    search_more: "Search more datasets"
+    new_dataset: "New dataset"
+    edit_dataset: "Edit dataset"
+    delete_confirm: "Are you sure to delete this dataset together with all uploaded source files?"
+    search_placeholder: "Search by name and description"
+    search_results: "Dataset search results"
+    delete_all_columns: "Delete all columns"
+    delete_all_columns_confirm: "Are you sure to delete all columns and all uploaded source files?"
+
+    show:
+      data_preview: "Data preview"
+      uploaded_files: "Uploaded files"
+      column_information: "Column information"
+      preview:
+        search_in_column: "search in column"
+      upload:
+        file_name: "File name"
+        size: "Size"
+        uploaded: "Uploaded"
+        status: "Status"
+        new_file: "Upload new file"
+      columns:
+        name: "Column name"
+        data_type: "Data type"
+        limit: "Limit"
+        description: "Description"
+        display_limit:
+          string: "%{limit} characters"
+          decimal: "%{precision} digits, %{scale} after decimal point"
 
     datatable:
       oPaginate:
@@ -16,3 +49,22 @@ en:
       sProcessing: "Processing..."
       sSearch: "Search in all columns:"
       sZeroRecords: "No matching records found"
+
+    errors:
+      cannot_delete_all_columns: "Could not delete all dataset columns"
+
+  activerecord:
+    models:
+      dataset: "Dataset"
+    attributes:
+      dataset:
+        name: "Name"
+        shortname: "Link name"
+        description: "Description"
+        source_url: "Source URL"
+
+  simple_form:
+    hints:
+      dataset:
+        shortname: "will be used for dataset URL link"
+        source_url: "URL link to dataset source"

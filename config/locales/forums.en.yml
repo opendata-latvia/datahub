@@ -1,0 +1,51 @@
+en:
+  forums:
+    recent_topics: "Recent forum topics"
+    recent_comments: "Recent forum comments"
+    new_forum: "New forum"
+    edit_forum: "Edit forum"
+    delete_confirm: "Are you sure to delete this forum with all forum topics and comments?"
+    topics_count:
+      one: "(1 topic)"
+      other: "(%{count} topics)"
+    last_activity_days_ago: "Last activity %{distance} ago"
+
+  topics:
+    started_topic: "started topic"
+    started_by: "Started by"
+    start_new_topic: "Start new topic"
+    new_topic_in_forum: 'New topic in forum "%{forum}"'
+    edit_topic_in_forum: 'Edit topic in forum "%{forum}"'
+    delete_confirm: "Are you sure to delete this topic with all topic comments?"
+    comments: "Comments"
+    comments_count:
+      one: "(1 comment)"
+      other: "(%{count} comments)"
+
+  comments:
+    commented_topic: "commented topic"
+    commented: "commented"
+    new_comments_disabled: "new comments are disabled"
+    delete_confirm: "Are you sure to delete this comment?"
+    sign_in_to_comment:
+      html: |
+        Please <a href="/users/sign_in">sign in</a> to comment
+
+  activerecord:
+    models:
+      forum: "Forum"
+      topic: "Topic"
+      comment: "Comment"
+    attributes:
+      forum:
+        title: "Title"
+        slug: "Link name"
+        position: "Position"
+        description: "Description"
+      topic:
+        title: "Title"
+        slug: "Link name"
+        commentable: "Commentable"
+        description: "Description"
+      comment:
+        content: "Content"

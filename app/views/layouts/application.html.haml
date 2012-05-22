@@ -41,7 +41,7 @@
             %ul.nav.pull-right
               - %w(lv en).each do |locale|
                 %li{:class => (I18n.locale == locale.to_sym ? "active" : nil)}
-                  = link_to locale, :locale => locale
+                  = link_to locale.upcase, :locale => locale
 
     .container
       - [:notice, :alert].each do |name|

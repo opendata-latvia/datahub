@@ -1,8 +1,29 @@
-lv:
+en:
   projects:
+    projects: "Projects"
+    recently_updated: "Recently updated projects"
     my_projects: "My projects"
     new_project: "New project"
+    edit_project: "Edit project"
     no_projects_created: "You have not created any projects yet."
-    datasets: "Data sets"
+    datasets: "Datasets"
     search_more: "Search more projects"
+    delete_confirm: "Are you sure to delete this project with all project datasets?"
+    search_placeholder: "Search by name and description"
+    search_results: "Project search results"
 
+  activerecord:
+    models:
+      project: "Project"
+    attributes:
+      project:
+        name: "Name"
+        shortname: "Link name"
+        description: "Description"
+        homepage: "Home page"
+
+  simple_form:
+    hints:
+      project:
+        shortname: "will be used for project URL link"
+        homepage: "URL link to data source home page"
