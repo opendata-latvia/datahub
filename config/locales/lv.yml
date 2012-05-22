@@ -99,8 +99,8 @@ lv:
     format: ! '%{attribute} %{message}'
     messages:
       accepted: ir jāpiekrīt
-      blank: ir jābūt aizpildītam
-      confirmation: nesakrīt ar apstiprinājumu
+      blank: ir obligāts
+      confirmation: nesakrīt ar atkārtojumu
       empty: ir jābūt aizpildītam
       equal_to: ir jābūt vienādam ar %{count}
       even: ir jābūt pāra skaitlim

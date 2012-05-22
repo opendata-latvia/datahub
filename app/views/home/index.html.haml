@@ -9,7 +9,7 @@
       - if current_user.my_projects.present?
         = render current_user.my_projects
       - else
-        %h4 You have not created any projects yet.
+        %h4= t "projects.no_projects_created"
     - else
       #sign_up.row-fluid
         %p.span8.lead= t ".sign_up_lead.html"

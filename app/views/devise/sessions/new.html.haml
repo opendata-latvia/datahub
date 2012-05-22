@@ -1,21 +1,18 @@
 .span6.offset3
 
-  %h2 Sign in
+  %h2= t "users.sign_in"
 
-  %p
-    If you do not have login name then
-    = link_to "at first sign up", new_user_registration_path
-    for this site.
+  %p= t "users.sign_up_at_first_html"
 
   = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'well form-horizontal'}) do |f|
     .inputs
       = f.input :login, :required => false, :autofocus => true
       = f.input :password, :required => false,
-        :hint => link_to("Forgot your password?", new_password_path(resource_name))
+        :hint => link_to(t("users.forgot_password"), new_password_path(resource_name))
       = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
 
     .controls
-      = f.button :submit, "Sign in", :class => 'btn-primary'
+      = f.button :submit, t("users.sign_in"), :class => 'btn-primary'
 
-  %h3 You can also sign in with
-  =render "devise/omniauth"
+  %h3= t "users.also_sign_in_with"
+  = render "devise/omniauth"

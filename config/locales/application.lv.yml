@@ -9,6 +9,10 @@ lv:
     edit_profile: "Mainīt profilu"
 
     or: "vai"
+    back: "atpakaļ"
+
+  actions:
+    update: "Saglabāt"
 
   datetime:
     ago: "pirms %{distance}"

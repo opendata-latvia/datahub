@@ -1,0 +1,8 @@
+lv:
+  projects:
+    my_projects: "My projects"
+    new_project: "New project"
+    no_projects_created: "You have not created any projects yet."
+    datasets: "Data sets"
+    search_more: "Search more projects"
+

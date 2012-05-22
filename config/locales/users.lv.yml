@@ -1,0 +1,46 @@
+lv:
+  users:
+    sign_up: "Reģistrēties"
+    also_sign_up_with: "Jūs varat reģistrēties arī izmantojot"
+    edit_user: "Mainīt profilu"
+    cancel_user: "Dzēst lietotāju"
+    cancel_user_question: "Vai vēlaties pilnībā izdzēst Jūsu lietotāju un visus jūsu projektus?"
+    cancel_user_confirm: "Vai esat pārliecināts?"
+    sign_in_with: "Jūs varat pieslēgties izmantojot"
+    click_service_to_remove: "Uzklikšķiniet, lai noņemtu pieslēgšanās iespēju"
+    available_sign_in_options: "Papildus pieejamās pieslēgšanās iespējas"
+    sign_in: "Pieslēgties"
+    sign_up_at_first_html: |
+      Ja jums nav lietotāja vārda, tad lūdzu <a href="/users/sign_up">vispirms reģistrējieties</a>.
+    also_sign_in_with: "Jūs varat pieslēgties arī izmantojot"
+    forgot_password: "Aizmirsāt paroli?"
+    send_reset_password_instructions: "Atsūtīt uz e-pastu paroles nomaiņas aprakstu"
+    change_password: "Nomainīt paroli"
+
+  activerecord:
+    models:
+      user: "Lietotājs"
+    attributes:
+      user:
+        login: "Lietotāja vārds"
+        name: "Pilnais vārds"
+        email: "E-pasts"
+        password: "Parole"
+        password_confirmation: "Parole atkārtoti"
+        current_password: "Patreizējā parole"
+        new_password: "Jaunā parole"
+        new_password_confirmation: "Jaunā parole atkārtoti"
+        remember_me: "Atcerēties mani"
+
+  simple_form:
+    hints:
+      login_html: "var izmantot tikai mazos latīņu burtus,<br/>ciparus un svītru (-)"
+      email_html: 'reģistrējieties ar šo pašu e-pastu <a href="http://gravatar.com" target="_blank">Gravatar</a>,<br/>ja Jūs vēlaties profila attēlu'
+      user:
+        new:
+          password: "vismaz 6 simboli"
+        edit:
+          login: "Jūs nevarat mainīt lietotāja vārdu, ja ir izveidoti projekti"
+          name: "ievadiet Jūsu vārdu un uzvārdu"
+          password: "atstājiet tukšu, ja nevēlaties mainīt"
+          current_password: "ievadiet patreizējo paroli, lai apstiprinātu izmaiņas"

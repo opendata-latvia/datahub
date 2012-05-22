@@ -1,41 +1,41 @@
 .span6.offset1
 
-  %h2= "Edit #{resource_name.to_s.humanize}"
+  %h2= t "users.edit_user"
 
   = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'well form-horizontal' }) do |f|
     = f.error_notification
 
     .inputs
-      = f.input :login, :disabled => true, :hint => "you cannot change your username if you have published projects"
-      = f.input :name, :autofocus => true, :hint => "enter your first and last name"
-      = f.input :email, :required => true,
-        :hint => 'sign up with the same e-mail for <a href="http://gravatar.com" target="_blank">Gravatar</a> if you want to have avatar image'.html_safe
-      = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false
+      = f.input :login, :disabled => true
+      = f.input :name, :autofocus => true
+      = f.input :email, :required => true, :hint => t("simple_form.hints.email_html")
+      = f.input :password, :autocomplete => "off", :required => false
       = f.input :password_confirmation, :required => false
-      = f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true
+      = f.input :current_password, :required => true
 
     .controls
-      = f.button :submit, "Update", :class => 'btn-primary'
-      &nbsp;&nbsp;or&nbsp;&nbsp;
-      = link_to "back", :back
+      = f.button :submit, t("actions.update"), :class => 'btn-primary'
+      &nbsp;
+      = t "nav.or"
+      &nbsp;
+      = link_to t("nav.back"), :back
 
-  %h3 Cancel my account
+  %h3= t "users.cancel_user"
 
   %p
-    Unhappy?
-    = link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete
+    = t "users.cancel_user_question"
+    = link_to t("users.cancel_user"), registration_path(resource_name), :confirm => t("users.cancel_user_confirm"), :method => :delete
 
 .span4.offset1
   -unless resource.user_tokens.empty?
-    %h2 You can sign in with
+    %h2= t "users.sign_in_with"
     .well
-      .help-inline
-        Click on service to remove
+      .help-inline= t "users.click_service_to_remove"
       .btn-group
         -for authentication in resource.user_tokens
           = link_to unregister_omniauth_path(authentication), :confirm => "Are you sure you want to remove #{authentication.provider_name} service?", :method => :delete, :class => "btn auth-provider" do
             = image_tag "#{authentication.provider}_32.png"
             =authentication.provider_name
       %br
-  %h2 Additional available sign in options
+  %h2= t "users.available_sign_in_options"
   = render "devise/omniauth"

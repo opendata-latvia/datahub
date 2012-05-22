@@ -1,21 +1,19 @@
 .span6.offset3
 
-  %h2 Sign up
+  %h2= t("users.sign_up")
 
   = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'well form-horizontal'}) do |f|
     = f.error_notification
 
     .inputs
-      = f.input :login, :autofocus => true,
-        :hint => 'should contain only lowercase English letters,<br/>digits or dash sign (-)'.html_safe
-      = f.input :email, :required => true,
-        :hint => 'sign up with the same e-mail for <a href="http://gravatar.com" target="_blank">Gravatar</a><br/>if you want to have avatar image'.html_safe
+      = f.input :login, :autofocus => true, :hint => t("simple_form.hints.login_html")
+      = f.input :email, :required => true, :hint => t("simple_form.hints.email_html")
       -if resource.password_required?
-        = f.input :password, :required => true, :hint => "At least 6 characters"
+        = f.input :password, :required => true
         = f.input :password_confirmation, :required => true
 
     .controls
-      = f.button :submit, "Sign up", :class => 'btn-primary'
+      = f.button :submit, t("users.sign_up"), :class => 'btn-primary'
 
-  %h3 You can also sign up with
+  %h3= t("users.also_sign_up_with")
   = render "devise/omniauth"

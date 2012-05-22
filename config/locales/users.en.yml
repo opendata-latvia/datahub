@@ -1,0 +1,30 @@
+en:
+  users:
+    sign_up: "Sign up"
+    also_sign_up_with: "You can also sign up with"
+    sign_up_at_first_html: |
+      If you do not have login name then <a href="/users/sign_up">at first sign up</a> for this site.
+    
+
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        login: "Username"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+
+  simple_form:
+    hints:
+      login_html: "should contain only lowercase English letters,<br/>digits or dash sign (-)"
+      email_html: 'sign up with the same email for <a href="http://gravatar.com" target="_blank">Gravatar</a><br/>if you want to have avatar image'
+      user:
+        new:
+          password: "at least 6 characters"
+        edit:
+          login: "you cannot change your username if you have published projects"
+          name: "enter your first and last name"
+          password: "leave it blank if you don't want to change it"
+          current_password: "we need your current password to confirm your changes"
