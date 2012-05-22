@@ -6,6 +6,8 @@
   = f.input :description, :input_html => {:rows => 5, :class => "span10"}
   
 .controls
-  = f.button :submit, :class => 'btn-primary'
-  &nbsp;&nbsp;or&nbsp;&nbsp;
-  = link_to "back", :back
+  = f.button :submit, t("actions.update"), :class => 'btn-primary'
+  &nbsp;
+  = t "nav.or"
+  &nbsp;
+  = link_to t("nav.back"), :back

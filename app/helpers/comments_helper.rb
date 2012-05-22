@@ -25,7 +25,8 @@ module CommentsHelper
   
   def comment_delete_action(comment)
     if can?(:destroy, comment)
-      link_to "Delete", comment_path(comment), :method => :delete, :remote => true, :class => "btn btn-mini btn-danger", :confirm => "Are You sure to delete"
+      link_to t("actions.delete"), comment_path(comment), :method => :delete, :remote => true, :class => "btn btn-mini btn-danger",
+        :confirm => t("comments.delete_confirm")
     end
   end
   

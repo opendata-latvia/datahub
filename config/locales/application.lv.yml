@@ -26,6 +26,7 @@ lv:
     import_disable_with: "Importē..."
     upload: "Augšupielādēt"
     upload_disable_with: "Augšupielādē..."
+    reply: "Atbildēt"
 
   datetime:
     ago: "pirms %{distance}"

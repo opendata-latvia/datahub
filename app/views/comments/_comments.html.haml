@@ -1,13 +1,13 @@
 .comments{:id => commentable_comments_id(commentable)}
-  %h4.title Comments
+  %h4.title= t "topics.comments"
   = comments_list(commentable.comments.arrange(:order => :created_at))
   - if options[:disable_new_comments]
     .alert
       %a.close{:data => {:dismiss => "alert"}} &times;
-      New comments are disabled
+      = t "comments.new_comments_disabled"
   - elsif !user_signed_in?
     .alert
       %a.close{:data => {:dismiss => "alert"}} &times;
-      Please #{link_to "Sign in", new_user_session_path} to comment
+      = t "comments.sign_in_to_comment.html"
   - else
     = comment_form(commentable)

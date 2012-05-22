@@ -1,10 +1,51 @@
 lv:
   forums:
-    recent_topics: Jaunākās foruma tēmas
-    recent_comments: Jaunākie foruma komentāri
+    recent_topics: "Jaunākās foruma tēmas"
+    recent_comments: "Jaunākie foruma komentāri"
+    new_forum: "Jauns forums"
+    edit_forum: "Mainīt forumu"
+    delete_confirm: "Vai vēlaties izdzēst šo forumu un visas foruma tēmas un komentārus?"
+    topics_count:
+      one: "(1 tēma)"
+      other: "(%{count} tēmas)"
+    last_activity_days_ago: "Pēdējā aktivitāte pirms %{distance}"
 
   topics:
     started_topic: "uzsāka tēmu"
+    started_by: "Uzsāka"
+    start_new_topic: "Sākt jaunu tēmu"
+    new_topic_in_forum: 'Jauna tēma forumā "%{forum}"'
+    edit_topic_in_forum: 'Mainīt tēmu forumā "%{forum}"'
+    delete_confirm: "Vai vēlaties izdzēst šo tēmu un visas tēmas komentārus?"
+    comments: Komentāri
+    comments_count:
+      one: "(1 komentārs)"
+      other: "(%{count} komentāri)"
 
   comments:
     commented_topic: "komentēja tēmu"
+    commented: "komentēja"
+    new_comments_disabled: "jauni komentāri nav atļauti"
+    delete_confirm: "Vai vēlaties izdzēst šo komentāru?"
+    sign_in_to_comment:
+      html: |
+        Lūdzu <a href="/users/sign_in">pieslēdzieties</a>, lai komentētu
+
+  activerecord:
+    models:
+      forum: Forums
+      topic: Tēma
+      comment: Komentārs
+    attributes:
+      forum:
+        title: "Virsraksts"
+        slug: "Saites nosaukums"
+        position: "Pozīcija"
+        description: "Apraksts"
+      topic:
+        title: "Virsraksts"
+        slug: "Saites nosaukums"
+        commentable: "Var komentēt"
+        description: "Apraksts"
+      comment:
+        content: "Saturs"

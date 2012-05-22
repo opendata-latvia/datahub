@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
     @topic = @forum.topics.build(params[:topic])
     @topic.user_id = current_user.id
     if @topic.save
-      redirect_to forum_topic_path(@forum.slug, @topic.slug), :notice => "Topic #{@topic.title} successfully created"
+      redirect_to forum_topic_path(@forum.slug, @topic.slug)
     else
       render :action => "new"
     end
@@ -30,7 +30,7 @@ class TopicsController < ApplicationController
   def update
     authorize! :update, @topic
     if @topic.update_attributes(params[:topic])
-      redirect_to forum_topic_path(@forum.slug, @topic.slug), :notice => "Topic #{@topic.title} successfully updated"
+      redirect_to forum_topic_path(@forum.slug, @topic.slug)
     else
       render :action => "edit"
     end
@@ -39,7 +39,7 @@ class TopicsController < ApplicationController
   def destroy
     authorize! :destroy, @topic
     @topic.destroy
-    redirect_to forum_path(@forum.slug), :notice => "Topic #{@topic.title} successfully deleted"
+    redirect_to forum_path(@forum.slug)
   end
 
   private

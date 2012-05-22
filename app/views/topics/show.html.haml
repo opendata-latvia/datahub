@@ -12,20 +12,20 @@
   .topic.comment{:id => "topic#{@topic.id}"}
     .actions
       - if can? :manage, @topic
-        = link_to "Edit", edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini"
+        = link_to t("actions.edit"), edit_forum_topic_path(@forum.slug,@topic.slug), :class => "btn btn-mini"
       - if can? :destroy, @topic
-        = link_to "Delete", forum_topic_path(@forum.slug,@topic.slug), :method => :delete, :confirm => "Are You sure to delete #{@topic.title}?", :class => "btn btn-mini btn-danger"
+        = link_to t("actions.delete"), forum_topic_path(@forum.slug,@topic.slug), :method => :delete,
+          :confirm => t("topics.delete_confirm"), :class => "btn btn-mini btn-danger"
     .face
       = gravatar_image_tag(@topic.user.email, :gravatar => {:size => 50})
     .created_at
       = link_to @topic.user.display_name, account_profile_path(@topic.user.login)
-      started topic
+      = t "topics.started_topic"
       %strong= @topic.title
-      = distance_of_time_in_words_to_now(@topic.created_at)
-      ago
+      = t "datetime.ago", :distance => distance_of_time_in_words_to_now(@topic.created_at)
 
     .content.markdown
       = markdown(@topic.description)
 
 .span12
-  =comments_for(@topic, :disable_new_comments => !@topic.commentable)
+  = comments_for(@topic, :disable_new_comments => !@topic.commentable)
