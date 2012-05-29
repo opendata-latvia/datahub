@@ -35,6 +35,11 @@ Datahub::Application.routes.draw do
 
   resources :comments, :only => [:new, :create, :destroy]
 
+  # mounts Jasminerice before generic routes
+  if defined?(Jasminerice) && Jasminerice.environments.include?(Rails.env)
+    mount Jasminerice::Engine => "/jasmine"
+  end
+
   match ':login' => 'accounts#show', :as => :account_profile
   match ':account_id/:shortname' => 'projects#show', :as => :project_profile
   match ':account_id/:project_shortname/:shortname' => 'datasets#show', :as => :dataset_profile
