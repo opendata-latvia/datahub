@@ -19,6 +19,11 @@ Get repository and get Ruby gem dependencies
 * `gem install bundler`
 * `bundle`
 
+Create and verify configuration files
+
+* `cp config/application.sample.yml config/application.yml`
+* `cp config/database.sample.yml config/database.yml`
+
 Create MySQL database schema
 
 * `rake db:create`
