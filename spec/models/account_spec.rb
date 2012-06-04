@@ -13,4 +13,20 @@
 require 'spec_helper'
 
 describe Account do
+  before(:each) do
+    @user = create(:user)
+    @account = @user.build_account
+  end
+
+  describe "#email" do
+    it "returns user email" do
+      @account.email.should eq(@user.email)
+    end
+  end
+
+  describe "#to_param" do
+    it "returns login" do
+      @account.to_param.should eq(@account.login)
+    end
+  end
 end
