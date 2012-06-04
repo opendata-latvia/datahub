@@ -15,7 +15,7 @@ class Forum < ActiveRecord::Base
   
   validates :slug, :position, :presence => true
   validates :title, :presence => true, :uniqueness => {:scope => :slug}
-  validates_numericality_of :position, :only_integer => true, :allow_nil => false
+  validates_numericality_of :position, :only_integer => true
 
   has_many :topics, :dependent => :destroy
 
