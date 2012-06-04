@@ -37,4 +37,4 @@ Running tests
 License
 -------
 
-DataHub is reladed under the MIT license (see file LICENSE).
+DataHub is released under the MIT license (see file LICENSE).
