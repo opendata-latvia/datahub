@@ -101,7 +101,7 @@ class SourceFile < ActiveRecord::Base
     paperclip_log = Paperclip.options[:log]
     Paperclip.options[:log] = false
     # do not trace import SQLs with with New Relic
-    import_all_rows_result = ::NewRelic::Agent.disable_all_tracing do
+    import_all_rows_result = without_new_relic_tracing do
       import_all_rows
     end
     if import_all_rows_result
@@ -324,6 +324,16 @@ class SourceFile < ActiveRecord::Base
     self.error_at = Time.now
     dataset.last_import_at = error_at
     dataset.save!
+  end
+
+  def without_new_relic_tracing
+    if defined?(::NewRelic::Agent.disable_all_tracing)
+      ::NewRelic::Agent.disable_all_tracing do
+        yield
+      end
+    else
+      yield
+    end
   end
 
 end
