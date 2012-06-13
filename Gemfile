@@ -69,7 +69,7 @@ group :development do
   gem 'capistrano-ext', :require => false
 end
 
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', :group => :production
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
