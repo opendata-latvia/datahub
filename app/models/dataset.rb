@@ -153,10 +153,12 @@ class Dataset < ActiveRecord::Base
       results_relation.order "#{column[:column_name]} #{params[:sort_direction] || 'asc'}"
     end
 
-    page = (params[:page] || 1).to_i
-    per_page = (params[:per_page] || 10).to_i
-    offset = per_page * (page - 1)
-    results_relation.skip(offset).take(per_page)
+    unless params[:page] == :all
+      page = (params[:page] || 1).to_i
+      per_page = (params[:per_page] || 10).to_i
+      offset = per_page * (page - 1)
+      results_relation.skip(offset).take(per_page)
+    end
 
     results_sql = results_relation.to_sql
     logger.debug "[data_search] SQL: #{results_sql}"
@@ -188,6 +190,25 @@ class Dataset < ActiveRecord::Base
         binds << source_id
       end
       Dwh.delete sql, binds
+    end
+  end
+
+  def data_download(params)
+    params[:page] ||= :all
+    search_results = data_search(params[:q], params.slice(:sort, :sort_direction, :page, :per_page))
+    case params[:format]
+    when 'csv'
+      csv_data = CSV.generate do |csv|
+        csv << column_names
+        search_results[:rows].each do |row|
+          csv << row
+        end
+      end
+      csv_data
+    when 'json'
+      search_results[:rows].map do |row|
+        Hash[column_names.zip(row)]
+      end
     end
   end
 

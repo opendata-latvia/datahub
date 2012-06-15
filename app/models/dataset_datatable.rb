@@ -7,11 +7,13 @@ class DatasetDatatable
   end
 
   def as_json(options = {})
+    @query_params = {}
     {
       :sEcho => params[:sEcho].to_i,
       :iTotalRecords => @dataset.data_rows_count,
       :iTotalDisplayRecords => results[:total_results],
-      :aaData => data
+      :aaData => data,
+      :queryParams => @query_params
     }
   end
 
@@ -30,12 +32,14 @@ class DatasetDatatable
   end
 
   def fetch_results
-    @dataset.data_search(query,
+    @query_params = {
+      :q => query,
       :sort => sort_column,
       :sort_direction => sort_direction,
       :page => page,
       :per_page => per_page
-    )
+    }
+    @dataset.data_search @query_params[:q], @query_params.except(:q)
   end
 
   def query
@@ -50,7 +54,8 @@ class DatasetDatatable
         "#{quote_term(name)}#{operator}#{quote_term(value)}"
       end
     end.compact.join(' ')
-    query_string << " " << params[:sSearch] if params[:sSearch].present?
+    query_string << " " unless query_string.blank?
+    query_string << params[:sSearch] if params[:sSearch].present?
     query_string
   end
 

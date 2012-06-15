@@ -8,6 +8,16 @@ class DatasetsController < ApplicationController
   def show
     @dataset = @project.datasets.find_by_shortname!(params[:shortname])
     authorize! :read, @dataset
+
+    case format = params[:format]
+    when 'csv'
+      send_data @dataset.data_download(params),
+        :type => 'text/csv', :filename => "#{@dataset.shortname}.#{format}", :disposition => 'attachment'
+    when 'json'
+      render :json => @dataset.data_download(params)
+    else
+      # default HTML rendering
+    end
   end
 
   def datatable

@@ -42,11 +42,41 @@ class Datahub.DatasetPreviewView extends Backbone.View
       bProcessing: true
       bServerSide: true
       sAjaxSource: $dataTable.data "source"
+      fnServerData: @fnServerData
       sPaginationType: "bootstrap"
       oLanguage: @translations
 
     # do not focus on table headers when moving with tabs between column filters
     @$("thead th").attr "tabindex", "-1"
+
+  # override standard DataTebles implementation to add processing of additional returned query parameter
+  fnServerData: (sUrl, aoData, fnCallback, oSettings) =>
+    oSettings.jqXHR = $.ajax
+      url: sUrl
+      data: aoData
+      success: (json) =>
+        # console.log "fnServerData success", json
+        @updateDownloadLinks(json.queryParams)
+        $(oSettings.oInstance).trigger('xhr', oSettings)
+        fnCallback(json)
+      dataType: "json"
+      cache: false
+      type: oSettings.sServerMethod
+      error: (xhr, error, thrown) ->
+        if error == "parsererror"
+          oSettings.oApi._fnLog( oSettings, 0, "DataTables warning: JSON data from " +
+            "server could not be parsed. This is caused by a JSON formatting error." )
+
+  updateDownloadLinks: (params) ->
+    delete params.q unless params.q
+    withoutPageParams = _.clone params
+    delete withoutPageParams.page
+    delete withoutPageParams.per_page
+
+    @$("a[data-download-path]").each ->
+      $this = $(this)
+      $this.attr "href", $this.data("downloadPath") + "?" +
+        $.param(if $this.data("pageParams") then params else withoutPageParams)
 
   clickHeadInput: (e) =>
     # ignore click to prevent sorting

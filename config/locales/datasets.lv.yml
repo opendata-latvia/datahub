@@ -19,6 +19,10 @@ lv:
       column_information: "Kolonnu informācija"
       preview:
         search_in_column: "meklēt kolonnā"
+      download_data:
+        title: "Lejuplādēt atlasītos datus"
+        format_all_results_html: "%{format_upcase} formātā <small>visus ierakstus</small>"
+        format_current_page_html: "%{format_upcase} formātā <small>attēloto lapu</small>"
       upload:
         file_name: "Faila nosaukums"
         size: "Izmērs"

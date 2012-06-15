@@ -19,6 +19,10 @@ en:
       column_information: "Column information"
       preview:
         search_in_column: "search in column"
+      download_data:
+        title: "Download selected data"
+        format_all_results_html: "%{format_upcase} format <small>all entries</small>"
+        format_current_page_html: "%{format_upcase} format <small>current page</small>"
       upload:
         file_name: "File name"
         size: "Size"

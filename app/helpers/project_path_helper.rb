@@ -3,8 +3,8 @@ module ProjectPathHelper
     project_profile_path(project.account, project.shortname)
   end
 
-  def dataset_path(dataset)
-    dataset_profile_path(dataset.project.account, dataset.project.shortname, dataset.shortname)
+  def dataset_path(dataset, options = {})
+    dataset_profile_path(dataset.project.account, dataset.project.shortname, dataset.shortname, options)
   end
 
   def dataset_datatable_path(dataset)
