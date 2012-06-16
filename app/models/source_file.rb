@@ -131,7 +131,7 @@ class SourceFile < ActiveRecord::Base
   private
 
   def file_type_valid?
-    source_content_type == 'text/csv'
+    source_content_type == 'text/csv' || source_file_name =~ /\.csv$/i
   end
 
   PREVIEW_ROWS = 100
