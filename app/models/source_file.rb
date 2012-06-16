@@ -313,6 +313,8 @@ class SourceFile < ActiveRecord::Base
     when :datetime
       Time.parse raw_value
     end
+  rescue ArgumentError => e
+    raise e, "Cannot parse #{column[:data_type]} value #{raw_value.inspect}: #{e.message}"
   end
 
   def setup_dataset_table
