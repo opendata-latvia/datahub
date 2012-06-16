@@ -69,7 +69,7 @@ class SourceFile < ActiveRecord::Base
     end
   end
 
-  AVAILABLE_DATA_TYPES = %w(string integer decimal date datetime)
+  AVAILABLE_DATA_TYPES = %w(string text integer decimal date datetime)
 
   def self.available_data_types
     AVAILABLE_DATA_TYPES.map do |data_type|
@@ -153,7 +153,7 @@ class SourceFile < ActiveRecord::Base
     end
 
     options = {
-      :data_type => [:string, :decimal, :integer, :date, :datetime].detect{|t| matching_type[t]} || :string
+      :data_type => [:text, :string, :decimal, :integer, :date, :datetime].detect{|t| matching_type[t]} || :string
     }
     options[:scale] = max_scale if options[:data_type] == :decimal
     options
@@ -177,6 +177,12 @@ class SourceFile < ActiveRecord::Base
       [:decimal, scale]
     when nil, ""
       :empty
+    when String
+      if value.size > 255
+        :text
+      else
+        :string
+      end
     else
       :string
     end
@@ -296,7 +302,7 @@ class SourceFile < ActiveRecord::Base
   def bind_value(column, raw_value)
     return nil if raw_value.nil?
     case column[:data_type]
-    when :string
+    when :string, :text
       raw_value
     when :integer
       raw_value.to_i

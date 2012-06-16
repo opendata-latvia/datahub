@@ -14,6 +14,7 @@ class Dwh < ActiveRecord::Base
 
   DEFAULT_DATA_TYPE_OPTIONS = {
     :string => {:limit => 255},
+    :text => {},
     :integer => {:limit => 4},
     :decimal => {:precision => 15, :scale => 2}
   }

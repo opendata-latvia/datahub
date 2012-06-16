@@ -187,6 +187,24 @@ XML
 
     end
 
+    describe "text type detection" do
+      before(:all) do
+        create_source_file [["x"*256, "x"*255]]
+      end
+      after(:all) do
+        @source_file.destroy
+      end
+
+      it "should detect text type if size is larger than 255" do
+        @preview[:columns][0][:data_type].should == :text
+      end
+
+      it "should detect string type if size is less or equal to 255" do
+        @preview[:columns][1][:data_type].should == :string
+      end
+
+    end
+
     describe "type detection with empty values" do
       before(:all) do
         create_source_file [["2011-01-25", "2011-01-25 19:04:05", "123", "123.456", "abc"],["","","","",""]]
