@@ -45,9 +45,9 @@
           %h4= t(".download_data.title")
           - %w(csv json).each do |format|
             %p
-              = link_to t(".download_data.format_all_results_html", :format_upcase => format.upcase), dataset_path(@dataset, :format => format),
+              = link_to t(".download_data.format_all_results_html", :format_upcase => format.upcase), "#",
                 :data => {"download-path" => dataset_path(@dataset, :format => format)}, :class => "btn", :target => (format == 'json' ? "_blank" : nil)
-              = link_to t(".download_data.format_current_page_html", :format_upcase => format.upcase), dataset_path(@dataset, :format => format),
+              = link_to t(".download_data.format_current_page_html", :format_upcase => format.upcase), "#",
                 :data => {"download-path" => dataset_path(@dataset, :format => format), "page-params" => true}, :class => "btn", :target => (format == 'json' ? "_blank" : nil)
 
       - else

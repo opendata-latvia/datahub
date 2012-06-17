@@ -77,6 +77,7 @@ class Datahub.DatasetPreviewView extends Backbone.View
       $this = $(this)
       $this.attr "href", $this.data("downloadPath") + "?" +
         $.param(if $this.data("pageParams") then params else withoutPageParams)
+    @$(".download-data").show()
 
   clickHeadInput: (e) =>
     # ignore click to prevent sorting
