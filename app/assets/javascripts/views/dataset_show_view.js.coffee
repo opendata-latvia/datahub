@@ -69,14 +69,18 @@ class Datahub.DatasetPreviewView extends Backbone.View
 
   updateDownloadLinks: (params) ->
     delete params.q unless params.q
-    withoutPageParams = _.clone params
-    delete withoutPageParams.page
-    delete withoutPageParams.per_page
+    allPagesParams = _.clone params
+    delete allPagesParams.page
+    delete allPagesParams.per_page
+    delete allPagesParams.sort
+    delete allPagesParams.sort_direction
 
     @$("a[data-download-path]").each ->
       $this = $(this)
-      $this.attr "href", $this.data("downloadPath") + "?" +
-        $.param(if $this.data("pageParams") then params else withoutPageParams)
+      urlParams = $.param(if $this.data("currentPage") then params else allPagesParams)
+      url = $this.data("downloadPath")
+      url += "?" + urlParams if urlParams
+      $this.attr "href", url
     @$(".download-data").show()
 
   clickHeadInput: (e) =>

@@ -54,7 +54,7 @@ class DatasetDatatable
         "#{quote_term(name)}#{operator}#{quote_term(value)}"
       end
     end.compact.join(' ')
-    query_string << " " unless query_string.blank?
+    query_string << " " if query_string.present? and params[:sSearch].present?
     query_string << params[:sSearch] if params[:sSearch].present?
     query_string
   end

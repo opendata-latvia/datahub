@@ -12,8 +12,12 @@ class DatasetsController < ApplicationController
     case format = params[:format]
     when 'csv', 'json'
       if format == 'csv'
-        headers["Content-Type"] = 'text/csv'
-        headers["Content-Disposition"] = "attachment; filename=\"#{@dataset.shortname}.#{format}\""
+        response.sending_file = true
+        headers.merge!(
+          'Content-Type' => 'text/csv',
+          'Content-Disposition'       => "attachment; filename=\"#{@dataset.shortname}.#{format}\"",
+          'Content-Transfer-Encoding' => 'binary'
+        )
       elsif format == 'json'
         if params[:callback]
           headers["Content-Type"] = 'text/javascript'
@@ -22,6 +26,8 @@ class DatasetsController < ApplicationController
         end
       end
 
+      self.status = 200
+      self.content_type = headers["Content-Type"]
       self.response_body = Enumerator.new do |y|
         @dataset.data_download(params) do |data|
           y << data
