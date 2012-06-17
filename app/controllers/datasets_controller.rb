@@ -10,16 +10,24 @@ class DatasetsController < ApplicationController
     authorize! :read, @dataset
 
     case format = params[:format]
-    when 'csv'
-      send_data @dataset.data_download(params),
-        :type => 'text/csv', :filename => "#{@dataset.shortname}.#{format}", :disposition => 'attachment'
-    when 'json'
-      data = @dataset.data_download(params)
-      if params[:callback]
-        render :json => data, :callback => params[:callback], :content_type => 'text/javascript'
-      else
-        render :json => data
+    when 'csv', 'json'
+      if format == 'csv'
+        headers["Content-Type"] = 'text/csv'
+        headers["Content-Disposition"] = "attachment; filename=\"#{@dataset.shortname}.#{format}\""
+      elsif format == 'json'
+        if params[:callback]
+          headers["Content-Type"] = 'text/javascript'
+        else
+          headers["Content-Type"] = 'application/json'
+        end
       end
+
+      self.response_body = Enumerator.new do |y|
+        @dataset.data_download(params) do |data|
+          y << data
+        end
+      end
+
     else
       # default HTML rendering
     end

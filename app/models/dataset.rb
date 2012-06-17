@@ -153,18 +153,16 @@ class Dataset < ActiveRecord::Base
       results_relation.order "#{column[:column_name]} #{params[:sort_direction] || 'asc'}"
     end
 
-    unless params[:page] == :all
-      page = (params[:page] || 1).to_i
-      per_page = (params[:per_page] || 10).to_i
-      offset = per_page * (page - 1)
-      results_relation.skip(offset).take(per_page)
-    end
+    page = (params[:page] || 1).to_i
+    per_page = (params[:per_page] || 10).to_i
+    offset = per_page * (page - 1)
+    results_relation.skip(offset).take(per_page)
 
     results_sql = results_relation.to_sql
     logger.debug "[data_search] SQL: #{results_sql}"
     {
       :rows => Dwh.select_rows(results_sql),
-      :total_results => Dwh.select_value(count_relation.to_sql)
+      :total_results => params[:total_results] == false ? nil : Dwh.select_value(count_relation.to_sql)
     }
   end
 
@@ -194,21 +192,56 @@ class Dataset < ActiveRecord::Base
   end
 
   def data_download(params)
-    params[:page] ||= :all
-    search_results = data_search(params[:q], params.slice(:sort, :sort_direction, :page, :per_page))
-    case params[:format]
-    when 'csv'
-      csv_data = CSV.generate do |csv|
-        csv << column_names
-        search_results[:rows].each do |row|
-          csv << row
+    if params[:page].blank?
+      all_pages = true
+      page = 1
+      params[:per_page] = 5000
+    else
+      all_pages = false
+      page = params[:page]
+    end
+
+    while true
+      search_results = data_search(
+        params[:q],
+        params.slice(
+          :sort, :sort_direction, :per_page
+        ).merge(:page => page, :total_results => false)
+      )
+      result_rows = search_results[:rows]
+      data = case params[:format]
+      when 'csv'
+        csv_data = CSV.generate do |csv|
+          csv << column_names if !all_pages || page == 1
+          result_rows.each do |row|
+            csv << row
+          end
         end
+        csv_data
+      when 'json'
+        json_data = result_rows.map do |row|
+          Hash[column_names.zip(row)]
+        end.to_json
+        if all_pages
+          if page == 1
+            # remove last ]
+            json_data = json_data[0..-2]
+            json_data = "#{params[:callback]}(" << json_data if params[:callback]
+          elsif page > 1 && result_rows.length > 0
+            # replace first [ with , and remove last ]
+            json_data = ',' << json_data[1..-2]
+          elsif result_rows.length == 0
+            # return final closing ]
+            json_data = params[:callback] ? '])' : ']'
+          end
+        elsif params[:callback]
+          json_data = "#{params[:callback]}(" << json_data << ")"
+        end
+        json_data
       end
-      csv_data
-    when 'json'
-      search_results[:rows].map do |row|
-        Hash[column_names.zip(row)]
-      end
+      yield data
+      break if !all_pages || result_rows.length == 0
+      page += 1
     end
   end
 
