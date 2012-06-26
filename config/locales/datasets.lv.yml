@@ -4,6 +4,10 @@ lv:
     source_files_uploaded:
       one: "Augšupielādēts 1 fails"
       other: "Augšupielādēti %{count} faili"
+    comments:
+      one: "pievienots %{count} komentārs"
+      other: "pievienoti %{count} komentāri"
+    commented_dataset: "komentēja datu kopu"
     search_more: "Meklēt citas datu kopas"
     new_dataset: "Jauna datu kopa"
     edit_dataset: "Mainīt datu kopu"

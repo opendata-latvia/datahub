@@ -60,7 +60,7 @@ describe Comment do
     end
   end
 
-  describe ".topic_recent" do
+  describe ".recent" do
     before do
       (1..5).each do |i|
         instance_variable_set("@comment_#{i}", create(:comment, :commentable_type => "Topic",
@@ -69,11 +69,27 @@ describe Comment do
     end
 
     it "returns 5 comments ordered descendingly if no count given" do
-      Comment.topic_recent.should eq([@comment_5, @comment_4, @comment_3, @comment_2, @comment_1])
+      Comment.recent.should eq([@comment_5, @comment_4, @comment_3, @comment_2, @comment_1])
     end
 
     it "returns n comments ordered descendingly given count" do
-      Comment.topic_recent(3).should eq([@comment_5, @comment_4, @comment_3])
+      Comment.recent(3).should eq([@comment_5, @comment_4, @comment_3])
+    end
+    
+    it "returns comments for given commentable" do
+      project = create(:project)
+      comment = create(:comment, :commentable_type => "Project", :commentable_id => project.id, :created_at => Time.zone.now)
+      Comment.recent(project).should include(comment)
+    end
+    
+    it "returns comments for given commentables" do
+      project = create(:project)
+      dataset = create(:dataset, :project => project)
+      comment_p = create(:comment, :commentable_type => "Project", :commentable_id => project.id, :created_at => Time.zone.now)
+      comment_d = create(:comment, :commentable_type => "Dataset", :commentable_id => dataset.id, :created_at => Time.zone.now)
+      recent = Comment.recent([project, dataset])
+      recent.should include(comment_p)
+      recent.should include(comment_d)
     end
   end
 

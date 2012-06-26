@@ -9,6 +9,10 @@ module Addons
       def commentable?
         true
       end
+      
+      def any_comment?
+        comments.count > 0
+      end
     end
   end
 end

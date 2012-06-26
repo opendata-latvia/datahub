@@ -26,6 +26,8 @@
         %p= simple_format project.description
       - if project.homepage.present?
         %p= link_to project.homepage, project.homepage, :target => "_blank"
+      - if project.any_comment?
+        %small=t("projects.comments", :count => project.comments.count)
       - if project.datasets.present?
         %h4
           = t("projects.datasets") + ":"
@@ -35,3 +37,5 @@
 
 .span6
   %h2= t("nav.recent_activity")
+  %h2= t "nav.recent_comments"
+  = render :partial => 'comments/recent_comment', :collection => Comment.recent(@account.projects + @account.projects.map{|p|p.datasets}.flatten)

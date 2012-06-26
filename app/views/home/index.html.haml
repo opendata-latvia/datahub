@@ -30,8 +30,8 @@
       %h2= t ".about_us"
       %p.lead= t ".about_us_lead.html"
 
+    %h2= t "nav.recent_comments"
+    = render :partial => 'comments/recent_comment', :collection => Comment.recent
+
     %h2= t "forums.recent_topics"
     = render :partial => 'topic', :collection => Topic.recent
-
-    %h2= t "forums.recent_comments"
-    = render :partial => 'topic_comment', :collection => Comment.topic_recent

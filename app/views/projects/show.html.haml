@@ -14,32 +14,49 @@
       %p= simple_format @project.description
     - if @project.homepage.present?
       %p= link_to @project.homepage, @project.homepage, :target => "_blank"
+    - if @project.any_comment?
+      %small=t("projects.comments", :count => @project.comments.count)
 
-  %h3
-    = t "projects.datasets"
-    %small= "(#{@project.datasets.size})"
-    - if can? :create_dataset, @project
-      = link_to t("datasets.new_dataset"), new_account_project_dataset_path(@account, @project), :class => "btn btn-success btn-mini pull-right"
+  %ul.nav.nav-tabs
+    %li
+      %a{href: "#datasets", data: {toggle: "tab"}}
+        = "#{t("projects.datasets")} (#{@project.datasets.size})"
+    %li
+      %a{href: "#comments", data: {toggle: "tab"}}= t "nav.comments"
 
-  - @project.datasets.each do |dataset|
-    .well
-      %h3
-        %i.icon-list-alt
-        = link_to dataset.name, dataset_path(dataset)
-        - if can? :manage, dataset
-          .pull-right
-            = link_to t("actions.edit"), edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
-            = link_to t("actions.delete"), account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini btn-danger",
-              :confirm => t("datasets.delete_confirm")
-      - if dataset.description.present?
-        %p= simple_format dataset.description
-      - if dataset.source_url.present?
-        %p
-          %i.icon-share
-          %strong= Dataset.human_attribute_name(:source_url) + ':'
-          = link_to dataset.source_url, dataset.source_url, :target => "_blank"
-      - if (source_files_size = dataset.source_files.size) > 0
-        = t "datasets.source_files_uploaded", :count => source_files_size
+  - if can? :create_dataset, @project
+    = link_to t("datasets.new_dataset"), new_account_project_dataset_path(@account, @project), :class => "btn btn-success btn-mini pull-right", :style => "margin-top: -50px;"
+
+  .tab-content
+    #datasets.tab-pane
+      - @project.datasets.each do |dataset|
+        .well
+          %h3
+            %i.icon-list-alt
+            = link_to dataset.name, dataset_path(dataset)
+            - if can? :manage, dataset
+              %span.pull-right
+                = link_to t("actions.edit"), edit_account_project_dataset_path(@account, @project, dataset), :class => "btn btn-mini"
+                = link_to t("actions.delete"), account_project_dataset_path(@account, @project, dataset), :method => :delete, :class => "btn btn-mini btn-danger",
+                  :confirm => t("datasets.delete_confirm")
+          - if dataset.description.present?
+            %p= simple_format dataset.description
+          - if dataset.source_url.present?
+            %p
+              %i.icon-share
+              %strong= Dataset.human_attribute_name(:source_url) + ':'
+              = link_to dataset.source_url, dataset.source_url, :target => "_blank"
+          =dataset_info(dataset)
+
+    #comments.tab-pane
+      = comments_for(@project)
 
 .span4
   %h2= t "nav.recent_activity"
+  %h2= t "nav.recent_comments"
+  = render :partial => 'comments/recent_comment', :collection => Comment.recent([@project] + @project.datasets)
+
+:javascript
+  $(function() {
+    $("ul.nav-tabs a[href=#datasets]").tab("show")
+  });

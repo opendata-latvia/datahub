@@ -4,6 +4,10 @@ en:
     source_files_uploaded:
       one: "1 source file uploaded"
       other: "%{count} source files uploaded"
+    comments:
+      one: "added %{count} comment"
+      other: "added %{count} comments"
+    commented_dataset: "commented dataset"
     search_more: "Search more datasets"
     new_dataset: "New dataset"
     edit_dataset: "Edit dataset"

@@ -20,6 +20,8 @@
         %i.icon-share
         %strong= Dataset.human_attribute_name("source_url") + ':'
         = link_to @dataset.source_url, @dataset.source_url, :target => "_blank"
+    - if @dataset.any_comment?
+      %small=t("datasets.comments", :count => @dataset.comments.count)
 
   %ul.nav.nav-tabs
     %li
@@ -28,6 +30,8 @@
       %a{href: "#upload", data: {toggle: "tab"}}= t ".uploaded_files"
     %li
       %a{href: "#columns", data: {toggle: "tab"}}= t ".column_information"
+    %li
+      %a{href: "#comments", data: {toggle: "tab"}}= t "nav.comments"
 
   .tab-content
     #preview.tab-pane
@@ -108,11 +112,13 @@
             :confirm => t("datasets.delete_all_columns_confirm")
       - else
         No dataset columns have been created. Upload CSV source file at first.
-
-
+    #comments.tab-pane
+      = comments_for(@dataset)
 
 .span4
   %h2= t "nav.recent_activity"
+  %h2= t "nav.recent_comments"
+  = render :partial => 'comments/recent_comment', :collection => Comment.recent(@dataset)
 
 :javascript
   $(function() {

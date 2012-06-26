@@ -4,4 +4,3 @@ jQuery ->
 
   $(".wmd-panel").each ->
     initializeWmd($(this).data("wmd"))
-    

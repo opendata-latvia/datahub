@@ -23,6 +23,8 @@ class Project < ActiveRecord::Base
 
   attr_accessible :shortname, :name, :description, :homepage
 
+  is_commentable
+
   def self.recent(count = 5)
     order("updated_at DESC").limit(count).includes(:account => :user).includes(:datasets)
   end

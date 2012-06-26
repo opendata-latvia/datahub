@@ -15,6 +15,7 @@
 #
 
 class Dataset < ActiveRecord::Base
+  is_commentable
   belongs_to :project
   has_many :source_files, :dependent => :destroy
 

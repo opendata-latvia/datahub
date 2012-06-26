@@ -28,8 +28,20 @@ class Comment < ActiveRecord::Base
     time < created_at
   end
   
-  def self.topic_recent(count = 5)
-    where(:commentable_type => 'Topic').order("created_at DESC").limit(count).includes(:commentable).includes(:user)
+  def self.recent(commentable = nil, count = 5)
+    if commentable.class == Fixnum
+      count = commentable
+      commentable = nil
+    end
+    if commentable
+      if commentable.respond_to?(:each)
+        conditions = where(:commentable_type => commentable.map{|c| c.class.to_s}.uniq, :commentable_id => commentable.map{|c| c.id}.uniq)
+      else
+        conditions = where(:commentable_type => commentable.class, :commentable_id => commentable.id)
+      end
+    else
+      conditions = order
+    end
+    conditions.order("created_at DESC").limit(count).includes(:commentable).includes(:user)
   end
-
 end

@@ -9,4 +9,13 @@ module DatasetsHelper
       t "datasets.show.columns.display_limit.decimal", options.slice(:precision, :scale)
     end
   end
+
+  def dataset_info(dataset)
+    info = []
+    if (source_files_size = dataset.source_files.size) > 0
+      info << t("datasets.source_files_uploaded", :count => source_files_size)
+    end
+    info << t("datasets.comments", :count => dataset.comments.count) if dataset.any_comment?
+    info.join(', ')
+  end
 end

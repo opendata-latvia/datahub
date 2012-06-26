@@ -11,6 +11,10 @@ en:
     delete_confirm: "Are you sure to delete this project with all project datasets?"
     search_placeholder: "Search by name and description"
     search_results: "Project search results"
+    commented_project: "commented project"
+    comments:
+      one: "added %{count} comment"
+      other: "added %{count} comments"
 
   activerecord:
     models:

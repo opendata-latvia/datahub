@@ -11,6 +11,10 @@ lv:
     delete_confirm: "Vai vēlaties izdzēst šo projektu un visas projekta datu kopas?"
     search_placeholder: "Meklēt pēc nosaukuma un apraksta"
     search_results: "Projektu meklēšanas rezultāti"
+    commented_project: "komentēja projektu"
+    comments:
+      one: "pievienots %{count} komentārs"
+      other: "pievienoti %{count} komentāri"
 
   activerecord:
     models:

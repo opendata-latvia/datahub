@@ -14,6 +14,8 @@ lv:
     more_disable_with: "Ielādē..."
 
     recent_activity: "Pēdējās aktivitātes"
+    recent_comments: Jaunākie komentāri
+    comments: "Komentāri"
 
   actions:
     update: "Saglabāt"
