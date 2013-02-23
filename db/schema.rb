@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20120516105732) do
     t.datetime "updated_at",                   :null => false
   end
 
+  add_index "datasets", ["project_id", "shortname"], :name => "index_datasets_on_project_id_and_shortname", :unique => true
+
   create_table "forums", :force => true do |t|
     t.string   "title",       :null => false
     t.string   "slug",        :null => false
@@ -112,6 +114,9 @@ ActiveRecord::Schema.define(:version => 20120516105732) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "user_tokens", ["provider", "uid"], :name => "index_user_tokens_on_provider_and_uid"
+  add_index "user_tokens", ["user_id"], :name => "index_user_tokens_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",                  :limit => 40,                 :null => false
