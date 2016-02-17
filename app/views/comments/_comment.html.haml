@@ -5,9 +5,10 @@
         :class => "btn btn-mini btn-primary", :remote => true
       = comment_delete_action(comment)
   .face
-    = gravatar_image_tag(comment.user.email, :gravatar => {:size => 30})
+    = gravatar_image_tag(comment.user.try(:email), :gravatar => {:size => 30})
   .created_at{:class => "#{'unread-comment' if current_user && comment.unread?(current_user.last_sign_in_at)}"}
-    = link_to comment.user.display_name, account_profile_path(comment.user.login)
+    - if comment.user
+      = link_to comment.user.display_name, account_profile_path(comment.user.login)
     = t "comments.commented"
     = t "datetime.ago", :distance => distance_of_time_in_words_to_now(comment.created_at)
   .content.markdown

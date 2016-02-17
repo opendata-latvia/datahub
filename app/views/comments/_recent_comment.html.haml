@@ -1,9 +1,10 @@
 - comment = recent_comment
 .comment
   .face
-    = gravatar_image_tag(comment.user.email, :gravatar => {:size => 30})
+    = gravatar_image_tag(comment.user.try(:email), :gravatar => {:size => 30})
   .created_at
-    = link_to comment.user.display_name, account_profile_path(comment.user.login)
+    - if comment.user
+      = link_to comment.user.display_name, account_profile_path(comment.user.login)
     = comment_commentable_info(comment.commentable)
     = t "datetime.ago", :distance => distance_of_time_in_words_to_now(comment.created_at)
   .content.markdown
