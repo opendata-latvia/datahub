@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 
 gem 'haml-rails'
 gem 'simple_form'
